@@ -96,6 +96,31 @@ body.codex-theme-desert img[alt="altar"] {
   opacity: 1 !important;
 }
 
+body.codex-theme-summer .summer-waiting-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(20, 35, 22, 0.12) 0%, rgba(9, 22, 16, 0.24) 48%, rgba(2, 8, 6, 0.34) 100%),
+    linear-gradient(180deg, rgba(0, 18, 10, 0.18), rgba(0, 10, 7, 0.32));
+  mix-blend-mode: multiply;
+}
+
+body.codex-theme-summer:has(.summer-waiting-dim) img[alt="altar"] {
+  filter:
+    brightness(0.74)
+    saturate(0.88)
+    contrast(0.98)
+    drop-shadow(0 22px 28px rgba(0, 0, 0, 0.42)) !important;
+  transition:
+    width 240ms ease,
+    max-width 240ms ease,
+    transform 240ms ease,
+    filter 2s ease-in-out,
+    opacity 2s ease-in-out !important;
+}
+
 body.codex-altar-revealing img[alt="altar"] {
   animation: altarReveal 940ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
 }

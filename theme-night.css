@@ -1,8 +1,8 @@
-/* 어두운 밤 — 배경 + 향로(500~900px, 하단 알파 그라데이션 유지) */
+/* 어두운 밤 — 배경 + 향로(다른 테마와 동일한 체감 크기, 하단 알파 그라데이션 유지) */
 
 :root {
   --night-bg: #000114;
-  --altar-min: 500px;
+  --altar-min: 620px;
   --altar-max: 860px;
 }
 
@@ -68,7 +68,7 @@ body.night-theme-active .night-praying-depth {
   mix-blend-mode: multiply;
 }
 
-/* 밤 테마 향로 — 공통 500~900px, 기도 전/후 동일 크기 */
+/* 밤 테마 향로 — 기도 전/후 동일 크기 */
 body.night-theme-active .codex-altar-stage,
 body.night-theme-active div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
 body.codex-theme-night .codex-altar-stage,
@@ -101,6 +101,29 @@ body.codex-theme-night img[src*="b_night"] {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background: transparent !important;
+  filter:
+    brightness(0.52)
+    saturate(0.86)
+    contrast(0.96)
+    drop-shadow(0 24px 28px rgba(0, 0, 0, 0.58)) !important;
+  transition:
+    width 240ms ease,
+    max-width 240ms ease,
+    transform 240ms ease,
+    filter 2s ease-in-out !important;
+  will-change: filter;
+}
+
+body.night-theme-active.night-prayer-active img[alt="altar"],
+body.night-theme-active.night-prayer-active img[src*="b_night"],
+body.codex-theme-night.night-prayer-active img[alt="altar"],
+body.codex-theme-night.night-prayer-active img[src*="b_night"] {
+  filter:
+    brightness(1.04)
+    saturate(1.04)
+    contrast(1.03)
+    drop-shadow(0 0 16px rgba(176, 196, 255, 0.16))
+    drop-shadow(0 22px 24px rgba(0, 0, 0, 0.34)) !important;
 }
 
 body.night-theme-active div[class*="left-1/2"][class*="z-10"]:has(img[src*="b_night"]) > div,
