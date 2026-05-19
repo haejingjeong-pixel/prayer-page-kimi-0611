@@ -5,10 +5,7 @@
     "사막의 제단": "assets/g_dessert.webp",
     "겟세마네 동산": "assets/g_dessert.webp",
     "어두운 밤": "assets/b_night.webp",
-    "여름 녹음": "assets/b_woods.webp",
-    "마가 다락방": "assets/b_mark.webp",
-    "요나의 고래뱃속": "assets/b_jonah.webp",
-    "모세의 시내산": "assets/b_sinal.webp"
+    "여름 녹음": "assets/b_woods.webp"
   };
   var BASE_THEME_BACKGROUNDS = {
     "사막의 제단": {
@@ -39,27 +36,7 @@
       waitingFilter: "brightness(0.74) saturate(0.88) contrast(0.98) drop-shadow(0 22px 28px rgba(0, 0, 0, 0.42))",
       prayingFilter: "brightness(0.84) saturate(0.96) contrast(1.02) drop-shadow(0 0 20px rgba(100, 200, 100, 0.20)) drop-shadow(0 24px 32px rgba(0, 0, 0, 0.28))"
     },
-    "마가 다락방": {
-      image: "assets/back_mark.webp",
-      color: "#3e2b21",
-      position: "center 52%",
-      waitingFilter: "brightness(1.02) saturate(1.02) drop-shadow(0 18px 34px rgba(55, 30, 18, 0.34))",
-      prayingFilter: "brightness(1.12) saturate(1.06) drop-shadow(0 0 22px rgba(255, 190, 105, 0.28))"
-    },
-    "요나의 고래뱃속": {
-      image: "assets/back_jonah.webp",
-      color: "#010d12",
-      position: "center 52%",
-      waitingFilter: "brightness(0.92) saturate(0.92) drop-shadow(0 18px 34px rgba(0, 16, 20, 0.46))",
-      prayingFilter: "brightness(1.08) saturate(1.02) drop-shadow(0 0 20px rgba(40, 220, 220, 0.24))"
-    },
-    "모세의 시내산": {
-      image: "assets/back_sinal.webp",
-      color: "#536a83",
-      position: "center 48%",
-      waitingFilter: "brightness(1.0) saturate(0.95) drop-shadow(0 18px 34px rgba(50, 70, 96, 0.32))",
-      prayingFilter: "brightness(1.13) saturate(1.0) drop-shadow(0 0 24px rgba(255, 214, 160, 0.30))"
-    }
+
   };
   var BASE_THEME_LABELS = Object.keys(BASE_THEME_ALTARS);
   var currentActiveTheme = "";
@@ -75,9 +52,7 @@
       "codex-theme-gethsemane",
       "codex-theme-night",
       "codex-theme-summer",
-      "codex-theme-mark",
-      "codex-theme-jonah",
-      "codex-theme-sinal"
+
     ].forEach(function (className) {
       document.documentElement.classList.remove(className);
       document.body.classList.remove(className);
@@ -234,9 +209,7 @@
     "assets/g_dessert.webp",
     "assets/b_night.webp",
     "assets/b_woods.webp",
-    "assets/b_mark.webp",
-    "assets/b_jonah.webp",
-    "assets/b_sinal.webp"
+
   ]);
 
   function reloadAltarSrc(altar) {
@@ -309,9 +282,7 @@
       "겟세마네 동산": "codex-theme-gethsemane",
       "어두운 밤": "codex-theme-night",
       "여름 녹음": "codex-theme-summer",
-      "마가 다락방": "codex-theme-mark",
-      "요나의 고래뱃속": "codex-theme-jonah",
-      "모세의 시내산": "codex-theme-sinal"
+
     };
     if (classByTheme[footerTheme]) {
       document.body.classList.add(classByTheme[footerTheme]);

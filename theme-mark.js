@@ -80,10 +80,6 @@
       if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
       altar.style.removeProperty("transform");
       altar.style.filter = prayerActive ? MARK.prayingFilter : MARK.waitingFilter;
-      altar.style.width = "88%";
-      altar.style.maxWidth = "88%";
-      altar.style.marginLeft = "auto";
-      altar.style.marginRight = "auto";
     }
 
     updateBottomLabel();
@@ -96,53 +92,22 @@
     active = false;
     document.body.removeAttribute("data-extra-theme");
     document.body.style.backgroundColor = "";
+    var background = document.querySelector("#root > div");
+    if (background && background.style.backgroundImage && background.style.backgroundImage.indexOf("back_mark") !== -1) {
+      background.style.removeProperty("background-image");
+      background.style.removeProperty("background-position");
+      background.style.removeProperty("background-color");
+      background.style.removeProperty("background-size");
+      background.style.removeProperty("background-repeat");
+      background.style.removeProperty("opacity");
+    }
     Array.from(document.querySelectorAll("button[data-mark-theme]")).forEach(function (button) {
       button.classList.remove("mark-theme-active");
     });
   }
 
-  function makeButton() {
-    var button = document.createElement("button");
-    button.type = "button";
-    button.dataset.markTheme = "true";
-    button.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 text-white/70 hover:bg-white/10 hover:text-white";
-    button.innerHTML = '<span style="width:16px;text-align:center;opacity:.78">✦</span><span>' + MARK.label + '</span>';
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: "mark" } }));
-      active = true;
-      applyMark();
-      window.setTimeout(applyMark, 120);
-      window.setTimeout(applyMark, 420);
-    });
-    return button;
-  }
-
-  function injectButton() {
-    var desertButton = Array.from(document.querySelectorAll("button")).find(function (button) {
-      return text(button).indexOf("사막의 제단") !== -1;
-    });
-    if (!desertButton || !desertButton.parentElement) return;
-    if (!desertButton.parentElement.querySelector("button[data-mark-theme]")) {
-      desertButton.parentElement.appendChild(makeButton());
-    }
-  }
-
-  function scheduleInject() {
-    if (injectScheduled) return;
-    injectScheduled = true;
-    [60, 180, 460, 900].forEach(function (delay) {
-      window.setTimeout(function () {
-        injectButton();
-        if (delay === 900) injectScheduled = false;
-      }, delay);
-    });
-  }
-
   function start() {
     ensureLayer();
-    scheduleInject();
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;
@@ -150,15 +115,17 @@
       if (BASE_LABELS.some(function (baseLabel) { return label.indexOf(baseLabel) !== -1; })) {
         clearMark();
       }
-      if (label.length < 2 || label === "CCM") {
-        scheduleInject();
-      }
     }, true);
     document.addEventListener("codex-extra-theme-change", function (event) {
-      if (!event.detail || event.detail.theme !== "mark") clearMark();
+      if (!event.detail) return;
+      if (event.detail.theme === "mark") {
+        active = true;
+        applyMark();
+      } else {
+        clearMark();
+      }
     });
     new MutationObserver(function () {
-      scheduleInject();
       if (active) applyMark();
     }).observe(document.getElementById("root"), { childList: true, subtree: true });
     window.setInterval(function () {

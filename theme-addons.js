@@ -25,6 +25,7 @@
       bg: "assets/back_sinal.webp",
       altar: "assets/b_sinal.webp",
       color: "#536a83",
+      gradient: "linear-gradient(to bottom, #3a7296 50%, #2a3a4d 50%)",
       position: "center 48%",
       waitingFilter: "brightness(1.0) saturate(0.95) drop-shadow(0 18px 34px rgba(50, 70, 96, 0.32))",
       prayingFilter: "brightness(1.13) saturate(1.0) drop-shadow(0 0 24px rgba(255, 214, 160, 0.30))"
@@ -136,14 +137,21 @@
     if (!config) return;
     activeExtraTheme = theme;
     document.body.dataset.theme = theme;
-    document.body.style.backgroundColor = config.color;
+    document.body.classList.add("codex-theme-" + theme);
+    if (config.gradient) {
+      document.body.style.setProperty("background", config.gradient, "important");
+    } else {
+      document.body.style.backgroundColor = config.color;
+    }
 
     var background = findBackgroundNode();
     if (background) {
       background.dataset.codexThemeBackground = "true";
       background.style.backgroundImage = 'url("' + config.bg + '")';
       background.style.backgroundPosition = config.position;
-      background.style.backgroundColor = config.color;
+      if (!config.gradient) {
+        background.style.backgroundColor = config.color;
+      }
       background.style.opacity = "1";
     }
 
@@ -153,10 +161,14 @@
       if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
       altar.style.removeProperty("transform");
       altar.style.filter = isPrayerActive() ? config.prayingFilter : config.waitingFilter;
-      altar.style.width = "82%";
-      altar.style.maxWidth = "82%";
-      altar.style.marginLeft = "auto";
-      altar.style.marginRight = "auto";
+      altar.style.setProperty("width", "90%", "important");
+      altar.style.setProperty("max-width", "774px", "important");
+      altar.style.setProperty("min-width", "558px", "important");
+      altar.style.setProperty("margin-left", "auto", "important");
+      altar.style.setProperty("margin-right", "auto", "important");
+      altar.style.setProperty("position", "relative", "important");
+      altar.style.setProperty("object-position", "center bottom", "important");
+      altar.style.setProperty("display", "block", "important");
     }
 
     updateThemeLabels(config.label);
@@ -171,6 +183,15 @@
     updateMenuActive("");
     document.body.removeAttribute("data-theme");
     document.body.style.backgroundColor = "";
+    document.body.style.removeProperty("background");
+    document.body.classList.remove("codex-theme-mark", "codex-theme-jonah", "codex-theme-sinal");
+    Array.from(document.querySelectorAll("[data-codex-verse-overlay]")).forEach(function (node) {
+      node.style.removeProperty("text-shadow");
+      node.style.removeProperty("background");
+      node.style.removeProperty("border-radius");
+      node.style.removeProperty("padding");
+      node.removeAttribute("data-codex-verse-overlay");
+    });
     window.setTimeout(function () {
       var background = document.querySelector('[data-codex-theme-background="true"]');
       if (background) {
@@ -185,8 +206,12 @@
         altar.style.removeProperty("filter");
         altar.style.removeProperty("width");
         altar.style.removeProperty("max-width");
+        altar.style.removeProperty("min-width");
         altar.style.removeProperty("margin-left");
         altar.style.removeProperty("margin-right");
+        altar.style.removeProperty("position");
+        altar.style.removeProperty("object-position");
+        altar.style.removeProperty("display");
       }
     }, 40);
   }
@@ -197,7 +222,7 @@
     button.type = "button";
     button.dataset.codexTheme = theme;
     button.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 text-white/70 hover:bg-white/10 hover:text-white";
-    button.innerHTML = '<span style="width:16px;text-align:center;opacity:.78">✦</span><span>' + config.label + '</span>';
+    button.innerHTML = '<span style="width:16px;text-align:center;color:white;opacity:1">✦</span><span>' + config.label + '</span>';
     button.addEventListener("click", function (event) {
       event.preventDefault();
       event.stopPropagation();

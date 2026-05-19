@@ -93,10 +93,6 @@
       if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
       altar.style.removeProperty("transform");
       altar.style.filter = prayerActive ? SINAL.prayingFilter : SINAL.waitingFilter;
-      altar.style.width = "88%";
-      altar.style.maxWidth = "88%";
-      altar.style.marginLeft = "auto";
-      altar.style.marginRight = "auto";
     }
 
     var layer = document.getElementById("sinal-theme-soft-layer");
@@ -117,59 +113,23 @@
       document.body.removeAttribute("data-extra-theme");
       document.body.style.backgroundColor = "";
     }
+    var background = document.querySelector("#root > div");
+    if (background && background.style.backgroundImage && background.style.backgroundImage.indexOf("back_sinal") !== -1) {
+      background.style.removeProperty("background-image");
+      background.style.removeProperty("background-position");
+      background.style.removeProperty("background-color");
+      background.style.removeProperty("background-size");
+      background.style.removeProperty("background-repeat");
+      background.style.removeProperty("background-attachment");
+      background.style.removeProperty("opacity");
+    }
     Array.from(document.querySelectorAll("button[data-sinal-theme]")).forEach(function (button) {
       button.classList.remove("sinal-theme-active");
     });
   }
 
-  function makeButton() {
-    var button = document.createElement("button");
-    button.type = "button";
-    button.dataset.sinalTheme = "true";
-    button.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 text-white/70 hover:bg-white/10 hover:text-white";
-    button.innerHTML = '<span style="width:16px;text-align:center;opacity:.78">✦</span><span>' + SINAL.label + '</span>';
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: "sinal" } }));
-      active = true;
-      applySinal();
-      window.setTimeout(applySinal, 140);
-      window.setTimeout(applySinal, 520);
-    });
-    return button;
-  }
-
-  function injectButton() {
-    var desertButton = Array.from(document.querySelectorAll("button")).find(function (button) {
-      return text(button).indexOf("사막의 제단") !== -1;
-    });
-    if (!desertButton || !desertButton.parentElement) return;
-    var menu = desertButton.parentElement;
-    if (!menu.querySelector("button[data-sinal-theme]")) {
-      var jonahButton = menu.querySelector("button[data-jonah-theme]");
-      if (jonahButton) {
-        jonahButton.insertAdjacentElement("afterend", makeButton());
-      } else {
-        menu.appendChild(makeButton());
-      }
-    }
-  }
-
-  function scheduleInject() {
-    if (injectScheduled) return;
-    injectScheduled = true;
-    [80, 220, 520, 960].forEach(function (delay) {
-      window.setTimeout(function () {
-        injectButton();
-        if (delay === 960) injectScheduled = false;
-      }, delay);
-    });
-  }
-
   function start() {
     ensureLayer();
-    scheduleInject();
     if (window.location.search.indexOf("sinal") !== -1 || window.location.search.indexOf("sinai") !== -1) {
       [180, 760, 1500, 2800].forEach(function (delay) {
         window.setTimeout(function () {
@@ -185,15 +145,17 @@
       if (BASE_LABELS.some(function (baseLabel) { return label.indexOf(baseLabel) !== -1; })) {
         clearSinal();
       }
-      if (label.length < 2 || label === "CCM") {
-        scheduleInject();
-      }
     }, true);
     document.addEventListener("codex-extra-theme-change", function (event) {
-      if (!event.detail || event.detail.theme !== "sinal") clearSinal();
+      if (!event.detail) return;
+      if (event.detail.theme === "sinal") {
+        active = true;
+        applySinal();
+      } else {
+        clearSinal();
+      }
     });
     new MutationObserver(function () {
-      scheduleInject();
       if (active) applySinal();
     }).observe(document.getElementById("root"), { childList: true, subtree: true });
     window.setInterval(function () {
