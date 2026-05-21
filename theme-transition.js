@@ -126,6 +126,7 @@
     var altar = document.querySelector('img[alt="altar"]');
     if (!altar) return;
     markAltarStage();
+    try { enforceAltarPosition(); } catch (e) {}
     var reloadSrc = src + "?reload=" + Date.now();
     if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
     altar.style.removeProperty("width");
@@ -154,14 +155,162 @@
     if (!altar) return;
     var node = altar.parentElement;
     while (node && node.id !== "root") {
-      var className = typeof node.className === "string" ? node.className : "";
-      if (className.indexOf("left-1/2") !== -1 && className.indexOf("z-10") !== -1) {
-        node.classList.add("codex-altar-stage");
-        return;
+      try {
+        var className = typeof node.className === "string" ? node.className : "";
+        if (className.indexOf("left-1/2") !== -1 && className.indexOf("z-10") !== -1) {
+          node.classList.add("codex-altar-stage");
+          return;
+        }
+        var cs = window.getComputedStyle(node);
+        if (cs) {
+          if (cs.position === "absolute") {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+          if (cs.left && cs.left !== "auto" && cs.left !== "") {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+          if (cs.transform && /translate\(|-?\d+%/.test(cs.transform)) {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+        }
+      } catch (e) {
+        /* ignore and continue climbing */
       }
       node = node.parentElement;
     }
   }
+
+  function enforceAltarPosition() {
+    var altar = document.querySelector('img[alt="altar"]');
+    if (!altar) return;
+
+    // strip common inline overrides that affect position
+    try {
+      altar.style.removeProperty('transform');
+      altar.style.removeProperty('top');
+      altar.style.removeProperty('bottom');
+      altar.style.removeProperty('left');
+      altar.style.removeProperty('right');
+      altar.style.removeProperty('margin');
+      altar.style.removeProperty('margin-left');
+      altar.style.removeProperty('margin-top');
+      altar.style.removeProperty('margin-bottom');
+      altar.style.removeProperty('width');
+      altar.style.removeProperty('height');
+      altar.style.removeProperty('min-width');
+      altar.style.removeProperty('max-width');
+      altar.style.removeProperty('min-height');
+      altar.style.removeProperty('max-height');
+      altar.style.removeProperty('position');
+    } catch (e) {
+      /* ignore */
+    }
+
+    // ensure there's a .codex-altar-stage wrapper appended to body
+    var wrapper = altar.closest && altar.closest('.codex-altar-stage');
+    if (!wrapper) {
+      try {
+        wrapper = document.createElement('div');
+        wrapper.className = 'codex-altar-stage';
+        // append to body so fixed positioning is relative to viewport
+        (document.body || document.documentElement).appendChild(wrapper);
+        wrapper.appendChild(altar);
+      } catch (e) {
+        // fallback: insert into original parent
+        var parent = altar.parentElement;
+        if (parent) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'codex-altar-stage';
+          parent.insertBefore(wrapper, altar);
+          wrapper.appendChild(altar);
+        }
+      }
+    }
+
+    if (wrapper) {
+      try { wrapper.style.removeProperty('transform'); } catch (e) {}
+    }
+
+    // observe inline style changes and strip back any transform/position overrides
+    try {
+      if (!altar.__codexAltarObserver) {
+        var obs = new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) {
+            if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
+              try {
+                altar.style.removeProperty('transform');
+                altar.style.removeProperty('top');
+                altar.style.removeProperty('bottom');
+                altar.style.removeProperty('left');
+                altar.style.removeProperty('right');
+                altar.style.removeProperty('margin');
+                altar.style.removeProperty('margin-left');
+                altar.style.removeProperty('margin-top');
+                altar.style.removeProperty('margin-bottom');
+                altar.style.removeProperty('width');
+                altar.style.removeProperty('height');
+                altar.style.removeProperty('min-width');
+                altar.style.removeProperty('max-width');
+                altar.style.removeProperty('min-height');
+                altar.style.removeProperty('max-height');
+                altar.style.removeProperty('position');
+                if (wrapper) wrapper.style.removeProperty('transform');
+              } catch (e) {}
+            }
+          });
+        });
+        obs.observe(altar, { attributes: true, attributeFilter: ['style', 'class'] });
+        altar.__codexAltarObserver = obs;
+      }
+    } catch (e) {
+      /* ignore */
+    }
+    // if desert baseline not set, and current theme is desert, record baseline
+    try {
+      var current = document.body.dataset.currentTheme || document.body.dataset.theme || "";
+      if (current === "사막의 제단") {
+        lockDesertAltarPosition();
+      }
+    } catch (e) {}
+  }
+
+  // expose for other scripts
+  try { window.codexEnforceAltarPosition = enforceAltarPosition; } catch (e) {}
+
+  function lockDesertAltarPosition() {
+    var altar = document.querySelector('img[alt="altar"]');
+    if (!altar) return;
+    var rect = altar.getBoundingClientRect();
+    if (!rect || !window.innerHeight) return;
+    var centerY = rect.top + rect.height / 2;
+    var percent = (centerY / window.innerHeight) * 100;
+    try {
+      document.documentElement.style.setProperty('--codex-altar-top', percent.toFixed(2) + '%');
+      document.body.style.setProperty('--codex-altar-top', percent.toFixed(2) + '%');
+    } catch (e) {}
+  }
+  try { window.codexLockDesertAltar = lockDesertAltarPosition; } catch (e) {}
+
+  function logAltarAlignment(label) {
+    if (!window.console || !window.console.log) return;
+    var theme = document.body.dataset.currentTheme || document.body.dataset.theme || '';
+    var altar = document.querySelector('img[alt="altar"]');
+    var wrapper = altar && altar.closest && altar.closest('.codex-altar-stage');
+    var rect = altar ? altar.getBoundingClientRect() : null;
+    var wrect = wrapper ? wrapper.getBoundingClientRect() : null;
+    console.log('CODEx-ALTAR-ALIGN', {
+      label: label || 'theme-change',
+      theme: theme,
+      cssVar: getComputedStyle(document.documentElement).getPropertyValue('--codex-altar-top'),
+      altarRect: rect,
+      wrapperRect: wrect,
+      wrapperParent: wrapper ? wrapper.parentElement && wrapper.parentElement.tagName : null
+    });
+  }
+  try { window.codexLogAltarAlignment = logAltarAlignment; } catch (e) {}
 
   function updateFooterThemeLabel(themeName) {
     BASE_THEME_LABELS.forEach(function (oldName) {
@@ -265,6 +414,7 @@
       var value = text(node);
       if (BASE_THEME_LABELS.indexOf(value) !== -1) footerTheme = value;
     });
+    var extraTheme = document.body.dataset.theme;
     var themeClasses = [
       "codex-theme-desert",
       "codex-theme-gethsemane",
@@ -275,8 +425,14 @@
       "codex-theme-sinal"
     ];
     themeClasses.forEach(function (className) {
+      if (extraTheme && className === "codex-theme-" + extraTheme) return;
       document.body.classList.remove(className);
     });
+
+    if (extraTheme) {
+      document.body.classList.add("codex-theme-" + extraTheme);
+      return;
+    }
     var classByTheme = {
       "사막의 제단": "codex-theme-desert",
       "겟세마네 동산": "codex-theme-gethsemane",
@@ -288,7 +444,9 @@
       document.body.classList.add(classByTheme[footerTheme]);
       document.body.dataset.currentTheme = footerTheme;
     } else {
-      document.body.removeAttribute("data-current-theme");
+      if (!extraTheme) {
+        document.body.removeAttribute("data-current-theme");
+      }
     }
   }
 
@@ -307,7 +465,9 @@
     preloadAltarImages();
     bindAltarSrcObserver();
     markAltarStage();
+    try { enforceAltarPosition(); } catch (e) {}
     markCurrentTheme();
+    try { logAltarAlignment('start'); } catch (e) {}
 
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
@@ -327,13 +487,24 @@
         var currentTheme = document.body.dataset.currentTheme;
         if (currentTheme) updateAltarFilter(currentTheme);
       }, 100);
+
+      window.setTimeout(function () {
+        try { logAltarAlignment(themeName); } catch (e) {}
+      }, 220);
     }, true);
 
-    document.addEventListener("codex-extra-theme-change", startFade);
+    document.addEventListener("codex-extra-theme-change", function (event) {
+      startFade();
+      window.setTimeout(function () {
+        try { logAltarAlignment('extra-theme:' + (event && event.detail && event.detail.theme)); } catch (e) {}
+      }, 220);
+    });
 
     new MutationObserver(function () {
       markAltarStage();
+      try { enforceAltarPosition(); } catch (e) {}
       markCurrentTheme();
+      try { logAltarAlignment('mutation'); } catch (e) {}
     }).observe(document.getElementById("root"), {
       childList: true,
       subtree: true,

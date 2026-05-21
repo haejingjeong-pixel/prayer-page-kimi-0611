@@ -111,6 +111,38 @@
     });
   }
 
+  function markAltarStage() {
+    var altar = document.querySelector('img[alt="altar"]');
+    if (!altar) return;
+    var node = altar.parentElement;
+    while (node && node.id !== "root") {
+      try {
+        if (node.classList && node.className.indexOf("left-1/2") !== -1 && node.className.indexOf("z-10") !== -1) {
+          node.classList.add("codex-altar-stage");
+          return;
+        }
+        var cs = window.getComputedStyle(node);
+        if (cs) {
+          if (cs.position === "absolute") {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+          if (cs.left && cs.left !== "auto" && cs.left !== "") {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+          if (cs.transform && /translate\(|-?\d+%/.test(cs.transform)) {
+            node.classList.add("codex-altar-stage");
+            return;
+          }
+        }
+      } catch (e) {
+        /* ignore and continue climbing */
+      }
+      node = node.parentElement;
+    }
+  }
+
   function isPrayerActive() {
     return Array.from(document.querySelectorAll("button")).some(function (button) {
       return getText(button).indexOf("기도 중...") !== -1;
@@ -138,6 +170,7 @@
     activeExtraTheme = theme;
     document.body.dataset.theme = theme;
     document.body.classList.add("codex-theme-" + theme);
+    document.body.dataset.currentTheme = config.label;
     if (config.gradient) {
       document.body.style.setProperty("background", config.gradient, "important");
     } else {
@@ -157,25 +190,23 @@
 
     var altar = document.querySelector('img[alt="altar"]');
     if (altar) {
+      markAltarStage();
+      try { if (window.codexEnforceAltarPosition) window.codexEnforceAltarPosition(); } catch (e) {}
       var reloadSrc = config.altar + "?reload=" + Date.now();
       if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
       altar.style.removeProperty("transform");
+        altar.style.removeProperty("top");
+        altar.style.removeProperty("bottom");
+        altar.style.removeProperty("left");
+        altar.style.removeProperty("right");
+      altar.style.removeProperty("object-position");
+      altar.style.removeProperty("display");
       altar.style.filter = isPrayerActive() ? config.prayingFilter : config.waitingFilter;
-      altar.style.setProperty("width", "90%", "important");
-      altar.style.setProperty("max-width", "774px", "important");
-      altar.style.setProperty("min-width", "558px", "important");
-      altar.style.setProperty("margin-left", "auto", "important");
-      altar.style.setProperty("margin-right", "auto", "important");
-      altar.style.setProperty("position", "relative", "important");
-      altar.style.setProperty("object-position", "center bottom", "important");
-      altar.style.setProperty("display", "block", "important");
     }
 
     updateThemeLabels(config.label);
     updateMenuActive(theme);
-    window.setTimeout(function () {
-      if (activeExtraTheme === theme) applyExtraTheme(theme);
-    }, 160);
+    document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: theme } }));
   }
 
   function clearExtraThemeSoon() {
@@ -204,6 +235,10 @@
       var altar = document.querySelector('img[alt="altar"]');
       if (altar) {
         altar.style.removeProperty("filter");
+        altar.style.removeProperty("top");
+        altar.style.removeProperty("bottom");
+        altar.style.removeProperty("left");
+        altar.style.removeProperty("right");
         altar.style.removeProperty("width");
         altar.style.removeProperty("max-width");
         altar.style.removeProperty("min-width");
@@ -213,6 +248,7 @@
         altar.style.removeProperty("object-position");
         altar.style.removeProperty("display");
       }
+      document.body.removeAttribute("data-current-theme");
     }, 40);
   }
 

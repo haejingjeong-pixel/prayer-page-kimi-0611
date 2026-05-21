@@ -168,15 +168,6 @@ body[data-theme="sinal"] .prayer-verse p {
     0 0 26px rgba(255, 222, 178, 0.28) !important;
 }
 
-body[data-theme="mark"] img[alt="altar"],
-body[data-theme="jonah"] img[alt="altar"],
-body[data-theme="sinal"] img[alt="altar"] {
-  width: 82% !important;
-  max-width: 82% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  transition: filter 3.8s ease, opacity 2.4s ease !important;
-}
 
 button[data-codex-theme].codex-theme-active {
   color: #facc6b !important;

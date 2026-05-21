@@ -15,134 +15,39 @@ body.codex-theme-transitioning #codex-theme-transition {
 }
 
 body .codex-altar-stage {
-  position: absolute !important;
-  top: 72% !important;
+  position: fixed !important;
+  bottom: 28% !important;
   left: 50% !important;
-  translate: none !important;
-  transform: translate(-50%, -50%) !important;
-  width: clamp(500px, 78vw, 900px) !important;
-  min-width: 700px !important;
-  max-width: 900px !important;
-  overflow: visible !important;
-}
-
-body.codex-theme-night .codex-altar-stage {
+  transform: translateX(-50%) !important;
   width: clamp(700px, 78vw, 900px) !important;
-  min-width: 700px !important;
-  max-width: 900px !important;
+  height: min(72vh, 560px) !important;
+  overflow: hidden !important;
+  z-index: 30 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
-body img[alt="altar"] {
-  --altar-y: 34px;
-  display: block !important;
-  margin: 0 auto !important;
+body .codex-altar-stage img[alt="altar"] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: contain !important;
-  width: min(88%, 760px) !important;
-  max-width: 88% !important;
-  max-height: 72vh !important;
-  height: auto !important;
-  clip-path: none !important;
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
-  overflow: visible !important;
-  transform: translateY(var(--altar-y));
-  transform-origin: center bottom;
-  transition:
-    width 240ms ease,
-    max-width 240ms ease,
-    transform 240ms ease,
-    filter 3.2s ease-in-out,
-    opacity 2.4s ease-in-out !important;
+  object-position: center bottom !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 body.codex-theme-night,
 body.codex-theme-night #root,
 body.codex-theme-night #root > div {
   background-color: #000114 !important;
-}
-
-body.codex-theme-night img[alt="altar"] {
-  object-fit: contain !important;
-  width: min(100%, 760px) !important;
-  max-width: 760px !important;
-  max-height: 70vh !important;
-  overflow: visible !important;
-  transform-origin: center bottom;
-}
-
-body.codex-theme-desert img[alt="altar"],
-body.codex-theme-gethsemane img[alt="altar"],
-body.codex-theme-night img[alt="altar"],
-body[data-current-theme="사막의 제단"] img[alt="altar"],
-body[data-current-theme="겟세마네 동산"] img[alt="altar"],
-body[data-current-theme="어두운 밤"] img[alt="altar"] {
-  --altar-y: -4px;
-}
-
-body.codex-theme-summer img[alt="altar"],
-body[data-current-theme="여름 녹음"] img[alt="altar"],
-body[data-current-theme="마가 다락방"] img[alt="altar"],
-body[data-current-theme="요나의 고래뱃속"] img[alt="altar"],
-body[data-current-theme="모세의 시내산"] img[alt="altar"] {
-  --altar-y: -28px;
-  width: 88% !important;
-  max-width: 88% !important;
-  max-height: 76vh !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  transform: translateY(var(--altar-y)) !important;
-}
-
-body.codex-theme-desert img[alt="altar"] {
-  filter: none !important;
-  opacity: 1 !important;
-}
-
-/* 기본 테마 필터 */
-body.codex-theme-gethsemane img[alt="altar"],
-body[data-current-theme="겟세마네 동산"] img[alt="altar"] {
-  filter: none !important;
-  opacity: 1 !important;
-}
-
-body.codex-theme-night img[alt="altar"],
-body[data-current-theme="어두운 밤"] img[alt="altar"] {
-  filter:
-    brightness(0.52)
-    saturate(0.86)
-    contrast(0.96)
-    drop-shadow(0 24px 28px rgba(0, 0, 0, 0.58)) !important;
-}
-
-body.codex-theme-summer img[alt="altar"],
-body[data-current-theme="여름 녹음"] img[alt="altar"] {
-  filter:
-    brightness(0.74)
-    saturate(0.88)
-    contrast(0.98)
-    drop-shadow(0 22px 28px rgba(0, 0, 0, 0.42)) !important;
-}
-
-/* 추가 테마 필터 */
-body[data-current-theme="마가 다락방"] img[alt="altar"] {
-  filter:
-    brightness(1.02)
-    saturate(1.02)
-    drop-shadow(0 18px 34px rgba(55, 30, 18, 0.34)) !important;
-}
-
-body[data-current-theme="요나의 고래뱃속"] img[alt="altar"] {
-  filter:
-    brightness(0.92)
-    saturate(0.92)
-    drop-shadow(0 18px 34px rgba(0, 16, 20, 0.46)) !important;
-}
-
-body[data-current-theme="모세의 시내산"] img[alt="altar"] {
-  filter:
-    brightness(1.0)
-    saturate(0.95)
-    drop-shadow(0 18px 34px rgba(50, 70, 96, 0.32)) !important;
 }
 
 body.codex-theme-summer .summer-waiting-dim {
@@ -156,41 +61,11 @@ body.codex-theme-summer .summer-waiting-dim {
   mix-blend-mode: multiply;
 }
 
-body.codex-theme-summer:has(.summer-waiting-dim) img[alt="altar"] {
-  filter:
-    brightness(0.74)
-    saturate(0.88)
-    contrast(0.98)
-    drop-shadow(0 22px 28px rgba(0, 0, 0, 0.42)) !important;
-  transition:
-    width 240ms ease,
-    max-width 240ms ease,
-    transform 240ms ease,
-    filter 2s ease-in-out,
-    opacity 2s ease-in-out !important;
-}
-
-body.codex-altar-revealing img[alt="altar"] {
-  animation: altarReveal 940ms cubic-bezier(0.22, 1, 0.36, 1) both !important;
-}
-
 @keyframes codexThemeFade {
   0% { opacity: 0; }
   5% { opacity: 0.96; }
   64% { opacity: 0.96; }
   100% { opacity: 0; }
-}
-
-@keyframes altarReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(calc(var(--altar-y) + 24px));
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(var(--altar-y));
-  }
 }
 
 .darknight-waiting-dim,
