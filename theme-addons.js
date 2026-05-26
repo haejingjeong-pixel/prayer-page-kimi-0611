@@ -61,56 +61,6 @@
     }) || null;
   }
 
-  function createLayers() {
-    var root = document.getElementById("root");
-    if (!root) return;
-    Object.keys(extraThemes).forEach(function (theme) {
-      var id = theme + "-theme-layer";
-      if (document.getElementById(id)) return;
-      var layer = document.createElement("div");
-      layer.id = id;
-      layer.setAttribute("aria-hidden", "true");
-      if (theme === "sinal") {
-        var lightning = document.createElement("span");
-        lightning.className = "sinal-lightning";
-        layer.appendChild(lightning);
-      }
-      document.body.insertBefore(layer, root);
-    });
-  }
-
-  function seedLayer(layerId, className, count, options) {
-    var layer = document.getElementById(layerId);
-    if (!layer || layer.dataset.seeded === "true") return;
-    layer.dataset.seeded = "true";
-    for (var i = 0; i < count; i += 1) {
-      var dot = document.createElement("span");
-      dot.className = className;
-      dot.style.setProperty("--x", (options.xMin + Math.random() * (options.xMax - options.xMin)).toFixed(2) + "%");
-      dot.style.setProperty("--y", (options.yMin + Math.random() * (options.yMax - options.yMin)).toFixed(2) + "%");
-      dot.style.setProperty("--size", (options.sizeMin + Math.random() * (options.sizeMax - options.sizeMin)).toFixed(2) + "px");
-      dot.style.setProperty("--duration", (options.durationMin + Math.random() * (options.durationMax - options.durationMin)).toFixed(2) + "s");
-      dot.style.setProperty("--delay", (-Math.random() * options.delayMax).toFixed(2) + "s");
-      if (options.widthMin) dot.style.setProperty("--w", (options.widthMin + Math.random() * (options.widthMax - options.widthMin)).toFixed(2) + "px");
-      if (options.heightMin) dot.style.setProperty("--h", (options.heightMin + Math.random() * (options.heightMax - options.heightMin)).toFixed(2) + "px");
-      layer.appendChild(dot);
-    }
-  }
-
-  function seedEffects() {
-    if (seeded) return;
-    seeded = true;
-    seedLayer("mark-theme-layer", "mark-dust", 24, {
-      xMin: 12, xMax: 88, yMin: 18, yMax: 78, sizeMin: 1.4, sizeMax: 3.3, durationMin: 9, durationMax: 16, delayMax: 10
-    });
-    seedLayer("jonah-theme-layer", "jonah-particle", 28, {
-      xMin: 10, xMax: 90, yMin: 16, yMax: 86, sizeMin: 1.5, sizeMax: 4.2, durationMin: 11, durationMax: 21, delayMax: 14
-    });
-    seedLayer("sinal-theme-layer", "sinal-mist", 5, {
-      xMin: 0, xMax: 86, yMin: 50, yMax: 82, sizeMin: 1, sizeMax: 2, durationMin: 15, durationMax: 26, delayMax: 12, widthMin: 180, widthMax: 340, heightMin: 56, heightMax: 110
-    });
-  }
-
   function markAltarStage() {
     var altar = document.querySelector('img[alt="altar"]');
     if (!altar) return;
@@ -288,8 +238,6 @@
   }
 
   ready(function () {
-    createLayers();
-    seedEffects();
     scheduleMenuInjection();
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;

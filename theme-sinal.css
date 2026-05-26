@@ -74,6 +74,34 @@ body[data-extra-theme="sinal"] #sinal-theme-soft-layer {
   animation: sinalLightning 12s steps(1, end) infinite;
 }
 
+.sinal-cloud {
+  position: absolute;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.32;
+  mix-blend-mode: screen;
+  filter: blur(1.5px);
+}
+
+.sinal-cloud-1 {
+  top: 6%;
+  left: -8%;
+  width: 58vw;
+  height: 30vh;
+  background-image: url("assets/back_sine_cloud1.webp");
+  animation: sinalCloudDrift 26s ease-in-out infinite;
+}
+
+.sinal-cloud-2 {
+  top: 22%;
+  right: -10%;
+  width: 52vw;
+  height: 26vh;
+  background-image: url("assets/back_sine_cloud2.webp");
+  animation: sinalCloudDrift 30s ease-in-out infinite reverse;
+}
+
 body[data-extra-theme="sinal"] .prayer-verse p {
   position: relative;
   z-index: 1;

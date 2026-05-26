@@ -37,6 +37,14 @@
     layer.id = "sinal-theme-soft-layer";
     layer.setAttribute("aria-hidden", "true");
 
+    var cloud1 = document.createElement("div");
+    cloud1.className = "sinal-cloud sinal-cloud-1";
+    layer.appendChild(cloud1);
+
+    var cloud2 = document.createElement("div");
+    cloud2.className = "sinal-cloud sinal-cloud-2";
+    layer.appendChild(cloud2);
+
     var lightning = document.createElement("span");
     lightning.className = "sinal-lightning";
     layer.appendChild(lightning);
@@ -97,7 +105,7 @@
 
     var layer = document.getElementById("sinal-theme-soft-layer");
     if (layer) {
-      layer.style.opacity = prayerActive ? "0.28" : "1";
+      layer.style.opacity = prayerActive ? "0.55" : "1";
       layer.style.filter = prayerActive ? "brightness(1.03)" : "";
     }
 
