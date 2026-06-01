@@ -53,6 +53,7 @@
   var backgroundRequestId = 0;
   var imageLoadCache = {};
   var sinalLightningTimeouts = [];
+  var sinalLightningIsRunning = false;
   var lightningSources = [
     { src: "assets/lightning/lightning_05.png", width: 299, height: 362, dx: -80, dy: 25, rotate: -6 },
     { src: "assets/lightning/lightning_06.png", width: 317, height: 388, dx: -25, dy: 15, rotate: -2 },
@@ -92,6 +93,21 @@
     Object.keys(extraThemes).forEach(function (theme) {
       preloadImage(extraThemes[theme].bg).catch(function () {});
     });
+  }
+
+  function isSinalLightningLiteMode() {
+    var reducedMotion = false;
+    try {
+      reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (error) {}
+    var coarsePointer = false;
+    try {
+      coarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    } catch (error) {}
+    var smallScreen = Math.min(window.innerWidth || 0, window.innerHeight || 0) <= 820;
+    var lowMemory = Boolean(navigator.deviceMemory && navigator.deviceMemory <= 4);
+    var lowCpu = Boolean(navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+    return reducedMotion || coarsePointer || smallScreen || lowMemory || lowCpu;
   }
 
   function setBackgroundFrame(background, config) {
@@ -264,62 +280,81 @@
     if (activeExtraTheme !== "sinal") return;
     var lightningLayer = document.getElementById("sinal-lightning-layer");
     if (!lightningLayer) return;
+    sinalLightningIsRunning = true;
+    var liteMode = isSinalLightningLiteMode();
+    document.body.classList.toggle("codex-lightning-lite", liteMode);
     var bolts = Array.from(lightningLayer.querySelectorAll(".sinal-lightning"));
     var flash = lightningLayer.querySelector(".sinal-lightning-flash");
     var peakGlow = lightningLayer.querySelector(".sinal-peak-glow");
 
     function strike() {
-      if (activeExtraTheme !== "sinal") return;
-      var count = Math.random() < 0.4 ? 1 : 2;
+      if (!sinalLightningIsRunning || activeExtraTheme !== "sinal") return;
+      liteMode = isSinalLightningLiteMode();
+      document.body.classList.toggle("codex-lightning-lite", liteMode);
+      var count = liteMode ? 1 : (Math.random() < 0.4 ? 1 : 2);
       var shuffled = bolts.slice().sort(function () { return Math.random() - 0.5; });
       var picked = shuffled.slice(0, count);
 
-      if (flash) flash.classList.add("active");
+      if (!liteMode && flash) flash.classList.add("active");
       if (peakGlow) peakGlow.classList.add("active");
 
       picked.forEach(function (bolt, index) {
-        var delay = index === 0 ? 0 : (60 + Math.random() * 90);
-        bolt.style.setProperty("--rx", (Math.random() * 70 - 35).toFixed(1) + "px");
-        bolt.style.setProperty("--ry", (Math.random() * 50 - 25).toFixed(1) + "px");
-        bolt.style.setProperty("--rr", (Math.random() * 14 - 7).toFixed(1) + "deg");
+        var delay = liteMode || index === 0 ? 0 : (60 + Math.random() * 90);
+        bolt.style.setProperty("--rx", (Math.random() * (liteMode ? 28 : 70) - (liteMode ? 14 : 35)).toFixed(1) + "px");
+        bolt.style.setProperty("--ry", (Math.random() * (liteMode ? 18 : 50) - (liteMode ? 9 : 25)).toFixed(1) + "px");
+        bolt.style.setProperty("--rr", (Math.random() * (liteMode ? 6 : 14) - (liteMode ? 3 : 7)).toFixed(1) + "deg");
         var t1 = window.setTimeout(function () {
-          if (activeExtraTheme !== "sinal") return;
+          if (!sinalLightningIsRunning || activeExtraTheme !== "sinal") return;
           bolt.classList.add("flash");
         }, delay);
         var t2 = window.setTimeout(function () {
-          if (activeExtraTheme !== "sinal") return;
+          if (!sinalLightningIsRunning || activeExtraTheme !== "sinal") return;
           bolt.classList.remove("flash");
           bolt.style.removeProperty("--rx");
           bolt.style.removeProperty("--ry");
           bolt.style.removeProperty("--rr");
-        }, delay + 550);
+        }, delay + (liteMode ? 420 : 550));
         sinalLightningTimeouts.push(t1, t2);
       });
 
-      var flashDuration = 60 + Math.random() * 80;
+      var flashDuration = liteMode ? 90 : (60 + Math.random() * 80);
       var t3 = window.setTimeout(function () {
-        if (activeExtraTheme !== "sinal") return;
+        if (!sinalLightningIsRunning || activeExtraTheme !== "sinal") return;
         if (flash) flash.classList.remove("active");
         if (peakGlow) peakGlow.classList.remove("active");
       }, flashDuration);
       sinalLightningTimeouts.push(t3);
 
-      var nextDelay = 2500 + Math.random() * 3000;
+      var tCleanup = window.setTimeout(function () {
+        picked.forEach(function (bolt) {
+          bolt.classList.remove("flash");
+          bolt.style.removeProperty("--rx");
+          bolt.style.removeProperty("--ry");
+          bolt.style.removeProperty("--rr");
+        });
+        if (flash) flash.classList.remove("active");
+        if (peakGlow) peakGlow.classList.remove("active");
+      }, liteMode ? 900 : 1100);
+      sinalLightningTimeouts.push(tCleanup);
+
+      var nextDelay = liteMode ? (5000 + Math.random() * 3000) : (2500 + Math.random() * 3000);
       var t4 = window.setTimeout(function () {
-        if (activeExtraTheme !== "sinal") return;
+        if (!sinalLightningIsRunning || activeExtraTheme !== "sinal") return;
         strike();
       }, nextDelay);
       sinalLightningTimeouts.push(t4);
     }
 
-    var initialDelay = 1200 + Math.random() * 1600;
+    var initialDelay = liteMode ? (3000 + Math.random() * 2500) : (1200 + Math.random() * 1600);
     var t0 = window.setTimeout(strike, initialDelay);
     sinalLightningTimeouts.push(t0);
   }
 
   function stopLightningEffect() {
+    sinalLightningIsRunning = false;
     sinalLightningTimeouts.forEach(function (id) { window.clearTimeout(id); });
     sinalLightningTimeouts = [];
+    document.body.classList.remove("codex-lightning-lite");
     var lightningLayer = document.getElementById("sinal-lightning-layer");
     if (!lightningLayer) return;
     lightningLayer.querySelectorAll(".sinal-lightning").forEach(function (bolt) {

@@ -38,40 +38,7 @@
       particle.style.setProperty("--delay", (-Math.random() * 14).toFixed(2) + "s");
       layer.appendChild(particle);
     }
-    [
-      { x: "0px", y: "0px", w: "420px", h: "82px", r: "-17deg", sx: "1.72", o: "0.12", dx: "-54px", dy: "24px", dr: "-5deg", d: "18s", delay: "-4s" },
-      { x: "0px", y: "0px", w: "560px", h: "106px", r: "-11deg", sx: "1.95", o: "0.10", dx: "42px", dy: "18px", dr: "4deg", d: "23s", delay: "-11s" },
-      { x: "0px", y: "0px", w: "640px", h: "124px", r: "-22deg", sx: "2.12", o: "0.09", dx: "-72px", dy: "32px", dr: "-6deg", d: "27s", delay: "-17s" },
-      { x: "0px", y: "0px", w: "500px", h: "98px", r: "9deg", sx: "1.62", o: "0.08", dx: "62px", dy: "-8px", dr: "5deg", d: "25s", delay: "-7s" },
-      { x: "0px", y: "0px", w: "780px", h: "148px", r: "-7deg", sx: "2.28", o: "0.07", dx: "28px", dy: "38px", dr: "3deg", d: "31s", delay: "-21s" }
-    ].forEach(function (config) {
-      var ripple = document.createElement("span");
-      ripple.className = "jonah-water-ripple";
-      ripple.style.setProperty("--x", config.x);
-      ripple.style.setProperty("--y", config.y);
-      ripple.style.setProperty("--w", config.w);
-      ripple.style.setProperty("--h", config.h);
-      ripple.style.setProperty("--r", config.r);
-      ripple.style.setProperty("--sx", config.sx);
-      ripple.style.setProperty("--o", config.o);
-      ripple.style.setProperty("--dx", config.dx);
-      ripple.style.setProperty("--dy", config.dy);
-      ripple.style.setProperty("--dr", config.dr);
-      ripple.style.setProperty("--duration", config.d);
-      ripple.style.setProperty("--delay", config.delay);
-      layer.appendChild(ripple);
-    });
     document.body.insertBefore(layer, document.getElementById("root"));
-  }
-
-  function syncJonahRippleAnchor() {
-    var layer = document.getElementById("jonah-theme-soft-layer");
-    var altar = document.querySelector('img[alt="altar"]');
-    if (!layer || !altar) return;
-    var rect = altar.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    layer.style.setProperty("--altar-x", (rect.left + rect.width / 2).toFixed(2) + "px");
-    layer.style.setProperty("--altar-y", (rect.top + rect.height * 0.38).toFixed(2) + "px");
   }
 
   function isPrayerActive() {
@@ -125,10 +92,7 @@
       altar.style.removeProperty("animation");
     }
 
-    syncJonahRippleAnchor();
     syncPrayerState();
-    window.setTimeout(syncJonahRippleAnchor, 80);
-    window.setTimeout(syncJonahRippleAnchor, 260);
     updateBottomLabel();
     Array.from(document.querySelectorAll("button[data-jonah-theme]")).forEach(function (button) {
       button.classList.toggle("jonah-theme-active", active);
@@ -193,9 +157,7 @@
 
   function start() {
     ensureLayer();
-    syncJonahRippleAnchor();
     syncPrayerState();
-    window.addEventListener("resize", syncJonahRippleAnchor);
     scheduleInject();
     if (window.location.search.indexOf("jonah") !== -1) {
       [160, 700, 1400, 2600].forEach(function (delay) {
