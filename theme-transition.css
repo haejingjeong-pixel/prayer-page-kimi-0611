@@ -294,6 +294,15 @@ body.night-theme-active img[alt="altar"] {
   overflow: visible !important;
 }
 
+body.codex-theme-desert img[alt="altar"][src*="g_dessert"],
+body.codex-theme-gethsemane img[alt="altar"][src*="g_dessert"],
+body.codex-theme-summer img[alt="altar"][src*="b_woods"],
+body[data-current-theme="사막의 제단"] img[alt="altar"][src*="g_dessert"],
+body[data-current-theme="겟세마네 동산"] img[alt="altar"][src*="g_dessert"],
+body[data-current-theme="여름 녹음"] img[alt="altar"][src*="b_woods"] {
+  width: 90.1% !important;
+}
+
 @media (min-width: 1600px) {
   body .codex-altar-stage,
   body.codex-theme-desert .codex-altar-stage,
