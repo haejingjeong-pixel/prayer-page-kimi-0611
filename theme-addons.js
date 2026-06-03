@@ -233,7 +233,10 @@
       ".night-shooting-stars"
     ].forEach(function (selector) {
       Array.from(document.querySelectorAll(selector)).forEach(function (node) {
-        node.remove();
+        node.setAttribute("aria-hidden", "true");
+        node.style.setProperty("display", "none", "important");
+        node.style.setProperty("opacity", "0", "important");
+        node.style.setProperty("animation", "none", "important");
       });
     });
   }

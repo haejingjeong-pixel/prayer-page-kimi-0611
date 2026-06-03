@@ -29,7 +29,8 @@
     "여름 녹음": {
       image: "assets/back_woods7.webp",
       color: "#091c1f",
-      position: "center 70%"
+      position: "center 70%",
+      mobilePosition: "center top"
     },
     "마가 다락방": {
       image: "assets/back_mark.webp",
@@ -92,8 +93,19 @@
     });
   }
 
+  function isMobileViewport() {
+    return window.matchMedia && (
+      window.matchMedia("(max-width: 820px)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    );
+  }
+
+  function resolveBackgroundPosition(config) {
+    return config.mobilePosition && isMobileViewport() ? config.mobilePosition : config.position;
+  }
+
   function setBackgroundFrame(background, config) {
-    background.style.backgroundPosition = config.position;
+    background.style.backgroundPosition = resolveBackgroundPosition(config);
     background.style.backgroundColor = config.color;
     background.style.backgroundSize = "cover";
     background.style.backgroundRepeat = "no-repeat";
@@ -203,6 +215,11 @@
       transitionInProgress = false;
       document.body.removeAttribute("data-theme-transitioning");
     }, THEME_REVEAL_DELAY);
+    window.setTimeout(function () {
+      document.body.classList.remove("codex-theme-transitioning");
+      transitionInProgress = false;
+      document.body.removeAttribute("data-theme-transitioning");
+    }, THEME_REVEAL_DELAY + 1800);
   }
 
   function findThemeFromButton(button) {
