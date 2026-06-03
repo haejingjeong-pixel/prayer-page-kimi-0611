@@ -87,6 +87,8 @@ body.codex-theme-summer .summer-waiting-dim {
   body[data-current-theme="여름 녹음"] [data-codex-theme-background="true"],
   body.codex-theme-summer #root div[style*="back_woods7"],
   body[data-current-theme="여름 녹음"] #root div[style*="back_woods7"] {
+    top: -18px !important;
+    height: calc(100% + 18px) !important;
     background-position: center top !important;
     background-size: cover !important;
     filter: brightness(1.08) saturate(1.04);
