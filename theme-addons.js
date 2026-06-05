@@ -49,12 +49,13 @@
     "codex-theme-sinal"
   ];
   var THEME_ASSET_VERSION = "theme-assets-12";
-  var THEME_SWAP_DELAY = 600;
+  var THEME_SWAP_DELAY = 760;
   var backgroundRequestId = 0;
   var imageLoadCache = {};
   var gethsemaneCleanupTimers = [];
   var lastPrayerState = "";
   var lastGethsemaneActive = false;
+  var injectingMenu = false;
 
   function normalizeAssetSrc(src) {
     return String(src || "").split("?")[0];
@@ -504,10 +505,6 @@
       if (event.stopImmediatePropagation) event.stopImmediatePropagation();
       if (document.body.dataset.themeTransitioning === "true") return;
       document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: theme } }));
-      cleanupTimers.push(window.setTimeout(function () {
-        applyExtraTheme(theme);
-        document.dispatchEvent(new CustomEvent("codex-bgm-theme-change", { detail: { theme: theme } }));
-      }, THEME_SWAP_DELAY));
       closeThemeMenuSoon(button);
     });
     return button;
@@ -555,23 +552,33 @@
   }
 
   function injectMenuButtons() {
+    if (injectingMenu) return;
+    injectingMenu = true;
     var desertButton = Array.from(document.querySelectorAll("button")).find(function (button) {
       return getText(button).indexOf("사막의 제단") !== -1;
     });
-    if (!desertButton || !desertButton.parentElement) return;
-    var menu = desertButton.parentElement;
-    Object.keys(extraThemes).forEach(function (theme) {
-      if (!menu.querySelector('[data-codex-theme="' + theme + '"]')) {
-        menu.appendChild(makeThemeButton(theme));
-      }
-    });
-    reorderMenuButtons(menu);
-    injectDisclaimer(menu);
-    updateMenuActive(activeExtraTheme);
+    try {
+      if (!desertButton || !desertButton.parentElement) return;
+      var menu = desertButton.parentElement;
+      Object.keys(extraThemes).forEach(function (theme) {
+        var label = extraThemes[theme].label;
+        var hasNativeButton = Array.from(menu.querySelectorAll("button")).some(function (button) {
+          return getText(button).indexOf(label) !== -1;
+        });
+        if (!hasNativeButton && !menu.querySelector('[data-codex-theme="' + theme + '"]')) {
+          menu.appendChild(makeThemeButton(theme));
+        }
+      });
+      reorderMenuButtons(menu);
+      injectDisclaimer(menu);
+      updateMenuActive(activeExtraTheme);
+    } finally {
+      injectingMenu = false;
+    }
   }
 
   function scheduleMenuInjection() {
-    [40, 160, 420, 900, 1800].forEach(function (delay) {
+    [0, 40, 160, 420, 900, 1800].forEach(function (delay) {
       window.setTimeout(injectMenuButtons, delay);
     });
   }
@@ -607,8 +614,9 @@
     if (root) {
       new MutationObserver(function () {
         syncPrayerState();
-        updateMenuActive(activeExtraTheme);
         if (activeExtraTheme === "sinal") syncSinalAnchor();
+        injectMenuButtons();
+        updateMenuActive(activeExtraTheme);
         var menu = document.querySelector('button[data-codex-theme]') && document.querySelector('button[data-codex-theme]').parentElement;
         if (!menu) {
           var desertBtn = Array.from(document.querySelectorAll("button")).find(function (b) { return getText(b).indexOf("사막의 제단") !== -1; });
@@ -619,6 +627,15 @@
       }).observe(root, { childList: true, subtree: true, characterData: true });
     }
     document.addEventListener("codex-extra-theme-change", function (event) {
+      var theme = event.detail && event.detail.theme;
+      if (theme && extraThemes[theme]) {
+        clearScheduledWork();
+        cleanupTimers.push(window.setTimeout(function () {
+          applyExtraTheme(theme);
+          document.dispatchEvent(new CustomEvent("codex-bgm-theme-change", { detail: { theme: theme } }));
+        }, THEME_SWAP_DELAY));
+        return;
+      }
       if (!event.detail || event.detail.theme === "base") {
         clearExtraThemeSoon();
       }

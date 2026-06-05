@@ -58,6 +58,11 @@
   var imageLoadCache = {};
   var transitionInProgress = false;
   var allowNativeThemeClick = false;
+  var EXTRA_THEME_BY_LABEL = {
+    "마가 다락방": "mark",
+    "요나의 고래뱃속": "jonah",
+    "모세의 시내산": "sinal"
+  };
 
   function normalizeAssetSrc(src) {
     return String(src || "").split("?")[0];
@@ -475,6 +480,14 @@
       if (transitionInProgress || document.body.dataset.themeTransitioning === "true") return;
 
       startFade();
+      if (EXTRA_THEME_BY_LABEL[themeName]) {
+        window.setTimeout(function () {
+          allowNativeThemeClick = true;
+          button.click();
+          allowNativeThemeClick = false;
+        }, THEME_SWAP_DELAY);
+        return;
+      }
       if (BASE_THEME_ALTARS[themeName]) {
         window.setTimeout(function () {
           document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: "base", label: themeName } }));
