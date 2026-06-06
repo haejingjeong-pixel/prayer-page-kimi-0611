@@ -539,6 +539,28 @@
     });
   }
 
+  function restoreExtraThemeIcons(menu) {
+    if (!menu) return;
+    Object.keys(extraThemes).forEach(function (theme) {
+      var config = extraThemes[theme];
+      var button = Array.from(menu.querySelectorAll("button")).find(function (candidate) {
+        return getText(candidate).indexOf(config.label) !== -1;
+      });
+      if (!button || !config.icon) return;
+      var iconSlot = button.querySelector("span");
+      if (!iconSlot) return;
+      if (iconSlot.dataset.codexRestoredIcon === theme && iconSlot.querySelector("svg")) return;
+      iconSlot.dataset.codexRestoredIcon = theme;
+      iconSlot.style.width = "16px";
+      iconSlot.style.height = "16px";
+      iconSlot.style.display = "flex";
+      iconSlot.style.alignItems = "center";
+      iconSlot.style.justifyContent = "center";
+      iconSlot.style.opacity = ".78";
+      iconSlot.innerHTML = config.icon;
+    });
+  }
+
   function injectDisclaimer(menu) {
     if (!menu) return;
     var disclaimerId = "codex-ai-disclaimer";
@@ -570,6 +592,7 @@
         }
       });
       reorderMenuButtons(menu);
+      restoreExtraThemeIcons(menu);
       injectDisclaimer(menu);
       updateMenuActive(activeExtraTheme);
     } finally {
