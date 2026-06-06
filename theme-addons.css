@@ -412,6 +412,26 @@ body[data-theme="sinal"] .prayer-verse p {
     0 0 26px rgba(255, 222, 178, 0.28) !important;
 }
 
+body.codex-theme-summer .prayer-verse p,
+body.codex-theme-night .prayer-verse p,
+body.codex-theme-gethsemane .prayer-verse p,
+body[data-current-theme="여름 녹음"] .prayer-verse p,
+body[data-current-theme="어두운 밤"] .prayer-verse p,
+body[data-current-theme="겟세마네 동산"] .prayer-verse p {
+  color: rgba(255, 248, 226, 0.96) !important;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.82),
+    0 0 24px rgba(255, 236, 190, 0.28) !important;
+}
+
+body.codex-theme-night .prayer-verse p,
+body[data-current-theme="어두운 밤"] .prayer-verse p {
+  color: rgba(245, 250, 255, 0.96) !important;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 12, 0.9),
+    0 0 26px rgba(160, 190, 255, 0.24) !important;
+}
+
 body[data-theme="sinal"][data-prayer-state="waiting"] [data-codex-theme-background="true"] {
   filter: brightness(0.83) blur(1.4px);
   transform: scale(1.006);
