@@ -51,9 +51,10 @@
   var BASE_THEME_LABELS = Object.keys(BASE_THEME_ALTARS);
   var currentActiveTheme = "";
   var fadeTimer = 0;
+  var fadeFallbackTimer = 0;
   var THEME_ASSET_VERSION = "theme-assets-11";
   var THEME_SWAP_DELAY = 600;
-  var THEME_REVEAL_DELAY = 3000;
+  var THEME_REVEAL_DELAY = 1600;
   var backgroundRequestId = 0;
   var imageLoadCache = {};
   var transitionInProgress = false;
@@ -204,6 +205,7 @@
   function startFade() {
     ensureOverlay();
     window.clearTimeout(fadeTimer);
+    window.clearTimeout(fadeFallbackTimer);
     if (transitionInProgress) {
       fadeTimer = window.setTimeout(function () {
         document.body.classList.remove("codex-theme-transitioning");
@@ -220,11 +222,30 @@
       transitionInProgress = false;
       document.body.removeAttribute("data-theme-transitioning");
     }, THEME_REVEAL_DELAY);
-    window.setTimeout(function () {
+    fadeFallbackTimer = window.setTimeout(function () {
       document.body.classList.remove("codex-theme-transitioning");
       transitionInProgress = false;
       document.body.removeAttribute("data-theme-transitioning");
     }, THEME_REVEAL_DELAY + 1800);
+  }
+
+  function markThemeMenu(button) {
+    var menu = button && button.parentElement;
+    if (!menu) return;
+    menu.dataset.codexThemeMenu = "true";
+  }
+
+  function closeThemeMenu(button) {
+    var menu = button && button.parentElement;
+    var wrapper = menu && menu.parentElement;
+    if (!wrapper) return;
+    var toggle = Array.from(wrapper.children).find(function (node) {
+      return node.tagName === "BUTTON" && text(node).length === 0;
+    });
+    if (!toggle) return;
+    window.setTimeout(function () {
+      toggle.click();
+    }, 90);
   }
 
   function findThemeFromButton(button) {
@@ -479,13 +500,11 @@
 
       if (transitionInProgress || document.body.dataset.themeTransitioning === "true") return;
 
+      markThemeMenu(button);
       startFade();
+      closeThemeMenu(button);
       if (EXTRA_THEME_BY_LABEL[themeName]) {
-        window.setTimeout(function () {
-          allowNativeThemeClick = true;
-          button.click();
-          allowNativeThemeClick = false;
-        }, THEME_SWAP_DELAY);
+        document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: EXTRA_THEME_BY_LABEL[themeName] } }));
         return;
       }
       if (BASE_THEME_ALTARS[themeName]) {

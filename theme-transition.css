@@ -14,7 +14,7 @@
   visibility: hidden;
   background-color: rgb(0, 0, 0) !important;
   background-image: none !important;
-  transition: opacity 1600ms ease-out, visibility 0s linear 1600ms;
+  transition: opacity 950ms ease-out, visibility 0s linear 950ms;
   will-change: opacity, visibility;
   display: flex;
   align-items: center;
@@ -24,7 +24,14 @@
 body.codex-theme-transitioning #codex-theme-transition {
   opacity: 1 !important;
   visibility: visible;
-  transition: opacity 600ms ease-in, visibility 0s linear;
+  transition: opacity 520ms ease-in, visibility 0s linear;
+}
+
+body[data-theme-transitioning="true"] [data-codex-theme-menu="true"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 80ms linear, visibility 0s linear 80ms !important;
 }
 
 .codex-transition-message {
@@ -39,12 +46,12 @@ body.codex-theme-transitioning #codex-theme-transition {
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1600ms ease-out;
+  transition: opacity 950ms ease-out;
 }
 
 body.codex-theme-transitioning .codex-transition-message {
   opacity: 1;
-  transition: opacity 600ms ease-in;
+  transition: opacity 520ms ease-in;
   animation: codexTransitionMessageBreathe 3.2s ease-in-out infinite;
 }
 

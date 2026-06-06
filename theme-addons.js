@@ -49,7 +49,7 @@
     "codex-theme-sinal"
   ];
   var THEME_ASSET_VERSION = "theme-assets-12";
-  var THEME_SWAP_DELAY = 760;
+  var THEME_SWAP_DELAY = 620;
   var backgroundRequestId = 0;
   var imageLoadCache = {};
   var gethsemaneCleanupTimers = [];
