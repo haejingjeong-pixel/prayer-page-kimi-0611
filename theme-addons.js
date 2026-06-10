@@ -25,6 +25,14 @@
       color: "#536a83",
       position: "center calc(50% - 30vh)",
       icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M2 13l4.5-9 2 4"/><path d="M6.5 8l2.5-5 4 10"/><path d="M10 2l-1.5 2.5h2.5l-2 3"/></svg>'
+    },
+    golbang: {
+      label: "은밀한 골방",
+      bg: "assets/back_golbang.webp",
+      altar: "assets/b_golbang.webp",
+      color: "#78563d",
+      position: "48% top",
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M2 14V6.5l6-4.5 6 4.5V14"/><path d="M6 14v-3.5h4V14"/><path d="M8 4V2"/><path d="M7 3h2"/></svg>'
     }
   };
 
@@ -37,7 +45,8 @@
   var themeClassByExtraTheme = {
     mark: "codex-theme-mark",
     jonah: "codex-theme-jonah",
-    sinal: "codex-theme-sinal"
+    sinal: "codex-theme-sinal",
+    golbang: "codex-theme-golbang"
   };
   var allThemeClasses = [
     "codex-theme-desert",
@@ -46,9 +55,10 @@
     "codex-theme-summer",
     "codex-theme-mark",
     "codex-theme-jonah",
-    "codex-theme-sinal"
+    "codex-theme-sinal",
+    "codex-theme-golbang"
   ];
-  var THEME_ASSET_VERSION = "theme-assets-12";
+  var THEME_ASSET_VERSION = "theme-assets-34";
   var THEME_SWAP_DELAY = 620;
   var backgroundRequestId = 0;
   var imageLoadCache = {};
@@ -92,16 +102,33 @@
   }
 
   function setBackgroundFrame(background, config) {
-    background.style.backgroundPosition = config.position;
+    console.log("[theme-addons] setBackgroundFrame position:", config.position, "element:", background && background.tagName, "id:", background && background.id);
+    var isImg = background.tagName === "IMG";
+    if (isImg) {
+      background.style.setProperty("object-fit", "cover", "important");
+      background.style.setProperty("object-position", config.position, "important");
+      background.style.setProperty("width", "100vw", "important");
+      background.style.setProperty("height", "100vh", "important");
+      background.style.setProperty("position", "fixed", "important");
+      background.style.setProperty("top", "0", "important");
+      background.style.setProperty("left", "0", "important");
+      background.style.setProperty("margin", "0", "important");
+      background.style.setProperty("padding", "0", "important");
+      background.style.setProperty("z-index", "-1", "important");
+    } else {
+      background.style.setProperty("background-position", config.position, "important");
+      background.style.setProperty("background-size", "auto 90%", "important");
+      background.style.setProperty("background-repeat", "no-repeat", "important");
+    }
     background.style.backgroundColor = config.color;
-    background.style.backgroundSize = "cover";
-    background.style.backgroundRepeat = "no-repeat";
-    background.style.opacity = "1";
+    background.style.setProperty("opacity", "1", "important");
   }
 
   function applyLoadedBackground(theme, config) {
     var requestId = ++backgroundRequestId;
     var background = findBackgroundNode();
+    var layer = document.getElementById(theme + "-theme-layer");
+    if (!background && layer) background = layer;
     if (!background) return;
     background.dataset.codexThemeBackground = "true";
     background.dataset.codexBackgroundPending = theme;
@@ -110,13 +137,33 @@
     preloadImage(config.bg).then(function () {
       var target = document.querySelector('[data-codex-background-pending="' + theme + '"]') || background;
       if (requestId !== backgroundRequestId || activeExtraTheme !== theme || !target) return;
-      target.style.backgroundImage = 'url("' + versionedAssetSrc(config.bg) + '")';
+      if (target.tagName === "IMG") {
+        target.setAttribute("src", versionedAssetSrc(config.bg));
+      } else {
+        target.style.setProperty("background-image", 'url("' + versionedAssetSrc(config.bg) + '")', "important");
+      }
+      if (layer && theme === "golbang") {
+        layer.style.backgroundImage = 'url("' + versionedAssetSrc(config.bg) + '")';
+        layer.style.backgroundSize = "auto 90%";
+        layer.style.backgroundPosition = config.position;
+        layer.style.backgroundRepeat = "no-repeat";
+      }
       target.removeAttribute("data-codex-background-pending");
       if (theme === "sinal") syncSinalAnchor();
     }).catch(function () {
       var target = document.querySelector('[data-codex-background-pending="' + theme + '"]') || background;
       if (requestId !== backgroundRequestId || !target) return;
-      target.style.backgroundImage = 'url("' + versionedAssetSrc(config.bg) + '")';
+      if (target.tagName === "IMG") {
+        target.setAttribute("src", versionedAssetSrc(config.bg));
+      } else {
+        target.style.setProperty("background-image", 'url("' + versionedAssetSrc(config.bg) + '")', "important");
+      }
+      if (layer && theme === "golbang") {
+        layer.style.backgroundImage = 'url("' + versionedAssetSrc(config.bg) + '")';
+        layer.style.backgroundSize = "auto 90%";
+        layer.style.backgroundPosition = config.position;
+        layer.style.backgroundRepeat = "no-repeat";
+      }
       target.removeAttribute("data-codex-background-pending");
       if (theme === "sinal") syncSinalAnchor();
     });
@@ -137,14 +184,38 @@
   function findBackgroundNode() {
     var marked = document.querySelector('[data-codex-theme-background="true"]');
     if (marked) return marked;
-    var nodes = Array.from(document.querySelectorAll("#root div"));
-    return nodes.find(function (node) {
+    var root = document.getElementById("root");
+    if (!root) return null;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+
+    function isBackgroundSize(rect) {
+      return rect.width >= vw * 0.7 && rect.height >= vh * 0.7;
+    }
+
+    var divNodes = Array.from(root.querySelectorAll("div"));
+    var bgDiv = divNodes.find(function (node) {
       var bg = node.style && node.style.backgroundImage;
-      return bg && bg.indexOf("assets/back_") !== -1;
-    }) || nodes.find(function (node) {
-      var style = node.style || {};
-      return style.backgroundSize === "cover" || style.backgroundPosition;
-    }) || null;
+      return bg && bg.indexOf("assets/back_") !== -1 && isBackgroundSize(node.getBoundingClientRect());
+    }) || divNodes.find(function (node) {
+      var computed = window.getComputedStyle(node);
+      return computed.backgroundImage && computed.backgroundImage !== "none" && isBackgroundSize(node.getBoundingClientRect());
+    });
+    if (bgDiv) return bgDiv;
+
+    var imgNodes = Array.from(root.querySelectorAll("img")).filter(function (node) {
+      return node.getAttribute("alt") !== "altar";
+    });
+    var bgImg = imgNodes.find(function (node) {
+      var src = (node.getAttribute("src") || "");
+      return src.indexOf("back_") !== -1;
+    }) || imgNodes.find(function (node) {
+      var computed = window.getComputedStyle(node);
+      return computed.objectFit === "cover" && isBackgroundSize(node.getBoundingClientRect());
+    }) || imgNodes.find(function (node) {
+      return isBackgroundSize(node.getBoundingClientRect());
+    });
+    return bgImg || null;
   }
 
   function createLayers() {
@@ -353,12 +424,16 @@
       xMin: 0, xMax: 80, yMin: 10, yMax: 90, sizeMin: 2, sizeMax: 3.5, durationMin: 14, durationMax: 24, delayMax: 24,
       windXMin: 100, windXMax: 280, windYMin: -12, windYMax: 14
     });
+    // 은밀한 골방 은은한 빛 먼지
+    seedLayer("golbang-theme-layer", "golbang-dust", 12, {
+      xMin: 4, xMax: 92, yMin: 8, yMax: 88, sizeMin: 1, sizeMax: 2.5, durationMin: 14, durationMax: 24, delayMax: 20
+    });
   }
 
   function updateThemeLabels(label) {
     Array.from(document.querySelectorAll("#root span, #root div")).forEach(function (node) {
       if (node.closest && node.closest("button")) return;
-      if (!node.childElementCount && /^(사막의 제단|겟세마네 동산|어두운 밤|여름 녹음|마가 다락방|요나의 고래뱃속|모세의 시내산)$/.test(getText(node))) {
+      if (!node.childElementCount && /^(은밀한 골방|사막의 제단|겟세마네 동산|어두운 밤|여름 녹음|마가 다락방|요나의 고래뱃속|모세의 시내산)$/.test(getText(node))) {
         node.textContent = label;
       }
     });
@@ -391,7 +466,7 @@
   }
 
   function removeThemeEffectState() {
-    ["mark", "jonah", "sinal"].forEach(function (theme) {
+    ["mark", "jonah", "sinal", "golbang"].forEach(function (theme) {
       var layer = document.getElementById(theme + "-theme-layer");
       if (!layer) return;
       layer.removeAttribute("data-active");
@@ -402,6 +477,11 @@
     });
     document.body.removeAttribute("data-theme");
     document.body.removeAttribute("data-extra-theme");
+    restoreReactBackground();
+    var altarStage = document.querySelector(".codex-altar-stage");
+    if (altarStage) {
+      altarStage.style.removeProperty("transform");
+    }
   }
 
   function markExtraThemeClass(theme) {
@@ -409,6 +489,38 @@
       document.body.classList.remove(className);
     });
     if (themeClassByExtraTheme[theme]) document.body.classList.add(themeClassByExtraTheme[theme]);
+  }
+
+  function hideReactBackground() {
+    var root = document.getElementById("root");
+    if (!root) return;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    Array.from(root.querySelectorAll("div, img")).forEach(function (node) {
+      if (node.tagName === "IMG" && node.getAttribute("alt") === "altar") return;
+      var rect = node.getBoundingClientRect();
+      var isLarge = rect.width >= vw * 0.5 && rect.height >= vh * 0.5;
+      if (!isLarge) return;
+      var computed = window.getComputedStyle(node);
+      var isBackground = false;
+      if (node.tagName === "DIV") {
+        isBackground = computed.backgroundImage && computed.backgroundImage !== "none";
+      } else if (node.tagName === "IMG") {
+        var src = node.getAttribute("src") || "";
+        isBackground = src.indexOf("back_") !== -1 || computed.objectFit === "cover";
+      }
+      if (isBackground) {
+        node.dataset.codexHiddenBackground = "true";
+        node.style.setProperty("opacity", "0", "important");
+      }
+    });
+  }
+
+  function restoreReactBackground() {
+    document.querySelectorAll('[data-codex-hidden-background="true"]').forEach(function (node) {
+      node.style.removeProperty("opacity");
+      node.removeAttribute("data-codex-hidden-background");
+    });
   }
 
   function closeThemeMenuSoon(sourceButton) {
@@ -437,6 +549,13 @@
     document.body.style.backgroundColor = config.color;
 
     applyLoadedBackground(theme, config);
+    if (theme === "golbang") {
+      hideReactBackground();
+      var altarStage = document.querySelector(".codex-altar-stage");
+      if (altarStage) {
+        altarStage.style.setProperty("transform", "translate(-50%, -50%) translateY(-20px) scale(0.85)", "important");
+      }
+    }
 
     cleanupTimers.push(window.setTimeout(function () {
       if (activeExtraTheme !== theme) return;
@@ -454,6 +573,7 @@
       altar.style.removeProperty("margin-right");
       altar.style.removeProperty("transition");
       altar.style.removeProperty("animation");
+      fixAltarSize();
     }, THEME_SWAP_DELAY));
 
     updateThemeLabels(config.label);
@@ -511,6 +631,7 @@
   }
 
   var menuOrderMap = {
+    "은밀한 골방": 0,
     "사막의 제단": 1,
     "모세의 시내산": 2,
     "마가 다락방": 3,
@@ -524,18 +645,27 @@
     if (!menu) return;
     menu.style.display = "flex";
     menu.style.flexDirection = "column";
-    Array.from(menu.children).forEach(function (child) {
-      if (child.tagName !== "BUTTON") return;
-      var label = getText(child);
-      var order = 99;
+    var buttons = Array.from(menu.querySelectorAll("button"));
+    buttons.sort(function (a, b) {
+      var labelA = getText(a);
+      var labelB = getText(b);
+      var orderA = 99, orderB = 99;
       Object.keys(menuOrderMap).forEach(function (key) {
-        if (label.indexOf(key) !== -1) order = menuOrderMap[key];
+        if (labelA.indexOf(key) !== -1) orderA = menuOrderMap[key];
+        if (labelB.indexOf(key) !== -1) orderB = menuOrderMap[key];
       });
-      var themeAttr = child.dataset && child.dataset.codexTheme;
-      if (themeAttr && extraThemes[themeAttr]) {
-        order = menuOrderMap[extraThemes[themeAttr].label] || 99;
+      var themeAttrA = a.dataset && a.dataset.codexTheme;
+      var themeAttrB = b.dataset && b.dataset.codexTheme;
+      if (themeAttrA && extraThemes[themeAttrA]) {
+        orderA = menuOrderMap[extraThemes[themeAttrA].label] || 99;
       }
-      child.style.order = String(order);
+      if (themeAttrB && extraThemes[themeAttrB]) {
+        orderB = menuOrderMap[extraThemes[themeAttrB].label] || 99;
+      }
+      return orderA - orderB;
+    });
+    buttons.forEach(function (button) {
+      menu.appendChild(button);
     });
   }
 
@@ -606,17 +736,50 @@
     });
   }
 
+  function fixCanvasSize() {
+    document.querySelectorAll("canvas.absolute.inset-0").forEach(function (canvas) {
+      canvas.style.width = "100vw";
+      canvas.style.height = "100vh";
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+    });
+  }
+
+  function fixAltarSize() {
+    var altar = document.querySelector('img[alt="altar"]');
+    if (!altar) return;
+    var vw = document.documentElement.clientWidth;
+    altar.style.setProperty("max-width", "760px", "important");
+    altar.style.setProperty("max-height", "261.875px", "important");
+    if (vw <= 900) {
+      altar.style.setProperty("width", "min(84vw, 760px)", "important");
+    } else {
+      altar.style.removeProperty("width");
+    }
+    var wrapper = document.querySelector(".codex-altar-stage");
+    if (wrapper) {
+      wrapper.style.setProperty("max-width", "760px", "important");
+    }
+  }
+
   ready(function () {
     createLayers();
     preloadThemeImages();
     seedEffects();
     syncPrayerState();
+    fixCanvasSize();
+    fixAltarSize();
     window.addEventListener("resize", function () {
       syncSinalAnchor();
+      fixCanvasSize();
+      fixAltarSize();
     });
     scheduleMenuInjection();
     window.setTimeout(seedEffects, 800);
     window.setTimeout(seedEffects, 1800);
+    window.setTimeout(function () {
+      applyExtraTheme("golbang");
+    }, 100);
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;

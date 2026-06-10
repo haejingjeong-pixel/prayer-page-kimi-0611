@@ -1,6 +1,16 @@
+body {
+  background-color: #78563d !important;
+}
+
+canvas.absolute.inset-0 {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
 body[data-theme="mark"],
 body[data-theme="jonah"],
-body[data-theme="sinal"] {
+body[data-theme="sinal"],
+body[data-theme="golbang"] {
   background-color: var(--theme-bg, #1a120f);
 }
 
@@ -72,14 +82,16 @@ body[data-theme] .night-shooting-stars {
 
 body:not([data-theme="mark"]) #mark-theme-layer,
 body:not([data-theme="jonah"]) #jonah-theme-layer,
-body:not([data-theme="sinal"]) #sinal-theme-layer {
+body:not([data-theme="sinal"]) #sinal-theme-layer,
+body:not([data-theme="golbang"]) #golbang-theme-layer {
   display: none !important;
   opacity: 0 !important;
 }
 
 body:not([data-theme="mark"]) #mark-theme-layer *,
 body:not([data-theme="jonah"]) #jonah-theme-layer *,
-body:not([data-theme="sinal"]) #sinal-theme-layer * {
+body:not([data-theme="sinal"]) #sinal-theme-layer *,
+body:not([data-theme="golbang"]) #golbang-theme-layer * {
   display: none !important;
   animation: none !important;
   transition: none !important;
@@ -91,7 +103,8 @@ body:not([data-theme="sinal"]) #sinal-theme-layer * {
 
 #mark-theme-layer,
 #jonah-theme-layer,
-#sinal-theme-layer {
+#sinal-theme-layer,
+#golbang-theme-layer {
   position: fixed;
   inset: 0;
   z-index: 8;
@@ -111,7 +124,8 @@ body:not([data-theme="sinal"]) #sinal-theme-layer * {
 
 body[data-theme="mark"] #mark-theme-layer,
 body[data-theme="jonah"] #jonah-theme-layer,
-body[data-theme="sinal"] #sinal-theme-layer {
+body[data-theme="sinal"] #sinal-theme-layer,
+body[data-theme="golbang"] #golbang-theme-layer {
   display: block !important;
   opacity: 1;
 }
@@ -140,7 +154,8 @@ body[data-theme="sinal"] #sinal-theme-layer {
 .mark-dust,
 .jonah-particle,
 .sinal-mist,
-.sinal-air-dust {
+.sinal-air-dust,
+.golbang-dust {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
@@ -391,7 +406,8 @@ body[data-current-theme="겟세마네 동산"] div[style*="width: 250%"][style*=
 
 body[data-theme="mark"] .prayer-verse p,
 body[data-theme="jonah"] .prayer-verse p,
-body[data-theme="sinal"] .prayer-verse p {
+body[data-theme="sinal"] .prayer-verse p,
+body[data-theme="golbang"] .prayer-verse p {
   color: rgba(255, 246, 224, 0.9) !important;
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.66),
@@ -495,9 +511,34 @@ body[data-theme="sinal"][data-prayer-state="praying"] .sinal-mist {
   filter: blur(12px);
 }
 
+body[data-theme="mark"] .codex-altar-stage,
+body[data-theme="jonah"] .codex-altar-stage,
+body[data-theme="sinal"] .codex-altar-stage,
+body[data-theme="golbang"] .codex-altar-stage {
+  max-width: 760px !important;
+}
+
 body[data-theme="mark"] img[alt="altar"],
 body[data-theme="jonah"] img[alt="altar"],
-body[data-theme="sinal"] img[alt="altar"] {
+body[data-theme="sinal"] img[alt="altar"],
+body[data-theme="golbang"] img[alt="altar"] {
+  max-width: 760px !important;
+  max-height: 261.875px !important;
+}
+
+@media (max-width: 900px) {
+  body[data-theme="mark"] img[alt="altar"],
+  body[data-theme="jonah"] img[alt="altar"],
+  body[data-theme="sinal"] img[alt="altar"],
+  body[data-theme="golbang"] img[alt="altar"] {
+    width: min(84vw, 760px) !important;
+  }
+}
+
+body[data-theme="mark"] img[alt="altar"],
+body[data-theme="jonah"] img[alt="altar"],
+body[data-theme="sinal"] img[alt="altar"],
+body[data-theme="golbang"] img[alt="altar"] {
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
@@ -552,7 +593,7 @@ button[data-codex-theme].codex-theme-active > span:first-child {
   13% { opacity: 0.42; }
   50% { transform: translate3d(calc(var(--wind-x) * 0.52), calc(var(--wind-y) * 0.56 + 5px), 0) scale(1.08); opacity: 0.68; }
   84% { opacity: 0.25; }
-  100% { transform: translate3d(var(--wind-x), var(--wind-y), 0) scale(0.9); opacity: 0; }
+  100% { transform: translate3d(var(--wind-x), var(--wind-y), 0) scale(0.85); opacity: 0; }
 }
 
 @keyframes jonahDarkBreath {
@@ -614,7 +655,7 @@ button[data-codex-theme].codex-theme-active > span:first-child {
 }
 
 @keyframes sinalMountainDustDriftNear {
-  0% { transform: translate3d(0,0,0) scale(0.9); opacity: 0.5; }
+  0% { transform: translate3d(0,0,0) scale(0.85); opacity: 0.5; }
   25% { transform: translate3d(calc(var(--wind-x) * 0.22),calc(var(--wind-y) * -0.55),0) scale(1.06); opacity: 0.58; }
   50% { transform: translate3d(calc(var(--wind-x) * 0.48),calc(var(--wind-y) * 0.45),0) scale(0.94); opacity: 0.52; }
   75% { transform: translate3d(calc(var(--wind-x) * 0.75),calc(var(--wind-y) * -0.25),0) scale(1.03); opacity: 0.55; }
@@ -627,4 +668,181 @@ button[data-codex-theme].codex-theme-active > span:first-child {
   50% { transform: translate3d(calc(var(--wind-x) * 0.45),calc(var(--wind-y) * 0.5),0) scale(0.96); opacity: 0.4; }
   75% { transform: translate3d(calc(var(--wind-x) * 0.72),calc(var(--wind-y) * -0.3),0) scale(1.02); opacity: 0.43; }
   100% { transform: translate3d(var(--wind-x),var(--wind-y),0) scale(0.88); opacity: 0.25; }
+}
+
+/* 은밀한 골방 테마 */
+body[data-theme="golbang"] {
+  background-color: var(--theme-bg, #78563d);
+}
+
+#golbang-theme-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+body[data-theme="golbang"] #golbang-theme-layer {
+  display: block !important;
+  opacity: 1;
+  background-size: auto 90%;
+  background-position: 48% top;
+  background-repeat: no-repeat;
+}
+
+#golbang-theme-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 220, 180, 0.18), transparent 45%),
+    radial-gradient(ellipse at 30% 70%, rgba(255, 200, 140, 0.10), transparent 35%),
+    radial-gradient(ellipse at 70% 65%, rgba(255, 210, 160, 0.08), transparent 30%);
+  mix-blend-mode: screen;
+  animation: golbangAmbientGlow 16s ease-in-out infinite;
+}
+
+#golbang-theme-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(40, 25, 15, 0.45);
+  opacity: 0;
+  transition: opacity 1800ms cubic-bezier(0.42, 0, 0.22, 1);
+  pointer-events: none;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] #golbang-theme-layer::after {
+  opacity: 0;
+}
+
+.golbang-dust {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 2;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(255, 230, 190, 0.55);
+  box-shadow: 0 0 8px rgba(255, 200, 130, 0.28);
+  animation: golbangDustFloat var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+body[data-theme="golbang"] .codex-altar-stage {
+  transform: translate(-50%, -50%) translateY(-20px) scale(0.85) !important;
+}
+
+@media (max-width: 768px) {
+  body[data-theme="golbang"] .codex-altar-stage {
+    transform: translate(-50%, -50%) translateY(-20px) scale(0.85) !important;
+  }
+}
+
+body[data-theme="golbang"] img[alt="altar"] {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 28% !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: 10vh !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  transform: translateY(0) !important;
+  transition: filter 1200ms ease-in-out, opacity 1200ms ease-in-out !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.5)) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+@media (max-width: 1500px) {
+  body[data-theme="golbang"] img[alt="altar"] {
+    min-width: 480px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body[data-theme="golbang"] img[alt="altar"] {
+    min-width: 280px !important;
+    max-width: 48% !important;
+  }
+}
+
+body[data-theme="golbang"][data-prayer-state="waiting"] img[alt="altar"] {
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.5)) !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] img[alt="altar"] {
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.6)) brightness(1.05) saturate(1.05) !important;
+}
+
+body[data-theme="golbang"] .prayer-verse p {
+  color: rgba(255, 246, 224, 0.92) !important;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.72),
+    0 0 22px rgba(255, 220, 170, 0.22) !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] .prayer-verse p {
+  color: rgba(255, 248, 230, 0.98) !important;
+  text-shadow:
+    0 2px 10px rgba(60, 40, 20, 0.55),
+    0 0 28px rgba(255, 210, 140, 0.32) !important;
+}
+
+body[data-theme="golbang"] [data-codex-theme-background="true"] {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: auto !important;
+  min-height: auto !important;
+  transform-origin: center center !important;
+  transition: filter 1200ms ease-in-out, transform 1200ms ease-in-out;
+}
+
+body[data-theme="golbang"] [data-codex-theme-background="true"]:not(img) {
+  background-attachment: fixed !important;
+  background-size: auto 90% !important;
+  background-position: 48% top !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-theme="golbang"] img[data-codex-theme-background="true"] {
+  object-fit: cover !important;
+  object-position: 48% top !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="waiting"] [data-codex-theme-background="true"] {
+  filter: none;
+  transform: none;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] [data-codex-theme-background="true"] {
+  filter: brightness(1.05) saturate(1.05);
+  transform: scale(1);
+}
+
+@keyframes golbangAmbientGlow {
+  0%, 100% { opacity: 0.65; filter: brightness(1); }
+  50% { opacity: 0.9; filter: brightness(1.06); }
+}
+
+@keyframes golbangDustFloat {
+  0% { transform: translate3d(-8px, 6px, 0) scale(0.85); opacity: 0; }
+  15% { opacity: 0.35; }
+  50% { transform: translate3d(6px, -4px, 0) scale(1.05); opacity: 0.55; }
+  85% { opacity: 0.25; }
+  100% { transform: translate3d(14px, -10px, 0) scale(0.85); opacity: 0; }
 }
