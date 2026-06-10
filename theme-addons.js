@@ -777,9 +777,7 @@
     scheduleMenuInjection();
     window.setTimeout(seedEffects, 800);
     window.setTimeout(seedEffects, 1800);
-    window.setTimeout(function () {
-      applyExtraTheme("golbang");
-    }, 100);
+    applyExtraTheme("golbang");
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;
