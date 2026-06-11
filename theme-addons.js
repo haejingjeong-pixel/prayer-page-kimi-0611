@@ -810,19 +810,7 @@
     });
     var root = document.getElementById("root");
     if (root) {
-      new MutationObserver(function () {
-        syncPrayerState();
-        if (activeExtraTheme === "sinal") syncSinalAnchor();
-        injectMenuButtons();
-        updateMenuActive(activeExtraTheme);
-        var menu = document.querySelector('button[data-codex-theme]') && document.querySelector('button[data-codex-theme]').parentElement;
-        if (!menu) {
-          var desertBtn = Array.from(document.querySelectorAll("button")).find(function (b) { return getText(b).indexOf("사막의 제단") !== -1; });
-          menu = desertBtn && desertBtn.parentElement;
-        }
-        if (menu) reorderMenuButtons(menu);
-        if (menu) injectDisclaimer(menu);
-      }).observe(root, { childList: true, subtree: true, characterData: true });
+      /* MutationObserver removed to prevent React DOM conflict */
     }
     document.addEventListener("codex-extra-theme-change", function (event) {
       var theme = event.detail && event.detail.theme;
