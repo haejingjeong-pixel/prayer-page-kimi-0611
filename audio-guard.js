@@ -41,7 +41,7 @@
   });
 
   // 4. 사용자 명시적 ON/OFF 감지 (버튼 클릭)
-  var THEME_LABELS = /사막의 제단|겟세마네 동산|어두운 밤|여름 녹음|마가 다락방|요나의 고래뱃속|모세의 시내산/;
+  var THEME_LABELS = /은밀한 골방|사막의 제단|겟세마네 동산|어두운 밤|여름 녹음|마가 다락방|요나의 고래뱃속|모세의 시내산/;
 
   document.addEventListener("click", function (e) {
     var btn = e.target && e.target.closest ? e.target.closest("button") : null;

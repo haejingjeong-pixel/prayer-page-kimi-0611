@@ -8,7 +8,7 @@
     color: "#000204",
     position: "center calc(50% - 8vh)"
   };
-  var BASE_LABELS = ["사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
+  var BASE_LABELS = ["은밀한 골방", "사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
   var active = false;
   var injectScheduled = false;
 

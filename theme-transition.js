@@ -2,6 +2,7 @@
   "use strict";
 
   var BASE_THEME_ALTARS = {
+    "은밀한 골방": "assets/b_golbang.webp",
     "사막의 제단": "assets/g_dessert.webp",
     "겟세마네 동산": "assets/g_dessert.webp",
     "어두운 밤": "assets/b_night.webp",
@@ -11,6 +12,11 @@
     "모세의 시내산": "assets/b_sinal.webp"
   };
   var BASE_THEME_BACKGROUNDS = {
+    "은밀한 골방": {
+      image: "assets/back_golbang.webp",
+      color: "#78563d",
+      position: "center"
+    },
     "사막의 제단": {
       image: "assets/back_dessert.webp",
       color: "#b77c61",
@@ -440,6 +446,7 @@
       if (BASE_THEME_LABELS.indexOf(value) !== -1) footerTheme = value;
     });
     var themeClasses = [
+      "codex-theme-golbang",
       "codex-theme-desert",
       "codex-theme-gethsemane",
       "codex-theme-night",
@@ -452,6 +459,7 @@
       document.body.classList.remove(className);
     });
     var classByTheme = {
+      "은밀한 골방": "codex-theme-golbang",
       "사막의 제단": "codex-theme-desert",
       "겟세마네 동산": "codex-theme-gethsemane",
       "어두운 밤": "codex-theme-night",

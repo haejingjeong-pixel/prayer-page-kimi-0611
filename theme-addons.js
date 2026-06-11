@@ -36,7 +36,7 @@
     }
   };
 
-  var baseThemeLabels = ["사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
+  var baseThemeLabels = ["은밀한 골방", "사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
   var activeExtraTheme = "";
   var seeded = false;
   var cleanupTimers = [];
