@@ -41,6 +41,14 @@ body[data-current-theme="겟세마네 동산"][data-prayer-state="praying"] #get
 body.codex-theme-gethsemane [data-codex-theme-background="true"],
 body[data-current-theme="겟세마네 동산"] [data-codex-theme-background="true"],
 body.codex-theme-gethsemane #root div[style*="back_gathe"],
+body[data-current-theme="겟세마네 동산"] #root div[style*="back_gathe"] {
+  background-position: 48.25% center !important;
+  object-position: 48.25% center !important;
+}
+
+body.codex-theme-gethsemane [data-codex-theme-background="true"],
+body[data-current-theme="겟세마네 동산"] [data-codex-theme-background="true"],
+body.codex-theme-gethsemane #root div[style*="back_gathe"],
 body[data-current-theme="겟세마네 동산"] #root div[style*="back_gathe"],
 body.codex-theme-gethsemane img[alt="altar"],
 body[data-current-theme="겟세마네 동산"] img[alt="altar"] {
@@ -511,30 +519,6 @@ body[data-theme="sinal"][data-prayer-state="praying"] .sinal-mist {
   filter: blur(12px);
 }
 
-body[data-theme="mark"] .codex-altar-stage,
-body[data-theme="jonah"] .codex-altar-stage,
-body[data-theme="sinal"] .codex-altar-stage,
-body[data-theme="golbang"] .codex-altar-stage {
-  max-width: 760px !important;
-}
-
-body[data-theme="mark"] img[alt="altar"],
-body[data-theme="jonah"] img[alt="altar"],
-body[data-theme="sinal"] img[alt="altar"],
-body[data-theme="golbang"] img[alt="altar"] {
-  max-width: 760px !important;
-  max-height: 261.875px !important;
-}
-
-@media (max-width: 900px) {
-  body[data-theme="mark"] img[alt="altar"],
-  body[data-theme="jonah"] img[alt="altar"],
-  body[data-theme="sinal"] img[alt="altar"],
-  body[data-theme="golbang"] img[alt="altar"] {
-    width: min(84vw, 760px) !important;
-  }
-}
-
 body[data-theme="mark"] img[alt="altar"],
 body[data-theme="jonah"] img[alt="altar"],
 body[data-theme="sinal"] img[alt="altar"],
@@ -734,44 +718,17 @@ body[data-theme="golbang"][data-prayer-state="praying"] #golbang-theme-layer::af
   animation-delay: var(--delay);
 }
 
-body[data-theme="golbang"] .codex-altar-stage {
-  transform: translate(-50%, -50%) translateY(-20px) scale(0.85) !important;
-}
-
-@media (max-width: 768px) {
-  body[data-theme="golbang"] .codex-altar-stage {
-    transform: translate(-50%, -50%) translateY(-20px) scale(0.85) !important;
-  }
-}
-
 body[data-theme="golbang"] img[alt="altar"] {
-  width: auto !important;
   min-width: 0 !important;
-  max-width: 28% !important;
   height: auto !important;
   min-height: auto !important;
-  max-height: 10vh !important;
   margin: 0 auto !important;
   object-fit: contain !important;
-  transform: translateY(0) !important;
   transition: filter 1200ms ease-in-out, opacity 1200ms ease-in-out !important;
   opacity: 1 !important;
   filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.5)) !important;
   position: relative !important;
   z-index: 10 !important;
-}
-
-@media (max-width: 1500px) {
-  body[data-theme="golbang"] img[alt="altar"] {
-    min-width: 480px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  body[data-theme="golbang"] img[alt="altar"] {
-    min-width: 280px !important;
-    max-width: 48% !important;
-  }
 }
 
 body[data-theme="golbang"][data-prayer-state="waiting"] img[alt="altar"] {
@@ -832,6 +789,11 @@ body[data-theme="golbang"][data-prayer-state="waiting"] [data-codex-theme-backgr
 body[data-theme="golbang"][data-prayer-state="praying"] [data-codex-theme-background="true"] {
   filter: brightness(1.05) saturate(1.05);
   transform: scale(1);
+}
+
+button > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+button > .codex-menu-active-dot {
+  display: none !important;
 }
 
 @keyframes golbangAmbientGlow {

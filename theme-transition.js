@@ -25,7 +25,7 @@
     "겟세마네 동산": {
       image: "assets/back_gathe3.webp",
       color: "#000000",
-      position: "center 25%"
+      position: "48.25% center"
     },
     "어두운 밤": {
       image: "assets/back_night.webp?v=night-background-1",

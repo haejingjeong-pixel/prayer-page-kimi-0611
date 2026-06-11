@@ -6,17 +6,76 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="preload" as="image" href="assets/prayer-bg-golbang.png">
+    <link rel="preload" as="image" href="assets/back_golbang.webp">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRAY PAGE</title>
-    <script type="module" crossorigin src="assets/index-CqKYKs7R.js?v=golbang-default-20250611"></script>
+    <style>
+      body[data-theme] .codex-altar-stage,
+      body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+        position: absolute !important;
+        top: 72% !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: clamp(760px, 48vw, 900px) !important;
+        max-width: none !important;
+        aspect-ratio: 900 / 291 !important;
+        translate: none !important;
+        transform: translate(-50%, -50%) !important;
+        transform-origin: center center !important;
+        transition: none !important;
+        animation: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        overflow: visible !important;
+      }
+      body[data-theme] .codex-altar-stage > div,
+      body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) > div {
+        width: 100% !important;
+        aspect-ratio: 900 / 291 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+      }
+      body[data-theme] img[alt="altar"] {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        height: auto !important;
+        object-fit: contain !important;
+        transform: translateY(-4px) !important;
+        transition: none !important;
+        animation: none !important;
+      }
+      @media (min-width: 1600px) {
+        body[data-theme] .codex-altar-stage,
+        body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+          width: clamp(900px, 52vw, 1200px) !important;
+        }
+      }
+      @media (max-width: 900px) {
+        body[data-theme] .codex-altar-stage,
+        body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+          width: clamp(700px, 96vw, 820px) !important;
+        }
+      }
+      @media (max-width: 600px) {
+        body[data-theme] .codex-altar-stage,
+        body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+          width: clamp(620px, 115vw, 760px) !important;
+        }
+      }
+    </style>
+    <script src="audio-guard.js?v=theme-bgm-intent-20250611"></script>
     <link rel="stylesheet" crossorigin href="assets/index-BYZbwYUU.css?v=verse-bright-20250611">
-    <link rel="stylesheet" href="theme-addons.css?v=golbang-default-20250611">
     <link rel="stylesheet" href="theme-transition.css?v=golbang-default-20250611">
+    <link rel="stylesheet" href="theme-addons.css?v=altar-responsive-20250611">
+    <script type="module" crossorigin src="assets/index-CqKYKs7R.js?v=golbang-default-20250611"></script>
   </head>
   <body class="codex-theme-golbang" data-theme="golbang" data-current-theme="은밀한 골방">
     <div id="root"></div>
-    <script src="theme-transition.js?v=golbang-default-20250611"></script>
-    <script src="theme-addons.js?v=golbang-default-20250611"></script>
+    <script src="theme-transition.js?v=gethsemane-bg-position-20250611"></script>
+    <script src="theme-addons.js?v=altar-responsive-20250611"></script>
   </body>
 </html>

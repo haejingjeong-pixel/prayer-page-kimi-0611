@@ -36,7 +36,22 @@
     }
   };
 
-  var baseThemeLabels = ["은밀한 골방", "사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
+  var baseThemeLabels = ["사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
+  var appendedExtraThemeNames = ["mark", "jonah", "sinal"];
+  var themeIdByLabel = {
+    "은밀한 골방": "golbang",
+    "사막의 제단": "desert",
+    "모세의 시내산": "sinal",
+    "마가 다락방": "mark",
+    "여름 녹음": "summer",
+    "요나의 고래뱃속": "jonah",
+    "어두운 밤": "night",
+    "겟세마네 동산": "gethsemane"
+  };
+  var labelByThemeId = {};
+  Object.keys(themeIdByLabel).forEach(function (label) {
+    labelByThemeId[themeIdByLabel[label]] = label;
+  });
   var activeExtraTheme = "";
   var seeded = false;
   var cleanupTimers = [];
@@ -449,22 +464,44 @@
   }
 
   function updateMenuActive(theme) {
-    Array.from(document.querySelectorAll("button[data-codex-theme]")).forEach(function (button) {
-      button.classList.toggle("codex-theme-active", button.dataset.codexTheme === theme);
-      button.toggleAttribute("aria-current", button.dataset.codexTheme === theme);
-    });
-    if (!theme) return;
+    var activeTheme = resolveThemeId(theme);
     Array.from(document.querySelectorAll("button")).forEach(function (button) {
-      if (button.dataset.codexTheme) return;
-      var label = getText(button);
-      if (!baseThemeLabels.some(function (themeLabel) { return label.indexOf(themeLabel) !== -1; })) return;
+      var buttonTheme = findThemeIdFromButton(button);
+      if (!buttonTheme) return;
+      var isActive = buttonTheme === activeTheme;
+      button.classList.toggle("codex-theme-active", isActive);
+      button.toggleAttribute("aria-current", isActive);
       button.classList.remove("bg-white/20", "text-amber-300");
-      button.classList.add("text-white/70", "hover:bg-white/10", "hover:text-white");
-      Array.from(button.querySelectorAll("div")).forEach(function (node) {
-        var className = typeof node.className === "string" ? node.className : "";
-        if (className.indexOf("bg-amber-400") !== -1) node.remove();
-      });
+      if (isActive) {
+        button.classList.remove("text-white/70", "hover:bg-white/10", "hover:text-white");
+        button.classList.add("bg-white/20", "text-amber-300");
+      } else {
+        button.classList.add("text-white/70", "hover:bg-white/10", "hover:text-white");
+      }
     });
+  }
+
+  function resolveThemeId(themeOrLabel) {
+    if (themeOrLabel && labelByThemeId[themeOrLabel]) return themeOrLabel;
+    if (themeOrLabel && themeIdByLabel[themeOrLabel]) return themeIdByLabel[themeOrLabel];
+    var currentTheme = document.body.dataset.theme;
+    if (currentTheme && labelByThemeId[currentTheme]) return currentTheme;
+    var currentLabel = document.body.dataset.currentTheme;
+    if (currentLabel && themeIdByLabel[currentLabel]) return themeIdByLabel[currentLabel];
+    return "";
+  }
+
+  function findThemeIdFromButton(button) {
+    if (!button) return "";
+    if (button.dataset && button.dataset.codexTheme) return button.dataset.codexTheme;
+    var label = getText(button);
+    var matched = "";
+    Object.keys(themeIdByLabel).some(function (themeLabel) {
+      if (label.indexOf(themeLabel) === -1) return false;
+      matched = themeIdByLabel[themeLabel];
+      return true;
+    });
+    return matched;
   }
 
   function clearScheduledWork() {
@@ -560,10 +597,6 @@
     applyLoadedBackground(theme, config);
     if (theme === "golbang") {
       hideReactBackground();
-      var altarStage = document.querySelector(".codex-altar-stage");
-      if (altarStage) {
-        altarStage.style.setProperty("transform", "translate(-50%, -50%) translateY(-20px) scale(0.85)", "important");
-      }
     }
 
     cleanupTimers.push(window.setTimeout(function () {
@@ -597,11 +630,11 @@
     removeGethsemaneSkyEffects();
   }
 
-  function clearExtraThemeSoon() {
+  function clearExtraThemeSoon(nextTheme) {
     removeSinalStormLayer();
     clearScheduledWork();
     activeExtraTheme = "";
-    updateMenuActive("");
+    updateMenuActive(nextTheme || "");
     removeThemeEffectState();
     document.body.style.backgroundColor = "";
     cleanupTimers.push(window.setTimeout(function () {
@@ -639,94 +672,21 @@
     return button;
   }
 
-  var menuOrderMap = {
-    "은밀한 골방": 0,
-    "사막의 제단": 1,
-    "모세의 시내산": 2,
-    "마가 다락방": 3,
-    "여름 녹음": 4,
-    "요나의 고래뱃속": 5,
-    "어두운 밤": 6,
-    "겟세마네 동산": 7
-  };
-
-  function reorderMenuButtons(menu) {
-    if (!menu) return;
-    menu.style.display = "flex";
-    menu.style.flexDirection = "column";
-    var buttons = Array.from(menu.querySelectorAll("button"));
-    buttons.sort(function (a, b) {
-      var labelA = getText(a);
-      var labelB = getText(b);
-      var orderA = 99, orderB = 99;
-      Object.keys(menuOrderMap).forEach(function (key) {
-        if (labelA.indexOf(key) !== -1) orderA = menuOrderMap[key];
-        if (labelB.indexOf(key) !== -1) orderB = menuOrderMap[key];
-      });
-      var themeAttrA = a.dataset && a.dataset.codexTheme;
-      var themeAttrB = b.dataset && b.dataset.codexTheme;
-      if (themeAttrA && extraThemes[themeAttrA]) {
-        orderA = menuOrderMap[extraThemes[themeAttrA].label] || 99;
-      }
-      if (themeAttrB && extraThemes[themeAttrB]) {
-        orderB = menuOrderMap[extraThemes[themeAttrB].label] || 99;
-      }
-      return orderA - orderB;
-    });
-    buttons.forEach(function (button) {
-      menu.appendChild(button);
-    });
-  }
-
-  function restoreExtraThemeIcons(menu) {
-    if (!menu) return;
-    Object.keys(extraThemes).forEach(function (theme) {
-      var config = extraThemes[theme];
-      var button = Array.from(menu.querySelectorAll("button")).find(function (candidate) {
-        return getText(candidate).indexOf(config.label) !== -1;
-      });
-      if (!button || !config.icon) return;
-      var iconSlot = button.querySelector("span");
-      if (!iconSlot) return;
-      if (iconSlot.dataset.codexRestoredIcon === theme && iconSlot.querySelector("svg")) return;
-      iconSlot.dataset.codexRestoredIcon = theme;
-      iconSlot.style.width = "16px";
-      iconSlot.style.height = "16px";
-      iconSlot.style.display = "flex";
-      iconSlot.style.alignItems = "center";
-      iconSlot.style.justifyContent = "center";
-      iconSlot.style.opacity = ".78";
-      iconSlot.innerHTML = config.icon;
-    });
-  }
-
-  function injectDisclaimer(menu) {
-    if (!menu) return;
-    var disclaimerId = "codex-ai-disclaimer";
-    if (menu.querySelector("#" + disclaimerId)) return;
-    var disclaimer = document.createElement("div");
-    disclaimer.id = disclaimerId;
-    disclaimer.className = "codex-ai-disclaimer";
-    disclaimer.textContent = "일부 이미지·음악은 AI 도구를 활용해 제작되었습니다.";
-    disclaimer.style.order = "100";
-    menu.appendChild(disclaimer);
-  }
-
   function injectMenuButtons() {
     if (injectingMenu) return;
     injectingMenu = true;
-    var golbangButton = Array.from(document.querySelectorAll("button")).find(function (button) {
+    var themeButton = Array.from(document.querySelectorAll("button")).find(function (button) {
       return getText(button).indexOf("은밀한 골방") !== -1;
     });
-    if (!golbangButton) {
-      golbangButton = Array.from(document.querySelectorAll("button")).find(function (button) {
+    if (!themeButton) {
+      themeButton = Array.from(document.querySelectorAll("button")).find(function (button) {
         return getText(button).indexOf("사막의 제단") !== -1;
       });
     }
     try {
-      if (!golbangButton || !golbangButton.parentElement) return;
-      var menu = golbangButton.parentElement;
-      Object.keys(extraThemes).forEach(function (theme) {
+      if (!themeButton || !themeButton.parentElement) return;
+      var menu = themeButton.parentElement;
+      appendedExtraThemeNames.forEach(function (theme) {
         var label = extraThemes[theme].label;
         var hasNativeButton = Array.from(menu.querySelectorAll("button")).some(function (button) {
           return getText(button).indexOf(label) !== -1;
@@ -735,9 +695,6 @@
           menu.appendChild(makeThemeButton(theme));
         }
       });
-      reorderMenuButtons(menu);
-      restoreExtraThemeIcons(menu);
-      injectDisclaimer(menu);
       updateMenuActive(activeExtraTheme);
     } finally {
       injectingMenu = false;
@@ -762,17 +719,21 @@
   function fixAltarSize() {
     var altar = document.querySelector('img[alt="altar"]');
     if (!altar) return;
-    var vw = document.documentElement.clientWidth;
-    altar.style.setProperty("max-width", "760px", "important");
-    altar.style.setProperty("max-height", "261.875px", "important");
-    if (vw <= 900) {
-      altar.style.setProperty("width", "min(84vw, 760px)", "important");
-    } else {
-      altar.style.removeProperty("width");
-    }
-    var wrapper = document.querySelector(".codex-altar-stage");
+    altar.style.removeProperty("width");
+    altar.style.removeProperty("max-width");
+    altar.style.removeProperty("max-height");
+    altar.style.removeProperty("min-width");
+    altar.style.removeProperty("height");
+    altar.style.removeProperty("min-height");
+    var wrapper = document.querySelector(".codex-altar-stage, [class*='altar-stage']");
     if (wrapper) {
-      wrapper.style.setProperty("max-width", "760px", "important");
+      wrapper.style.removeProperty("width");
+      wrapper.style.removeProperty("max-width");
+      wrapper.style.removeProperty("min-width");
+      wrapper.style.removeProperty("height");
+      wrapper.style.removeProperty("max-height");
+      wrapper.style.removeProperty("min-height");
+      wrapper.style.removeProperty("transform");
     }
   }
 
@@ -792,17 +753,28 @@
     window.setTimeout(seedEffects, 800);
     window.setTimeout(seedEffects, 1800);
     applyExtraTheme("golbang");
-    [100, 300, 600, 1000, 2000].forEach(function (delay) {
-      window.setTimeout(function () {
-        updateThemeLabels("은밀한 골방");
-      }, delay);
-    });
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;
       var label = getText(button);
+      var clickedTheme = findThemeIdFromButton(button);
+      if (clickedTheme) {
+        [0, 80, 260, 720].forEach(function (delay) {
+          window.setTimeout(function () {
+            updateMenuActive(clickedTheme);
+          }, delay);
+        });
+      }
+      if (label.indexOf("은밀한 골방") !== -1) {
+        clearScheduledWork();
+        cleanupTimers.push(window.setTimeout(function () {
+          applyExtraTheme("golbang");
+          document.dispatchEvent(new CustomEvent("codex-bgm-theme-change", { detail: { theme: "golbang" } }));
+        }, THEME_SWAP_DELAY));
+        return;
+      }
       if (baseThemeLabels.some(function (themeLabel) { return label.indexOf(themeLabel) !== -1; })) {
-        clearExtraThemeSoon();
+        clearExtraThemeSoon(label);
       }
       if (label.length < 2 || label === "CCM") {
         scheduleMenuInjection();
@@ -824,12 +796,17 @@
         cleanupTimers.push(window.setTimeout(function () {
           applyExtraTheme(theme);
           document.dispatchEvent(new CustomEvent("codex-bgm-theme-change", { detail: { theme: theme } }));
+          updateMenuActive(theme);
         }, THEME_SWAP_DELAY));
         return;
       }
       if (!event.detail || event.detail.theme === "base") {
-        clearExtraThemeSoon();
+        clearExtraThemeSoon(event.detail && event.detail.label);
       }
+    });
+    document.addEventListener("codex-bgm-theme-change", function (event) {
+      var theme = event.detail && event.detail.theme;
+      if (theme) updateMenuActive(theme);
     });
   });
 })();
