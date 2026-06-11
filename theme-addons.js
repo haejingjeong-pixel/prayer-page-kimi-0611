@@ -439,6 +439,15 @@
     });
   }
 
+  function watchThemeLabels(label) {
+    var root = document.getElementById("root");
+    if (!root) return;
+    var observer = new MutationObserver(function () {
+      updateThemeLabels(label);
+    });
+    observer.observe(root, { childList: true, subtree: true });
+  }
+
   function updateMenuActive(theme) {
     Array.from(document.querySelectorAll("button[data-codex-theme]")).forEach(function (button) {
       button.classList.toggle("codex-theme-active", button.dataset.codexTheme === theme);
@@ -783,6 +792,7 @@
     window.setTimeout(seedEffects, 800);
     window.setTimeout(seedEffects, 1800);
     applyExtraTheme("golbang");
+    watchThemeLabels("은밀한 골방");
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;
