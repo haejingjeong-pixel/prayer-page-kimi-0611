@@ -706,12 +706,17 @@
   function injectMenuButtons() {
     if (injectingMenu) return;
     injectingMenu = true;
-    var desertButton = Array.from(document.querySelectorAll("button")).find(function (button) {
-      return getText(button).indexOf("사막의 제단") !== -1;
+    var golbangButton = Array.from(document.querySelectorAll("button")).find(function (button) {
+      return getText(button).indexOf("은밀한 골방") !== -1;
     });
+    if (!golbangButton) {
+      golbangButton = Array.from(document.querySelectorAll("button")).find(function (button) {
+        return getText(button).indexOf("사막의 제단") !== -1;
+      });
+    }
     try {
-      if (!desertButton || !desertButton.parentElement) return;
-      var menu = desertButton.parentElement;
+      if (!golbangButton || !golbangButton.parentElement) return;
+      var menu = golbangButton.parentElement;
       Object.keys(extraThemes).forEach(function (theme) {
         var label = extraThemes[theme].label;
         var hasNativeButton = Array.from(menu.querySelectorAll("button")).some(function (button) {
