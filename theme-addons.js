@@ -792,7 +792,6 @@
     window.setTimeout(seedEffects, 800);
     window.setTimeout(seedEffects, 1800);
     applyExtraTheme("golbang");
-    watchThemeLabels("은밀한 골방");
     document.addEventListener("click", function (event) {
       var button = event.target && event.target.closest ? event.target.closest("button") : null;
       if (!button) return;
