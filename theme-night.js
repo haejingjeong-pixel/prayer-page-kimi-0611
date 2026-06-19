@@ -4,11 +4,14 @@
   var NIGHT_BG = "#000114";
   var ACTIVE_CLASS = "night-theme-active";
   var PRAYER_CLASS = "night-prayer-active";
-  var ALTAR_MIN = "620px";
-  var ALTAR_MAX = "860px";
-  var ALTAR_ASPECT = "2084 / 718";
-  var NIGHT_BACKGROUND = "assets/back_night.webp";
-  var NIGHT_ALTAR = "assets/b_night.webp";
+  var ALTAR_STAGE_WIDTH = "900px";
+  var ALTAR_HEIGHT = "291px";
+  var NIGHT_BACKGROUND = "assets/back_night.webp?v=theme-assets-8";
+  var NIGHT_ALTAR = "assets/b_night.webp?v=theme-assets-8";
+
+  function isThemeTransitioning() {
+    return document.body.classList.contains("codex-theme-transitioning");
+  }
 
   function isNightBackgroundUrl(value) {
     return (value || "").indexOf("back_night") !== -1;
@@ -41,7 +44,7 @@
 
   function stabilizeAltar(altar) {
     if (!altar) return;
-    if (!isNightAltar(altar)) {
+    if (!isNightAltar(altar) && !isThemeTransitioning()) {
       altar.setAttribute("src", NIGHT_ALTAR);
     }
     setStyle(altar, "display", "block");
@@ -49,17 +52,18 @@
     setStyle(altar, "visibility", "visible");
     setStyle(altar, "position", "relative");
     setStyle(altar, "zIndex", "100");
-    setStyle(altar, "width", "100%");
-    setStyle(altar, "minWidth", ALTAR_MIN);
-    setStyle(altar, "maxWidth", ALTAR_MAX);
-    setStyle(altar, "height", "auto");
-    setStyle(altar, "aspectRatio", ALTAR_ASPECT);
+    setStyle(altar, "width", "auto");
+    setStyle(altar, "minWidth", "0px");
+    setStyle(altar, "maxWidth", "none");
+    setStyle(altar, "height", ALTAR_HEIGHT);
+    setStyle(altar, "minHeight", ALTAR_HEIGHT);
+    setStyle(altar, "maxHeight", ALTAR_HEIGHT);
+    setStyle(altar, "aspectRatio", "auto");
     setStyle(altar, "objectFit", "contain");
     setStyle(altar, "objectPosition", "center bottom");
     setStyle(altar, "background", "transparent");
     altar.style.removeProperty("-webkit-mask-image");
     altar.style.removeProperty("mask-image");
-    altar.style.removeProperty("max-height");
   }
 
   function setStyle(node, property, value) {
@@ -69,9 +73,12 @@
   function stabilizeStage() {
     Array.from(document.querySelectorAll('div[class*="left-1/2"][class*="z-10"]')).forEach(function (node) {
       if (!node.querySelector('img[alt="altar"]')) return;
-      setStyle(node, "width", "clamp(" + ALTAR_MIN + ", 85vw, " + ALTAR_MAX + ")");
-      setStyle(node, "minWidth", ALTAR_MIN);
-      setStyle(node, "maxWidth", ALTAR_MAX);
+      setStyle(node, "width", ALTAR_STAGE_WIDTH);
+      setStyle(node, "minWidth", ALTAR_STAGE_WIDTH);
+      setStyle(node, "maxWidth", ALTAR_STAGE_WIDTH);
+      setStyle(node, "height", ALTAR_HEIGHT);
+      setStyle(node, "minHeight", ALTAR_HEIGHT);
+      setStyle(node, "maxHeight", ALTAR_HEIGHT);
       setStyle(node, "overflow", "visible");
       setStyle(node, "zIndex", "30");
     });
@@ -103,7 +110,7 @@
 
     var background = findBackgroundNode();
     if (background) {
-      if (!isNightBackgroundUrl(background.style.backgroundImage)) {
+      if (!isNightBackgroundUrl(background.style.backgroundImage) && !isThemeTransitioning()) {
         background.style.backgroundImage = 'url("' + NIGHT_BACKGROUND + '")';
       }
       setStyle(background, "backgroundColor", NIGHT_BG);

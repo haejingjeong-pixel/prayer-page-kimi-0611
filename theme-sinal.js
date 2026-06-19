@@ -6,11 +6,9 @@
     background: "assets/back_sinal.webp",
     altar: "assets/b_sinal.webp",
     color: "#536a83",
-    position: "center 52%",
-    waitingFilter: "brightness(0.92) saturate(0.96) contrast(1) drop-shadow(0 22px 42px rgba(24, 34, 48, 0.62))",
-    prayingFilter: "brightness(1.03) saturate(1.04) contrast(1.02) drop-shadow(0 0 24px rgba(255, 224, 158, 0.30))"
+    position: "center calc(50% - 30vh)"
   };
-  var BASE_LABELS = ["사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
+  var BASE_LABELS = ["은밀한 골방", "사막의 제단", "겟세마네 동산", "어두운 밤", "여름 녹음"];
   var active = false;
   var injectScheduled = false;
 
@@ -36,18 +34,6 @@
     var layer = document.createElement("div");
     layer.id = "sinal-theme-soft-layer";
     layer.setAttribute("aria-hidden", "true");
-
-    var cloud1 = document.createElement("div");
-    cloud1.className = "sinal-cloud sinal-cloud-1";
-    layer.appendChild(cloud1);
-
-    var cloud2 = document.createElement("div");
-    cloud2.className = "sinal-cloud sinal-cloud-2";
-    layer.appendChild(cloud2);
-
-    var lightning = document.createElement("span");
-    lightning.className = "sinal-lightning";
-    layer.appendChild(lightning);
 
     [
       { x: "22%", y: "67%", w: "42vw", h: "14vh", s: "1.10", o: "0.28", d: "18s", delay: "-3s" },
@@ -97,15 +83,23 @@
     var prayerActive = isPrayerActive();
     var altar = document.querySelector('img[alt="altar"]');
     if (altar) {
-      var reloadSrc = SINAL.altar + "?reload=" + Date.now();
-      if (altar.getAttribute("src") !== reloadSrc) altar.setAttribute("src", reloadSrc);
+      var altarSrc = (altar.getAttribute("src") || "").split("?")[0];
+      if (altarSrc !== SINAL.altar) altar.setAttribute("src", SINAL.altar);
       altar.style.removeProperty("transform");
-      altar.style.filter = prayerActive ? SINAL.prayingFilter : SINAL.waitingFilter;
+      altar.style.removeProperty("filter");
+      altar.style.removeProperty("width");
+      altar.style.removeProperty("max-width");
+      altar.style.removeProperty("height");
+      altar.style.removeProperty("max-height");
+      altar.style.removeProperty("margin-left");
+      altar.style.removeProperty("margin-right");
+      altar.style.removeProperty("transition");
+      altar.style.removeProperty("animation");
     }
 
     var layer = document.getElementById("sinal-theme-soft-layer");
     if (layer) {
-      layer.style.opacity = prayerActive ? "0.55" : "1";
+      layer.style.opacity = prayerActive ? "0.28" : "1";
       layer.style.filter = prayerActive ? "brightness(1.03)" : "";
     }
 
@@ -121,23 +115,59 @@
       document.body.removeAttribute("data-extra-theme");
       document.body.style.backgroundColor = "";
     }
-    var background = document.querySelector("#root > div");
-    if (background && background.style.backgroundImage && background.style.backgroundImage.indexOf("back_sinal") !== -1) {
-      background.style.removeProperty("background-image");
-      background.style.removeProperty("background-position");
-      background.style.removeProperty("background-color");
-      background.style.removeProperty("background-size");
-      background.style.removeProperty("background-repeat");
-      background.style.removeProperty("background-attachment");
-      background.style.removeProperty("opacity");
-    }
     Array.from(document.querySelectorAll("button[data-sinal-theme]")).forEach(function (button) {
       button.classList.remove("sinal-theme-active");
     });
   }
 
+  function makeButton() {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.dataset.sinalTheme = "true";
+    button.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 text-white/70 hover:bg-white/10 hover:text-white";
+    button.innerHTML = '<span style="width:16px;text-align:center;opacity:.78">✦</span><span>' + SINAL.label + '</span>';
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      document.dispatchEvent(new CustomEvent("codex-extra-theme-change", { detail: { theme: "sinal" } }));
+      active = true;
+      applySinal();
+      window.setTimeout(applySinal, 140);
+      window.setTimeout(applySinal, 520);
+    });
+    return button;
+  }
+
+  function injectButton() {
+    var desertButton = Array.from(document.querySelectorAll("button")).find(function (button) {
+      return text(button).indexOf("사막의 제단") !== -1;
+    });
+    if (!desertButton || !desertButton.parentElement) return;
+    var menu = desertButton.parentElement;
+    if (!menu.querySelector("button[data-sinal-theme]")) {
+      var jonahButton = menu.querySelector("button[data-jonah-theme]");
+      if (jonahButton) {
+        jonahButton.insertAdjacentElement("afterend", makeButton());
+      } else {
+        menu.appendChild(makeButton());
+      }
+    }
+  }
+
+  function scheduleInject() {
+    if (injectScheduled) return;
+    injectScheduled = true;
+    [80, 220, 520, 960].forEach(function (delay) {
+      window.setTimeout(function () {
+        injectButton();
+        if (delay === 960) injectScheduled = false;
+      }, delay);
+    });
+  }
+
   function start() {
     ensureLayer();
+    scheduleInject();
     if (window.location.search.indexOf("sinal") !== -1 || window.location.search.indexOf("sinai") !== -1) {
       [180, 760, 1500, 2800].forEach(function (delay) {
         window.setTimeout(function () {
@@ -153,17 +183,15 @@
       if (BASE_LABELS.some(function (baseLabel) { return label.indexOf(baseLabel) !== -1; })) {
         clearSinal();
       }
+      if (label.length < 2 || label === "CCM") {
+        scheduleInject();
+      }
     }, true);
     document.addEventListener("codex-extra-theme-change", function (event) {
-      if (!event.detail) return;
-      if (event.detail.theme === "sinal") {
-        active = true;
-        applySinal();
-      } else {
-        clearSinal();
-      }
+      if (!event.detail || event.detail.theme !== "sinal") clearSinal();
     });
     new MutationObserver(function () {
+      scheduleInject();
       if (active) applySinal();
     }).observe(document.getElementById("root"), { childList: true, subtree: true });
     window.setInterval(function () {

@@ -68,3 +68,56 @@ body.night-theme-active .night-praying-depth {
   mix-blend-mode: multiply;
 }
 
+body.night-theme-active div[class*="left-1/2"][class*="z-10"]:has(img[src*="b_night"]) > div,
+body.codex-theme-night div[class*="left-1/2"][class*="z-10"]:has(img[src*="b_night"]) > div {
+  width: 900px !important;
+  min-width: 900px !important;
+  max-width: 900px !important;
+  height: 291px !important;
+  min-height: 291px !important;
+  max-height: 291px !important;
+}
+
+/* Keep night on the shared altar contract used by every theme. */
+body.night-theme-active .codex-altar-stage,
+body.night-theme-active div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-night .codex-altar-stage,
+body.codex-theme-night div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  top: 72% !important;
+  left: 50% !important;
+  width: 900px !important;
+  min-width: 900px !important;
+  max-width: 900px !important;
+  height: 291px !important;
+  min-height: 291px !important;
+  max-height: 291px !important;
+  transform: translate(-50%, -50%) !important;
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+body.night-theme-active img[alt="altar"],
+body.night-theme-active img[src*="b_night"],
+body.codex-theme-night img[alt="altar"],
+body.codex-theme-night img[src*="b_night"],
+body.night-theme-active.night-prayer-active img[alt="altar"],
+body.night-theme-active.night-prayer-active img[src*="b_night"],
+body.codex-theme-night.night-prayer-active img[alt="altar"],
+body.codex-theme-night.night-prayer-active img[src*="b_night"] {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 291px !important;
+  min-height: 291px !important;
+  max-height: 291px !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  aspect-ratio: auto !important;
+  transform: translateY(-4px) !important;
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  will-change: auto !important;
+}

@@ -1,31 +1,229 @@
+body {
+  background-color: #78563d !important;
+}
+
+canvas.absolute.inset-0 {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
 body[data-theme="mark"],
 body[data-theme="jonah"],
 body[data-theme="sinal"] {
   background-color: var(--theme-bg, #1a120f);
 }
 
+.codex-managed-theme-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background-repeat: no-repeat;
+  transition: opacity 1200ms ease;
+}
+
+body:not([data-theme="desert"]) #desert-theme-layer,
+body:not([data-theme="gethsemane"]) #gethsemane-theme-layer,
+body:not([data-theme="night"]) #night-theme-layer,
+body:not([data-theme="summer"]) #summer-theme-layer {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+body:not([data-theme="desert"]) #desert-theme-layer *,
+body:not([data-theme="gethsemane"]) #gethsemane-theme-layer *,
+body:not([data-theme="night"]) #night-theme-layer *,
+body:not([data-theme="summer"]) #summer-theme-layer * {
+  display: none !important;
+  animation: none !important;
+  transition: none !important;
+  opacity: 0 !important;
+}
+
+body[data-theme="desert"] #desert-theme-layer,
+body[data-theme="gethsemane"] #gethsemane-theme-layer,
+body[data-theme="night"] #night-theme-layer,
+body[data-theme="summer"] #summer-theme-layer {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+body[data-theme="golbang"],
+body[data-current-theme="은밀한 골방"] {
+  background-color: #c5b29b !important;
+}
+
+#gethsemane-darkness-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 14;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 34%, rgba(18, 25, 42, 0.16), rgba(0, 0, 0, 0.44) 64%, rgba(0, 0, 0, 0.68) 100%),
+    rgba(0, 0, 0, 0.34);
+  opacity: 0;
+  transition: opacity 1800ms cubic-bezier(0.42, 0, 0.22, 1);
+}
+
+body.codex-theme-gethsemane #gethsemane-darkness-overlay,
+body[data-current-theme="겟세마네 동산"] #gethsemane-darkness-overlay {
+  display: block;
+  opacity: 0.72;
+}
+
+body.codex-theme-gethsemane[data-prayer-state="praying"] #gethsemane-darkness-overlay,
+body[data-current-theme="겟세마네 동산"][data-prayer-state="praying"] #gethsemane-darkness-overlay {
+  opacity: 0.16;
+}
+
+body.codex-theme-gethsemane [data-codex-theme-background="true"],
+body[data-current-theme="겟세마네 동산"] [data-codex-theme-background="true"],
+body.codex-theme-gethsemane #root div[style*="back_gathe"],
+body[data-current-theme="겟세마네 동산"] #root div[style*="back_gathe"] {
+  background-position: 48.25% center !important;
+  object-position: 48.25% center !important;
+}
+
+body.codex-theme-gethsemane [data-codex-theme-background="true"],
+body[data-current-theme="겟세마네 동산"] [data-codex-theme-background="true"],
+body.codex-theme-gethsemane #root div[style*="back_gathe"],
+body[data-current-theme="겟세마네 동산"] #root div[style*="back_gathe"],
+body.codex-theme-gethsemane img[alt="altar"],
+body[data-current-theme="겟세마네 동산"] img[alt="altar"] {
+  filter: none !important;
+  transition: none !important;
+  transition-property: none !important;
+}
+
+body.codex-theme-gethsemane .codex-altar-stage div[style*="blur(12px)"],
+body[data-current-theme="겟세마네 동산"] .codex-altar-stage div[style*="blur(12px)"] {
+  display: none !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* React keeps the previously selected base theme mounted beneath add-on themes.
+   Suspend those base-only atmosphere layers while an independent add-on is active. */
+body[data-theme="mark"] .gethsemane-front-layer,
+body[data-theme="mark"] .gethsemane-atmosphere-dim,
+body[data-theme="mark"] .gethsemane-haze-layer,
+body[data-theme="mark"] .gethsemane-wind-layer,
+body[data-theme="mark"] .gethsemane-star-layer,
+body[data-theme="mark"] .gethsemane-altar-dim,
+body[data-theme="mark"] .summer-waiting-dim,
+body[data-theme="mark"] .summer-praying-light,
+body[data-theme="mark"] .summer-holy-sun,
+body[data-theme="mark"] .summer-leaf-layer,
+body[data-theme="mark"] .night-front-gradient,
+body[data-theme="mark"] .darknight-waiting-dim,
+body[data-theme="mark"] .night-praying-depth,
+body[data-theme="mark"] .night-sacred-glow,
+body[data-theme="mark"] .night-star-twinkle,
+body[data-theme="mark"] .night-shooting-stars,
+body[data-theme="jonah"] .gethsemane-front-layer,
+body[data-theme="jonah"] .gethsemane-atmosphere-dim,
+body[data-theme="jonah"] .gethsemane-haze-layer,
+body[data-theme="jonah"] .gethsemane-wind-layer,
+body[data-theme="jonah"] .gethsemane-star-layer,
+body[data-theme="jonah"] .gethsemane-altar-dim,
+body[data-theme="jonah"] .summer-waiting-dim,
+body[data-theme="jonah"] .summer-praying-light,
+body[data-theme="jonah"] .summer-holy-sun,
+body[data-theme="jonah"] .summer-leaf-layer,
+body[data-theme="jonah"] .night-front-gradient,
+body[data-theme="jonah"] .darknight-waiting-dim,
+body[data-theme="jonah"] .night-praying-depth,
+body[data-theme="jonah"] .night-sacred-glow,
+body[data-theme="jonah"] .night-star-twinkle,
+body[data-theme="jonah"] .night-shooting-stars,
+body[data-theme="sinal"] .gethsemane-front-layer,
+body[data-theme="sinal"] .gethsemane-atmosphere-dim,
+body[data-theme="sinal"] .gethsemane-haze-layer,
+body[data-theme="sinal"] .gethsemane-wind-layer,
+body[data-theme="sinal"] .gethsemane-star-layer,
+body[data-theme="sinal"] .gethsemane-altar-dim,
+body[data-theme="sinal"] .summer-waiting-dim,
+body[data-theme="sinal"] .summer-praying-light,
+body[data-theme="sinal"] .summer-holy-sun,
+body[data-theme="sinal"] .summer-leaf-layer,
+body[data-theme="sinal"] .night-front-gradient,
+body[data-theme="sinal"] .darknight-waiting-dim,
+body[data-theme="sinal"] .night-praying-depth,
+body[data-theme="sinal"] .night-sacred-glow,
+body[data-theme="sinal"] .night-star-twinkle,
+body[data-theme="sinal"] .night-shooting-stars,
+body[data-theme="golbang"] .gethsemane-front-layer,
+body[data-theme="golbang"] .gethsemane-atmosphere-dim,
+body[data-theme="golbang"] .gethsemane-haze-layer,
+body[data-theme="golbang"] .gethsemane-wind-layer,
+body[data-theme="golbang"] .gethsemane-star-layer,
+body[data-theme="golbang"] .gethsemane-altar-dim,
+body[data-theme="golbang"] .summer-waiting-dim,
+body[data-theme="golbang"] .summer-praying-light,
+body[data-theme="golbang"] .summer-holy-sun,
+body[data-theme="golbang"] .summer-leaf-layer,
+body[data-theme="golbang"] .night-front-gradient,
+body[data-theme="golbang"] .darknight-waiting-dim,
+body[data-theme="golbang"] .night-praying-depth,
+body[data-theme="golbang"] .night-sacred-glow,
+body[data-theme="golbang"] .night-star-twinkle,
+body[data-theme="golbang"] .night-shooting-stars {
+  display: none !important;
+  animation: none !important;
+}
+
 body:not([data-theme="mark"]) #mark-theme-layer,
 body:not([data-theme="jonah"]) #jonah-theme-layer,
-body:not([data-theme="sinal"]) #sinal-theme-layer {
+body:not([data-theme="sinal"]) #sinal-theme-layer,
+body:not([data-theme="golbang"]) #golbang-theme-layer {
   display: none !important;
+  opacity: 0 !important;
+}
+
+body:not([data-theme="mark"]) #mark-theme-layer *,
+body:not([data-theme="jonah"]) #jonah-theme-layer *,
+body:not([data-theme="sinal"]) #sinal-theme-layer *,
+body:not([data-theme="golbang"]) #golbang-theme-layer * {
+  display: none !important;
+  animation: none !important;
+  transition: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   opacity: 0 !important;
 }
 
 #mark-theme-layer,
 #jonah-theme-layer,
-#sinal-theme-layer {
+#sinal-theme-layer,
+#golbang-theme-layer {
   position: fixed;
   inset: 0;
-  z-index: 18;
+  z-index: 8;
   pointer-events: none;
   overflow: hidden;
   opacity: 0;
   transition: opacity 1200ms ease;
 }
 
+#jonah-theme-layer {
+  z-index: 9;
+}
+
+#sinal-theme-layer {
+  z-index: 8;
+}
+
 body[data-theme="mark"] #mark-theme-layer,
 body[data-theme="jonah"] #jonah-theme-layer,
-body[data-theme="sinal"] #sinal-theme-layer {
+body[data-theme="sinal"] #sinal-theme-layer,
+body[data-theme="golbang"] #golbang-theme-layer {
   display: block !important;
   opacity: 1;
 }
@@ -35,12 +233,13 @@ body[data-theme="sinal"] #sinal-theme-layer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 74% 42%, rgba(255, 224, 170, 0.25), transparent 34%),
-    linear-gradient(103deg, transparent 42%, rgba(255, 216, 150, 0.13) 50%, rgba(255, 246, 214, 0.14) 59%, transparent 72%),
+    radial-gradient(ellipse at 74% 36%, rgba(255, 224, 170, 0.38), transparent 38%),
+    linear-gradient(110deg, transparent 33%, rgba(255, 210, 125, 0.05) 38%, rgba(255, 224, 160, 0.27) 47%, transparent 52%),
+    linear-gradient(104deg, transparent 44%, rgba(255, 216, 150, 0.19) 50%, rgba(255, 246, 214, 0.25) 59%, transparent 73%),
     radial-gradient(ellipse at 14% 77%, rgba(255, 155, 74, 0.16), transparent 28%),
     radial-gradient(ellipse at 86% 78%, rgba(255, 170, 82, 0.14), transparent 26%);
   mix-blend-mode: screen;
-  animation: markWarmLightBreathe 8s ease-in-out infinite;
+  animation: markWarmLightBreathe 18s ease-in-out infinite;
 }
 
 #mark-theme-layer::after {
@@ -52,34 +251,29 @@ body[data-theme="sinal"] #sinal-theme-layer {
 
 .mark-dust,
 .jonah-particle,
-.sinal-mist {
+.sinal-mist,
+.sinal-air-dust {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
 }
 
 .mark-dust {
+  z-index: 2;
   width: var(--size);
   height: var(--size);
   left: var(--x);
   top: var(--y);
-  background: rgba(255, 232, 180, 0.72);
-  box-shadow: 0 0 8px rgba(255, 202, 120, 0.34);
+  background: rgba(255, 238, 192, 0.68);
+  box-shadow: 0 0 9px rgba(255, 202, 120, 0.34);
   animation: markDustFloat var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
 }
 
 #jonah-theme-layer::before {
-  content: "";
-  position: absolute;
-  inset: -8%;
-  background:
-    radial-gradient(ellipse at 45% 30%, rgba(40, 220, 220, 0.20), transparent 28%),
-    linear-gradient(102deg, transparent 31%, rgba(40, 220, 220, 0.16) 39%, rgba(180, 255, 245, 0.12) 48%, transparent 62%),
-    repeating-radial-gradient(ellipse at 50% 22%, rgba(96, 238, 230, 0.11) 0 1px, transparent 2px 17px);
-  filter: blur(0.8px);
-  mix-blend-mode: screen;
-  animation: jonahWaterLight 10s ease-in-out infinite;
+  content: none;
+  display: none;
+  animation: none;
 }
 
 #jonah-theme-layer::after {
@@ -87,18 +281,83 @@ body[data-theme="sinal"] #sinal-theme-layer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 52%, transparent 0%, rgba(1, 13, 18, 0.20) 58%, rgba(1, 13, 18, 0.48) 100%),
-    linear-gradient(180deg, rgba(1, 13, 18, 0.08), rgba(1, 13, 18, 0.32));
-  animation: jonahDarkBreath 13s ease-in-out infinite;
+    radial-gradient(ellipse at 42% 58%, rgba(1, 13, 18, 0.08) 0%, rgba(1, 13, 18, 0.28) 52%, rgba(1, 13, 18, 0.58) 100%),
+    linear-gradient(156deg, rgba(1, 13, 18, 0.12), rgba(1, 13, 18, 0.32) 54%, rgba(1, 13, 18, 0.50));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1;
+  transition: opacity 900ms ease;
+  animation: jonahDarkBreath 32s ease-in-out infinite;
+}
+
+body[data-theme="jonah"][data-prayer-state="praying"] #jonah-theme-layer::after {
+  opacity: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
+}
+
+body.codex-theme-gethsemane .gethsemane-front-layer,
+body.codex-theme-gethsemane .gethsemane-atmosphere-dim,
+body.codex-theme-gethsemane .gethsemane-altar-dim,
+body[data-current-theme="겟세마네 동산"] .gethsemane-front-layer {
+  display: none !important;
+}
+
+body[data-current-theme="겟세마네 동산"] .gethsemane-atmosphere-dim,
+body[data-current-theme="겟세마네 동산"] .gethsemane-altar-dim {
+  display: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+body.codex-theme-gethsemane .gethsemane-haze-layer,
+body[data-current-theme="겟세마네 동산"] .gethsemane-haze-layer {
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+body.codex-theme-gethsemane .gethsemane-wind-layer,
+body[data-current-theme="겟세마네 동산"] .gethsemane-wind-layer {
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+body.codex-theme-gethsemane .gethsemane-haze-layer::before,
+body.codex-theme-gethsemane .gethsemane-haze-layer::after,
+body[data-current-theme="겟세마네 동산"] .gethsemane-haze-layer::before,
+body[data-current-theme="겟세마네 동산"] .gethsemane-haze-layer::after {
+  content: none !important;
+  animation: none !important;
+}
+
+body.codex-theme-gethsemane .gethsemane-wind-layer *,
+body[data-current-theme="겟세마네 동산"] .gethsemane-wind-layer * {
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+body.codex-theme-gethsemane div[style*="linear-gradient(90deg"][style*="rgba(220,230,255"],
+body[data-current-theme="겟세마네 동산"] div[style*="linear-gradient(90deg"][style*="rgba(220,230,255"],
+body.codex-theme-gethsemane div[style*="width: 250%"][style*="height: 1px"],
+body[data-current-theme="겟세마네 동산"] div[style*="width: 250%"][style*="height: 1px"] {
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
 }
 
 .jonah-particle {
+  z-index: 2;
   width: var(--size);
   height: var(--size);
   left: var(--x);
   top: var(--y);
-  background: rgba(130, 255, 240, 0.45);
-  box-shadow: 0 0 10px rgba(65, 230, 220, 0.32);
+  background: rgba(164, 255, 242, 0.58);
+  box-shadow: 0 0 10px rgba(65, 230, 220, 0.42);
   animation: jonahParticleFloat var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
 }
@@ -112,7 +371,7 @@ body[data-theme="sinal"] #sinal-theme-layer {
     linear-gradient(180deg, rgba(210, 235, 255, 0.12), transparent 45%),
     linear-gradient(96deg, transparent 39%, rgba(255, 234, 190, 0.18) 48%, rgba(210, 235, 255, 0.10) 56%, transparent 68%);
   mix-blend-mode: screen;
-  animation: sinalHolyLight 9s ease-in-out infinite;
+  animation: sinalHolyLight 20s ease-in-out infinite;
 }
 
 #sinal-theme-layer::after {
@@ -124,7 +383,8 @@ body[data-theme="sinal"] #sinal-theme-layer {
     radial-gradient(ellipse at 70% 76%, rgba(255, 224, 190, 0.18), transparent 34%),
     linear-gradient(180deg, transparent 0 48%, rgba(83, 106, 131, 0.20) 70%, rgba(83, 106, 131, 0.34) 100%);
   filter: blur(12px);
-  animation: sinalCloudDrift 18s ease-in-out infinite;
+  transition: filter 1000ms ease-in-out;
+  animation: sinalCloudDrift 34s ease-in-out infinite;
 }
 
 .sinal-mist {
@@ -134,22 +394,117 @@ body[data-theme="sinal"] #sinal-theme-layer {
   top: var(--y);
   background: radial-gradient(ellipse, rgba(225, 238, 255, 0.34), transparent 72%);
   filter: blur(12px);
+  transition: filter 1000ms ease-in-out;
   animation: sinalMistMove var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
 }
 
-.sinal-lightning {
+.sinal-air-dust {
+  z-index: 2;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(236, 244, 255, 0.29);
+  box-shadow: 0 0 7px rgba(210, 230, 250, 0.16);
+  animation: sinalAirDustFloat var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+/* 산지 먼지 (가까운 레이어) */
+.sinal-mountain-dust-near {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(116deg, transparent 39%, rgba(232, 246, 255, 0.32) 40%, transparent 42%);
-  opacity: 0;
-  mix-blend-mode: screen;
-  animation: sinalLightning 11s steps(1, end) infinite;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 3;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(225, 210, 185, 0.72);
+  box-shadow: 0 0 7px rgba(200, 182, 155, 0.48);
+  animation: sinalMountainDustDriftNear var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+/* 산지 먼지 (먼 레이어) */
+.sinal-mountain-dust-far {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(210, 195, 172, 0.58);
+  box-shadow: 0 0 5px rgba(188, 170, 145, 0.38);
+  animation: sinalMountainDustDriftFar var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.sinal-top-cloud {
+  position: absolute;
+  display: block;
+  top: var(--cloud-top);
+  bottom: auto;
+  left: var(--cloud-left);
+  z-index: 5;
+  width: var(--cloud-width);
+  aspect-ratio: var(--cloud-ratio);
+  background: var(--cloud-image) center center / contain no-repeat;
+  pointer-events: none;
+  transform: translate(var(--cloud-translate-x), 0) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
+  transform-origin: center top;
+  animation: sinalTopCloudFloat var(--cloud-duration) ease-in-out infinite;
+  animation-delay: var(--cloud-delay);
+  transition: filter 1000ms ease-in-out, left 5000ms ease-in-out;
+  will-change: transform;
+}
+
+.sinal-top-cloud-left {
+  --cloud-image: url("assets/sinae_cloud1.webp?v=sinal-cloud-left-1");
+  --cloud-left: 45%;
+  --cloud-top: -3%;
+  --cloud-width: clamp(760px, 82vw, 930px);
+  --cloud-ratio: 2999 / 2146;
+  --cloud-translate-x: -59%;
+  --cloud-scale: 1;
+  --cloud-flip: 1;
+  --cloud-drift-start: 0px;
+  --cloud-drift-mid: 9px;
+  --cloud-drift-end: -7px;
+  --cloud-duration: 22s;
+  --cloud-delay: -7s;
+  z-index: 6;
+}
+
+.sinal-top-cloud-right {
+  --cloud-image: url("assets/sinae_cloud2.webp");
+  --cloud-left: 55%;
+  --cloud-top: -2%;
+  --cloud-width: clamp(900px, 98vw, 1160px);
+  --cloud-ratio: 3285 / 1868;
+  --cloud-translate-x: -41%;
+  --cloud-scale: 1;
+  --cloud-flip: 1;
+  --cloud-drift-start: 0px;
+  --cloud-drift-mid: -8px;
+  --cloud-drift-end: 7px;
+  --cloud-duration: 27s;
+  --cloud-delay: -15s;
+  z-index: 5;
+}
+
+.sinal-peak-glow {
+  display: none !important;
+  animation: none !important;
 }
 
 body[data-theme="mark"] .prayer-verse p,
 body[data-theme="jonah"] .prayer-verse p,
-body[data-theme="sinal"] .prayer-verse p {
+body[data-theme="sinal"] .prayer-verse p,
+body[data-theme="golbang"] .prayer-verse p {
   color: rgba(255, 246, 224, 0.9) !important;
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.66),
@@ -163,16 +518,142 @@ body[data-theme="jonah"] .prayer-verse p {
 }
 
 body[data-theme="sinal"] .prayer-verse p {
+  position: relative;
+  z-index: 20;
   text-shadow:
     0 2px 12px rgba(34, 45, 64, 0.68),
     0 0 26px rgba(255, 222, 178, 0.28) !important;
 }
 
+body.codex-theme-summer .prayer-verse p,
+body.codex-theme-night .prayer-verse p,
+body.codex-theme-gethsemane .prayer-verse p,
+body[data-current-theme="여름 녹음"] .prayer-verse p,
+body[data-current-theme="어두운 밤"] .prayer-verse p,
+body[data-current-theme="겟세마네 동산"] .prayer-verse p {
+  color: rgba(255, 248, 226, 0.96) !important;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.82),
+    0 0 24px rgba(255, 236, 190, 0.28) !important;
+}
+
+body.codex-theme-night .prayer-verse p,
+body[data-current-theme="어두운 밤"] .prayer-verse p {
+  color: rgba(245, 250, 255, 0.96) !important;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 12, 0.9),
+    0 0 26px rgba(160, 190, 255, 0.24) !important;
+}
+
+body.codex-theme-summer .prayer-verse p,
+body[data-current-theme="여름 녹음"] .prayer-verse p {
+  text-shadow:
+    0 1px 2px rgba(10, 20, 10, 0.95),
+    0 2px 8px rgba(6, 18, 8, 0.9),
+    0 0 18px rgba(4, 12, 5, 0.82),
+    0 0 34px rgba(4, 12, 5, 0.58),
+    0 0 48px rgba(4, 12, 5, 0.38) !important;
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] [data-codex-theme-background="true"] {
+  filter: brightness(0.83) blur(1.4px);
+  transform: scale(1.006);
+  transition: filter 1000ms ease-in-out, transform 1000ms ease-in-out;
+}
+
+body[data-theme="sinal"][data-prayer-state="praying"] [data-codex-theme-background="true"] {
+  filter: blur(1px);
+  transform: none;
+  transition: filter 1000ms ease-in-out, transform 1000ms ease-in-out;
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] .sinal-top-cloud {
+  filter: brightness(0.72) saturate(0.92);
+  animation: none;
+  transform: translateX(calc(var(--cloud-translate-x) + var(--cloud-drift-start))) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] .sinal-top-cloud-left {
+  left: 48%;
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] .sinal-top-cloud-right {
+  left: 52%;
+}
+
+body[data-theme="sinal"][data-prayer-state="praying"] .sinal-top-cloud {
+  filter: none;
+  animation: sinalTopCloudFloat var(--cloud-duration) ease-in-out infinite;
+  animation-delay: 5s;
+  animation-fill-mode: backwards;
+}
+
+/* Keep Sinai incense particles in front of the atmosphere layer only. */
+body[data-theme="sinal"] #root canvas {
+  z-index: 12 !important;
+}
+
+body[data-theme="sinal"] .codex-altar-stage,
+body[data-theme="sinal"] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  z-index: 14 !important;
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] #sinal-theme-layer::after,
+body[data-theme="sinal"][data-prayer-state="waiting"] .sinal-mist {
+  filter: blur(12px) brightness(0.72) saturate(0.92);
+}
+
+body[data-theme="sinal"][data-prayer-state="praying"] #sinal-theme-layer::after,
+body[data-theme="sinal"][data-prayer-state="praying"] .sinal-mist {
+  filter: blur(12px);
+}
+
+body[data-theme="mark"] img[alt="altar"],
+body[data-theme="jonah"] img[alt="altar"],
+body[data-theme="sinal"] img[alt="altar"],
+body[data-theme="golbang"] img[alt="altar"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  aspect-ratio: auto !important;
+  transform: translateY(-4px) !important;
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+body[data-theme="jonah"][data-prayer-state="waiting"] img[alt="altar"] {
+  filter: brightness(0.72) saturate(0.92) !important;
+}
+
+body[data-theme="jonah"][data-prayer-state="praying"] img[alt="altar"] {
+  filter: none !important;
+}
+
+body[data-theme="sinal"][data-prayer-state="waiting"] img[alt="altar"] {
+  filter: brightness(0.72) saturate(0.92) blur(0.1px) !important;
+  transition: filter 1000ms ease-in-out !important;
+}
+
+body[data-theme="sinal"][data-prayer-state="praying"] img[alt="altar"] {
+  filter: none !important;
+  transition: filter 1000ms ease-in-out !important;
+}
 
 button[data-codex-theme].codex-theme-active {
   color: #facc6b !important;
   background: rgba(255, 255, 255, 0.16) !important;
   box-shadow: inset 0 0 0 1px rgba(250, 204, 107, 0.95);
+}
+
+button[data-codex-theme].codex-theme-active > span:first-child {
+  opacity: 1 !important;
 }
 
 @keyframes markWarmLightBreathe {
@@ -181,14 +662,11 @@ button[data-codex-theme].codex-theme-active {
 }
 
 @keyframes markDustFloat {
-  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.15; }
-  35% { opacity: 0.62; }
-  70% { transform: translate3d(18px, -34px, 0); opacity: 0.42; }
-}
-
-@keyframes jonahWaterLight {
-  0%, 100% { transform: translate3d(-1%, 0, 0) scale(1); opacity: 0.72; }
-  50% { transform: translate3d(1.5%, 1%, 0) scale(1.03); opacity: 0.92; }
+  0% { transform: translate3d(-18px, 8px, 0) scale(0.82); opacity: 0; }
+  13% { opacity: 0.42; }
+  50% { transform: translate3d(calc(var(--wind-x) * 0.52), calc(var(--wind-y) * 0.56 + 5px), 0) scale(1.08); opacity: 0.68; }
+  84% { opacity: 0.25; }
+  100% { transform: translate3d(var(--wind-x), var(--wind-y), 0) scale(0.85); opacity: 0; }
 }
 
 @keyframes jonahDarkBreath {
@@ -197,9 +675,11 @@ button[data-codex-theme].codex-theme-active {
 }
 
 @keyframes jonahParticleFloat {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.10; }
-  45% { opacity: 0.58; }
-  75% { transform: translate3d(-14px, -44px, 0) scale(1.1); opacity: 0.34; }
+  0% { transform: translate3d(-16px, 10px, 0) scale(0.82); opacity: 0; }
+  14% { opacity: 0.38; }
+  46% { transform: translate3d(calc(var(--wind-x) * 0.48), calc(var(--wind-y) * 0.46 - 6px), 0) scale(1.16); opacity: 0.62; }
+  78% { transform: translate3d(calc(var(--wind-x) * 0.82), calc(var(--wind-y) * 0.9 + 7px), 0) scale(1.04); opacity: 0.3; }
+  100% { transform: translate3d(var(--wind-x), var(--wind-y), 0) scale(0.88); opacity: 0; }
 }
 
 @keyframes sinalHolyLight {
@@ -217,9 +697,301 @@ button[data-codex-theme].codex-theme-active {
   50% { transform: translate3d(32px, -12px, 0) scaleX(1.12); opacity: 0.52; }
 }
 
-@keyframes sinalLightning {
-  0%, 82%, 86%, 100% { opacity: 0; }
-  83% { opacity: 0.28; }
-  84% { opacity: 0; }
-  85% { opacity: 0.18; }
+@keyframes sinalAirDustFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.05; }
+  42% { opacity: 0.26; }
+  72% { transform: translate3d(12px, -16px, 0); opacity: 0.15; }
 }
+
+@keyframes sinalTopCloudFloat {
+  0%, 100% {
+    transform: translateX(calc(var(--cloud-translate-x) + var(--cloud-drift-start))) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
+  }
+  34% {
+    transform: translateX(calc(var(--cloud-translate-x) + var(--cloud-drift-mid))) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
+  }
+  68% {
+    transform: translateX(calc(var(--cloud-translate-x) + var(--cloud-drift-end))) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
+  }
+}
+
+.codex-ai-disclaimer {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  order: 100;
+}
+
+@keyframes sinalMountainDustDriftNear {
+  0% { transform: translate3d(0,0,0) scale(0.85); opacity: 0.5; }
+  25% { transform: translate3d(calc(var(--wind-x) * 0.22),calc(var(--wind-y) * -0.55),0) scale(1.06); opacity: 0.58; }
+  50% { transform: translate3d(calc(var(--wind-x) * 0.48),calc(var(--wind-y) * 0.45),0) scale(0.94); opacity: 0.52; }
+  75% { transform: translate3d(calc(var(--wind-x) * 0.75),calc(var(--wind-y) * -0.25),0) scale(1.03); opacity: 0.55; }
+  100% { transform: translate3d(var(--wind-x),var(--wind-y),0) scale(0.85); opacity: 0.35; }
+}
+
+@keyframes sinalMountainDustDriftFar {
+  0% { transform: translate3d(0,0,0) scale(0.92); opacity: 0.38; }
+  25% { transform: translate3d(calc(var(--wind-x) * 0.2),calc(var(--wind-y) * -0.6),0) scale(1.04); opacity: 0.46; }
+  50% { transform: translate3d(calc(var(--wind-x) * 0.45),calc(var(--wind-y) * 0.5),0) scale(0.96); opacity: 0.4; }
+  75% { transform: translate3d(calc(var(--wind-x) * 0.72),calc(var(--wind-y) * -0.3),0) scale(1.02); opacity: 0.43; }
+  100% { transform: translate3d(var(--wind-x),var(--wind-y),0) scale(0.88); opacity: 0.25; }
+}
+
+/* 은밀한 골방 테마 */
+body[data-theme="golbang"],
+body[data-current-theme="은밀한 골방"] {
+  background-color: #d6b99c !important;
+}
+
+#golbang-theme-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+  background-color: #d6b99c !important;
+  background-image: url("assets/back_golbang_new.webp") !important;
+  background-position: center 21% !important;
+  background-size: auto 130% !important;
+  background-repeat: no-repeat !important;
+  background-attachment: scroll !important;
+  z-index: 1;
+}
+
+body[data-theme="golbang"] #golbang-theme-layer,
+body[data-current-theme="은밀한 골방"] #golbang-theme-layer {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* 은밀한 골방: #root 낶부 중복 배경 숨김 - 실제 배경은 #golbang-theme-layer 하나만 사용 */
+body[data-theme="golbang"] #root div.absolute.z-0[style*="back_golbang_new"],
+body[data-current-theme="은밀한 골방"] #root div.absolute.z-0[style*="back_golbang_new"] {
+  display: none !important;
+}
+
+/* 은밀한 골방: 향로/제단 위 연기(canvas) 제거 */
+body[data-theme="golbang"] #root canvas.absolute.inset-0.pointer-events-none,
+body[data-current-theme="은밀한 골방"] #root canvas.absolute.inset-0.pointer-events-none {
+  display: none !important;
+}
+
+/* 은밀한 골방에서는 어둠 오버레이 제거 */
+body[data-theme="golbang"] .fixed[class*="z-[45]"].pointer-events-none,
+body[data-current-theme="은밀한 골방"] .fixed[class*="z-[45]"].pointer-events-none {
+  opacity: 0 !important;
+}
+
+/* 은밀한 골방: 향로 stage */
+body[data-theme="golbang"] #root .codex-altar-stage,
+body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
+  display: block !important;
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 96px !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  width: 576px !important;
+  height: auto !important;
+  z-index: 50 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+}
+
+body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
+body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="altar"] {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 은밀한 골방: 기도문 작성하기 */
+body[data-theme="golbang"] [class*="bottom-[120px]"],
+body[data-current-theme="은밀한 골방"] [class*="bottom-[120px]"] {
+  bottom: 116px !important;
+  z-index: 60 !important;
+}
+
+body[data-theme="golbang"] button[class*="gap-2"],
+body[data-current-theme="은밀한 골방"] button[class*="gap-2"] {
+  height: 28px !important;
+  min-height: 28px !important;
+  line-height: 28px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.golbang-dust {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 2;
+  width: var(--size);
+  height: var(--size);
+  left: var(--x);
+  top: var(--y);
+  background: rgba(255, 230, 190, 0.55);
+  box-shadow: 0 0 8px rgba(255, 200, 130, 0.28);
+  animation: golbangDustFloat var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+/* 은밀한 골방: 기도하기 버튼 */
+body[data-theme="golbang"] #root button[class*="w-[220px]"],
+body[data-current-theme="은밀한 골방"] #root button[class*="w-[220px]"] {
+  width: 231px !important;
+  min-width: 231px !important;
+  max-width: 231px !important;
+  height: 62px !important;
+  min-height: 62px !important;
+  max-height: 62px !important;
+  padding: 0px !important;
+  overflow: visible !important;
+}
+
+body[data-theme="golbang"] #root button[class*="w-[220px]"] img[alt="prayer button"],
+body[data-current-theme="은밀한 골방"] #root button[class*="w-[220px]"] img[alt="prayer button"] {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: fill !important;
+  display: block !important;
+}
+
+body[data-theme="golbang"] img[alt="altar"] {
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  transition: filter 1200ms ease-in-out, opacity 1200ms ease-in-out !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.5)) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="waiting"] img[alt="altar"] {
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.5)) !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] img[alt="altar"] {
+  filter: drop-shadow(0 5px 16px rgba(40, 20, 5, 0.6)) brightness(1.05) saturate(1.05) !important;
+}
+
+body[data-theme="golbang"] .prayer-verse p {
+  color: rgba(255, 246, 224, 0.92) !important;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.72),
+    0 0 22px rgba(255, 220, 170, 0.22) !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] .prayer-verse p {
+  color: rgba(255, 248, 230, 0.98) !important;
+  text-shadow:
+    0 2px 10px rgba(60, 40, 20, 0.55),
+    0 0 28px rgba(255, 210, 140, 0.32) !important;
+}
+
+body[data-theme="golbang"] [data-codex-theme-background="true"] {
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: auto !important;
+  min-height: auto !important;
+  transform-origin: center center !important;
+  transition: filter 1200ms ease-in-out, transform 1200ms ease-in-out;
+}
+
+body[data-theme="golbang"] [data-codex-theme-background="true"]:not(img) {
+  background-attachment: scroll !important;
+  background-size: auto 90% !important;
+  background-position: 48% top !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-theme="golbang"] img[data-codex-theme-background="true"] {
+  object-fit: cover !important;
+  object-position: 48% top !important;
+}
+
+body[data-theme="golbang"][data-prayer-state="waiting"] [data-codex-theme-background="true"] {
+  filter: none;
+  transform: none;
+}
+
+body[data-theme="golbang"][data-prayer-state="praying"] [data-codex-theme-background="true"] {
+  filter: brightness(1.05) saturate(1.05);
+  transform: scale(1);
+}
+
+button > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+button > .codex-menu-active-dot {
+  display: none !important;
+}
+
+@keyframes golbangDustFloat {
+  0% { transform: translate3d(-8px, 6px, 0) scale(0.85); opacity: 0; }
+  15% { opacity: 0.35; }
+  50% { transform: translate3d(6px, -4px, 0) scale(1.05); opacity: 0.55; }
+  85% { opacity: 0.25; }
+  100% { transform: translate3d(14px, -10px, 0) scale(0.85); opacity: 0; }
+}
+
+/* UI 고정: 큰 화면(md) 기준으로 모든 화면폭에서 동일한 크기/위치 유지 */
+button[class*="text-xs"][class*="md:text-sm"] {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+button[class*="text-xs"][class*="md:text-sm"] svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+button[class*="w-\[220px\]"][class*="md:w-\[240px\]"] {
+  width: 240px !important;
+  height: 68px !important;
+}
+button[class*="w-\[220px\]"][class*="md:w-\[240px\]"] span {
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
+
+div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] {
+  width: 380px !important;
+  height: 58px !important;
+}
+div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+.prayer-verse {
+  max-width: none !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+.prayer-verse p[class*="text-base"][class*="md:text-lg"] {
+  font-size: 18px !important;
+  line-height: 29.25px !important;
+}
+
+/* 은밀한 골방 테마에서도 향로 표시 */

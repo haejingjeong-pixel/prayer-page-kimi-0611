@@ -59,49 +59,6 @@ body[data-extra-theme="sinal"] #sinal-theme-soft-layer {
   animation-delay: var(--delay);
 }
 
-.sinal-lightning {
-  position: absolute;
-  left: 56%;
-  top: 11%;
-  width: 2px;
-  height: 34%;
-  background: linear-gradient(180deg, transparent, rgba(255, 247, 208, 0.82), rgba(255, 214, 140, 0.34), transparent);
-  box-shadow:
-    0 0 12px rgba(255, 245, 205, 0.72),
-    0 0 32px rgba(255, 217, 150, 0.42);
-  transform: rotate(18deg) skewX(-16deg);
-  opacity: 0;
-  animation: sinalLightning 12s steps(1, end) infinite;
-}
-
-.sinal-cloud {
-  position: absolute;
-  pointer-events: none;
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.32;
-  mix-blend-mode: screen;
-  filter: blur(1.5px);
-}
-
-.sinal-cloud-1 {
-  top: 6%;
-  left: -8%;
-  width: 58vw;
-  height: 30vh;
-  background-image: url("assets/back_sine_cloud1.webp");
-  animation: sinalCloudDrift 26s ease-in-out infinite;
-}
-
-.sinal-cloud-2 {
-  top: 22%;
-  right: -10%;
-  width: 52vw;
-  height: 26vh;
-  background-image: url("assets/back_sine_cloud2.webp");
-  animation: sinalCloudDrift 30s ease-in-out infinite reverse;
-}
-
 body[data-extra-theme="sinal"] .prayer-verse p {
   position: relative;
   z-index: 1;
@@ -135,12 +92,4 @@ button[data-sinal-theme].sinal-theme-active {
   28% { opacity: var(--o); }
   72% { opacity: calc(var(--o) * 0.74); }
   100% { transform: translate3d(34px, -18px, 0) scale(calc(var(--s) * 1.08)); }
-}
-
-@keyframes sinalLightning {
-  0%, 89%, 94%, 100% { opacity: 0; }
-  90% { opacity: 0.85; }
-  91% { opacity: 0.12; }
-  92% { opacity: 0.62; }
-  93% { opacity: 0; }
 }

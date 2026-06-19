@@ -1,5 +1,5 @@
 body[data-extra-theme="jonah"] {
-  background-color: #010d12;
+  background-color: #000204;
 }
 
 body:not([data-extra-theme="jonah"]) #jonah-theme-soft-layer {
@@ -9,7 +9,7 @@ body:not([data-extra-theme="jonah"]) #jonah-theme-soft-layer {
 #jonah-theme-soft-layer {
   position: fixed;
   inset: 0;
-  z-index: 18;
+  z-index: 9;
   pointer-events: none;
   overflow: hidden;
   opacity: 0;
@@ -22,15 +22,9 @@ body[data-extra-theme="jonah"] #jonah-theme-soft-layer {
 }
 
 #jonah-theme-soft-layer::before {
-  content: "";
-  position: absolute;
-  inset: -8%;
-  background:
-    radial-gradient(ellipse at 44% 28%, rgba(40, 220, 220, 0.20), transparent 28%),
-    linear-gradient(102deg, transparent 31%, rgba(40, 220, 220, 0.15) 39%, rgba(180, 255, 245, 0.11) 48%, transparent 62%);
-  filter: blur(0.8px);
-  mix-blend-mode: screen;
-  animation: jonahWaterLight 11s ease-in-out infinite;
+  content: none;
+  display: none;
+  animation: none;
 }
 
 #jonah-theme-soft-layer::after {
@@ -38,9 +32,20 @@ body[data-extra-theme="jonah"] #jonah-theme-soft-layer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 52%, transparent 0%, rgba(1, 13, 18, 0.20) 58%, rgba(1, 13, 18, 0.48) 100%),
-    linear-gradient(180deg, rgba(1, 13, 18, 0.08), rgba(1, 13, 18, 0.32));
-  animation: jonahDarkBreath 14s ease-in-out infinite;
+    radial-gradient(ellipse at 42% 58%, rgba(1, 13, 18, 0.08) 0%, rgba(1, 13, 18, 0.28) 52%, rgba(1, 13, 18, 0.58) 100%),
+    linear-gradient(156deg, rgba(1, 13, 18, 0.12), rgba(1, 13, 18, 0.32) 54%, rgba(1, 13, 18, 0.50));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1;
+  transition: opacity 900ms ease;
+  animation: jonahDarkBreath 20s ease-in-out infinite;
+}
+
+body[data-extra-theme="jonah"][data-prayer-state="praying"] #jonah-theme-soft-layer::after {
+  opacity: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
 }
 
 .jonah-floating-particle {
@@ -56,24 +61,6 @@ body[data-extra-theme="jonah"] #jonah-theme-soft-layer {
   animation-delay: var(--delay);
 }
 
-.jonah-water-ripple {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--w);
-  height: var(--h);
-  border-radius: 999px;
-  border: 1px solid rgba(145, 255, 244, 0.16);
-  box-shadow:
-    0 0 12px rgba(90, 240, 230, 0.11),
-    inset 0 0 18px rgba(120, 255, 245, 0.05);
-  filter: blur(1.1px);
-  transform: translate(-50%, -50%) rotate(var(--r)) scaleX(var(--sx));
-  mix-blend-mode: screen;
-  animation: jonahRipplePulse var(--duration) ease-in-out infinite;
-  animation-delay: var(--delay);
-}
-
 body[data-extra-theme="jonah"] .prayer-verse p {
   position: relative;
   z-index: 1;
@@ -86,15 +73,18 @@ body[data-extra-theme="jonah"] .prayer-verse p {
     0 2px 8px rgba(0, 0, 0, 0.86) !important;
 }
 
+body[data-extra-theme="jonah"][data-prayer-state="waiting"] img[alt="altar"] {
+  filter: brightness(0.72) saturate(0.92) !important;
+}
+
+body[data-extra-theme="jonah"][data-prayer-state="praying"] img[alt="altar"] {
+  filter: none !important;
+}
+
 button[data-jonah-theme].jonah-theme-active {
   color: #8ff8ec !important;
   background: rgba(255, 255, 255, 0.14) !important;
   box-shadow: inset 0 0 0 1px rgba(143, 248, 236, 0.88);
-}
-
-@keyframes jonahWaterLight {
-  0%, 100% { transform: translate3d(-1%, 0, 0) scale(1); opacity: 0.70; }
-  50% { transform: translate3d(1.5%, 1%, 0) scale(1.03); opacity: 0.90; }
 }
 
 @keyframes jonahDarkBreath {
@@ -106,11 +96,4 @@ button[data-jonah-theme].jonah-theme-active {
   0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.10; }
   45% { opacity: 0.56; }
   75% { transform: translate3d(-14px, -44px, 0) scale(1.1); opacity: 0.34; }
-}
-
-@keyframes jonahRipplePulse {
-  0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--r)) scaleX(var(--sx)) scale(0.68); }
-  22% { opacity: var(--o); }
-  58% { opacity: calc(var(--o) * 0.55); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(calc(var(--r) + var(--dr))) scaleX(var(--sx)) scale(1.24); }
 }
