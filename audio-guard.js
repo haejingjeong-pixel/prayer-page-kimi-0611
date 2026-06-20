@@ -11,6 +11,7 @@
   var managedAsmr = null;
   var themeTransitionTimer = 0;
   var themeIntentUntil = 0;
+  var userGestureEnableUntil = 0;
 
   var THEME_BGM = {
     golbang: "assets/ccm_prayer.mp3",
@@ -54,6 +55,7 @@
   function isEnabled() {
     var value = localStorage.getItem(BGM_KEY);
     if (value !== "true") return false;
+    if (Date.now() < userGestureEnableUntil) return true;
     var button = document.querySelector('button[title="CCM"], button[aria-label="CCM"]');
     return !button || isCcmButtonOn(button);
   }
@@ -320,12 +322,25 @@
     var isCcmButton = text === "CCM" || button.title === "CCM" || button.getAttribute("aria-label") === "CCM";
     if (!isCcmButton) return;
 
+    var willEnable = !isCcmButtonOn(button);
+    setEnabled(willEnable);
+    if (willEnable) {
+      userGestureEnableUntil = Date.now() + 1500;
+      playCurrentTheme();
+    } else {
+      userGestureEnableUntil = 0;
+      stopManagedBgm();
+      pauseOtherThemeBgm();
+    }
+
     window.setTimeout(function () {
-      var nextEnabled = isCcmButtonOn(button);
+      var currentButton = document.querySelector('button[title="CCM"], button[aria-label="CCM"]') || button;
+      var nextEnabled = willEnable || isCcmButtonOn(currentButton);
       setEnabled(nextEnabled);
-      if (nextEnabled) {
+      if (nextEnabled && willEnable) {
         playCurrentTheme();
       } else {
+        userGestureEnableUntil = 0;
         stopManagedBgm();
         pauseOtherThemeBgm();
       }
