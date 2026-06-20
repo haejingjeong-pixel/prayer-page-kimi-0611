@@ -729,6 +729,14 @@ body[data-theme="sinal"] #root canvas {
 body[data-theme="sinal"] .codex-altar-stage,
 body[data-theme="sinal"] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
   z-index: 14 !important;
+  filter: brightness(0.72) saturate(0.92) blur(0.1px) !important;
+  transition: filter 2000ms ease-in-out !important;
+  will-change: filter;
+}
+
+body[data-theme="sinal"][data-prayer-state="praying"] .codex-altar-stage,
+body[data-theme="sinal"][data-prayer-state="praying"] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  filter: brightness(1) saturate(1) blur(0) !important;
 }
 
 body[data-theme="sinal"][data-prayer-state="waiting"] #sinal-theme-layer::after,
@@ -770,13 +778,13 @@ body[data-theme="jonah"][data-prayer-state="praying"] img[alt="altar"] {
 }
 
 body[data-theme="sinal"][data-prayer-state="waiting"] img[alt="altar"] {
-  filter: brightness(0.72) saturate(0.92) blur(0.1px) !important;
-  transition: filter 2000ms ease-in-out !important;
+  filter: none !important;
+  transition: none !important;
 }
 
 body[data-theme="sinal"][data-prayer-state="praying"] img[alt="altar"] {
   filter: none !important;
-  transition: filter 2000ms ease-in-out !important;
+  transition: none !important;
 }
 
 button[data-codex-theme].codex-theme-active {
