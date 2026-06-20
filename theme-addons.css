@@ -108,6 +108,94 @@ body[data-current-theme="겟세마네 동산"] .codex-altar-stage div[style*="bl
   transition: none !important;
 }
 
+#gethsemane-theme-layer .gethsemane-front-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  height: 30%;
+  pointer-events: none;
+  background-image: url("assets/front_gra.webp");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+#gethsemane-theme-layer .gethsemane-atmosphere-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  background: rgba(0, 15, 40, 0.48);
+  transition: background-color 1500ms ease;
+}
+
+body[data-theme="gethsemane"][data-prayer-state="praying"] #gethsemane-theme-layer .gethsemane-atmosphere-dim {
+  background: rgba(0, 10, 30, 0.16);
+}
+
+#gethsemane-theme-layer .gethsemane-haze-layer,
+#gethsemane-theme-layer .gethsemane-wind-layer,
+#gethsemane-theme-layer .gethsemane-star-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#gethsemane-theme-layer .gethsemane-haze-layer {
+  z-index: 16;
+}
+
+#gethsemane-theme-layer .gethsemane-haze-layer span {
+  position: absolute;
+  left: var(--left);
+  top: var(--top);
+  width: var(--w);
+  height: var(--h);
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.62) 0%, rgba(220,230,255,0.34) 36%, transparent 72%);
+  filter: blur(15px);
+  opacity: 0.2;
+  animation: gethsemaneHazeBreathe var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+#gethsemane-theme-layer .gethsemane-wind-layer {
+  z-index: 14;
+}
+
+#gethsemane-theme-layer .gethsemane-wind-layer span {
+  position: absolute;
+  left: -110%;
+  top: var(--top);
+  width: 250%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(220,230,255,0.12), rgba(255,255,255,0.08), transparent);
+  filter: blur(3px);
+  opacity: 0.64;
+  animation: gethsemaneWindDrift var(--duration) linear infinite;
+  animation-delay: var(--delay);
+}
+
+#gethsemane-theme-layer .gethsemane-star-layer {
+  z-index: 3;
+}
+
+#gethsemane-theme-layer .gethsemane-star {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 0 8px rgba(215, 230, 255, 0.28);
+  animation: gethsemaneStarPulse var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
 /* React keeps the previously selected base theme mounted beneath add-on themes.
    Suspend those base-only atmosphere layers while an independent add-on is active. */
 body[data-theme="mark"] .gethsemane-front-layer,
@@ -348,6 +436,33 @@ body[data-current-theme="겟세마네 동산"] div[style*="width: 250%"][style*=
   display: none !important;
   opacity: 0 !important;
   animation: none !important;
+}
+
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-atmosphere-dim,
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-haze-layer,
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer,
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-star-layer {
+  display: block !important;
+  opacity: 1 !important;
+  animation: none;
+}
+
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-haze-layer span,
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer span,
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-star {
+  display: block !important;
+  opacity: revert !important;
+  animation-play-state: running !important;
+}
+
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-haze-layer span {
+  animation: gethsemaneHazeBreathe var(--duration) ease-in-out infinite !important;
+  animation-delay: var(--delay) !important;
+}
+
+body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer span {
+  animation: gethsemaneWindDrift var(--duration) linear infinite !important;
+  animation-delay: var(--delay) !important;
 }
 
 .jonah-particle {
@@ -713,6 +828,24 @@ button[data-codex-theme].codex-theme-active > span:first-child {
   68% {
     transform: translateX(calc(var(--cloud-translate-x) + var(--cloud-drift-end))) scaleX(var(--cloud-flip, 1)) scale(var(--cloud-scale));
   }
+}
+
+@keyframes gethsemaneHazeBreathe {
+  0%, 100% { transform: translate3d(0, 0, 0) scaleX(1); opacity: 0.16; }
+  45% { transform: translate3d(26px, -10px, 0) scaleX(1.12); opacity: 0.3; }
+  72% { transform: translate3d(-10px, 4px, 0) scaleX(1.04); opacity: 0.22; }
+}
+
+@keyframes gethsemaneWindDrift {
+  0% { transform: translateX(0); opacity: 0; }
+  12% { opacity: 0.46; }
+  76% { opacity: 0.34; }
+  100% { transform: translateX(80%); opacity: 0; }
+}
+
+@keyframes gethsemaneStarPulse {
+  0%, 100% { transform: scale(1); opacity: 0.22; }
+  50% { transform: scale(1.3); opacity: 0.82; }
 }
 
 .codex-ai-disclaimer {

@@ -177,6 +177,50 @@
       seedLayer(layer, "golbang-dust", 12, { xMin: 4, xMax: 92, yMin: 8, yMax: 88, sizeMin: 1, sizeMax: 2.5, durationMin: 14, durationMax: 24, delayMax: 20 });
     }
 
+    if (theme.id === "gethsemane") {
+      var darkness = document.createElement("div");
+      darkness.id = "gethsemane-darkness-overlay";
+      layer.appendChild(darkness);
+
+      var front = document.createElement("div");
+      front.className = "gethsemane-front-layer";
+      layer.appendChild(front);
+
+      var atmosphere = document.createElement("div");
+      atmosphere.className = "gethsemane-atmosphere-dim";
+      layer.appendChild(atmosphere);
+
+      var haze = document.createElement("div");
+      haze.className = "gethsemane-haze-layer";
+      for (var hazeIndex = 0; hazeIndex < 3; hazeIndex += 1) {
+        var hazeCloud = document.createElement("span");
+        hazeCloud.style.setProperty("--left", (10 + hazeIndex * 20) + "%");
+        hazeCloud.style.setProperty("--top", (64 + hazeIndex * 7) + "%");
+        hazeCloud.style.setProperty("--w", (200 + hazeIndex * 54) + "px");
+        hazeCloud.style.setProperty("--h", (60 + hazeIndex * 20) + "px");
+        hazeCloud.style.setProperty("--duration", (24 + hazeIndex * 4) + "s");
+        hazeCloud.style.setProperty("--delay", (-hazeIndex * 2.5) + "s");
+        haze.appendChild(hazeCloud);
+      }
+      layer.appendChild(haze);
+
+      var wind = document.createElement("div");
+      wind.className = "gethsemane-wind-layer";
+      for (var windIndex = 0; windIndex < 8; windIndex += 1) {
+        var windLine = document.createElement("span");
+        windLine.style.setProperty("--top", (54 + windIndex * 5) + "%");
+        windLine.style.setProperty("--duration", (10 + windIndex * 1.4) + "s");
+        windLine.style.setProperty("--delay", (-windIndex * 0.9) + "s");
+        wind.appendChild(windLine);
+      }
+      layer.appendChild(wind);
+
+      var stars = document.createElement("div");
+      stars.className = "gethsemane-star-layer";
+      seedLayer(stars, "gethsemane-star", 28, { xMin: 24, xMax: 78, yMin: 4, yMax: 46, sizeMin: 1, sizeMax: 2.8, durationMin: 3, durationMax: 7, delayMax: 8 });
+      layer.appendChild(stars);
+    }
+
     document.body.insertBefore(layer, document.getElementById("root"));
     return layer;
   }
@@ -243,7 +287,7 @@
       if (node.closest && node.closest("button")) return;
       if (node.closest && node.closest(".codex-altar-stage")) return;
       var className = typeof node.className === "string" ? node.className : "";
-      var preservePrayerEffect = /prayer-|summer-praying-|summer-holy-|summer-leaf|night-praying-|night-sacred-|night-star-|night-shooting|darknight-waiting|sinal-|mark-|jonah-|golbang-/.test(className);
+      var preservePrayerEffect = /prayer-|summer-praying-|summer-holy-|summer-leaf|night-praying-|night-sacred-|night-star-|night-shooting|darknight-waiting|gethsemane-|sinal-|mark-|jonah-|golbang-/.test(className);
       if (preservePrayerEffect) return;
       var style = node.style || {};
       var src = node.getAttribute && (node.getAttribute("src") || "");
@@ -352,6 +396,7 @@
     var button = document.createElement("button");
     button.type = "button";
     button.dataset.codexTheme = id;
+    button.dataset.codexAddedTheme = "true";
     button.className = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 text-white/70 hover:bg-white/10 hover:text-white";
     button.innerHTML = '<span style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;opacity:.78">' + (theme.icon || "✦") + '</span><span>' + theme.label + '</span>';
     return button;
@@ -457,11 +502,17 @@
     if (!button) return;
     var themeId = findThemeIdFromButton(button);
     if (!themeId) return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-    applyTheme(themeId);
-    closeThemeMenu(button);
+    if (button.dataset && button.dataset.codexAddedTheme === "true") {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+      applyTheme(themeId);
+      closeThemeMenu(button);
+      return;
+    }
+    setLater(function () {
+      applyTheme(themeId, { silent: true });
+    }, 80);
   }
 
   function installObservers() {
