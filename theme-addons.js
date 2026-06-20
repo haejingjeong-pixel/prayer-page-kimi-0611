@@ -511,6 +511,7 @@
 
   function applyTheme(themeId, options) {
     var theme = THEMES[themeId] || THEMES.golbang;
+    if ((!options || !options.silent) && activeTheme === theme.id && !pendingTheme) return;
     if ((!options || !options.silent) && typeof window.codexIsThemeTransitioning === "function" && window.codexIsThemeTransitioning()) return;
     if (pendingTheme === theme.id && activeTheme === theme.id) return;
     pendingTheme = theme.id;
@@ -535,17 +536,11 @@
     if (!button) return;
     var themeId = findThemeIdFromButton(button);
     if (!themeId) return;
-    if (button.dataset && button.dataset.codexAddedTheme === "true") {
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-      applyTheme(themeId);
-      closeThemeMenu(button);
-      return;
-    }
-    setLater(function () {
-      applyTheme(themeId, { silent: true });
-    }, 80);
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+    if (themeId !== activeTheme) applyTheme(themeId);
+    closeThemeMenu(button);
   }
 
   function installObservers() {
