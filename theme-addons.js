@@ -13,7 +13,7 @@
       layer: "golbang-theme-layer",
       bodyClass: "codex-theme-golbang",
       color: "#d6b99c",
-      position: "center 19%",
+      position: "center 23%",
       size: "auto 130%",
       icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M2 14V6.5l6-4.5 6 4.5V14"/><path d="M6 14v-3.5h4V14"/><path d="M8 4V2"/><path d="M7 3h2"/></svg>'
     },
@@ -147,13 +147,32 @@
     timers = [];
   }
 
+  function ensureGolbangBackgroundImage(layer, theme) {
+    if (!layer || theme.id !== "golbang") return;
+    var img = layer.querySelector(".golbang-bg-img");
+    if (!img) {
+      img = document.createElement("img");
+      img.className = "golbang-bg-img";
+      img.alt = "";
+      img.setAttribute("aria-hidden", "true");
+      layer.insertBefore(img, layer.firstChild);
+    }
+    if ((img.getAttribute("src") || "").split("?")[0] !== theme.background) {
+      img.setAttribute("src", theme.background);
+    }
+  }
+
   function ensureLayer(theme) {
     var layer = document.getElementById(theme.layer);
-    if (layer) return layer;
+    if (layer) {
+      ensureGolbangBackgroundImage(layer, theme);
+      return layer;
+    }
     layer = document.createElement("div");
     layer.id = theme.layer;
     layer.setAttribute("aria-hidden", "true");
     layer.className = "codex-managed-theme-layer";
+    ensureGolbangBackgroundImage(layer, theme);
 
     if (theme.id === "sinal") {
       ["left", "right"].forEach(function (side) {
@@ -266,14 +285,28 @@
     });
   }
 
+  function getGolbangBackgroundFit() {
+    var width = window.innerWidth || document.documentElement.clientWidth || 1024;
+    if (width <= 390) return { position: "center 20%", size: "auto 118%" };
+    if (width <= 480) return { position: "center 20%", size: "auto 122%" };
+    if (width <= 768) return { position: "center 20%", size: "auto 126%" };
+    return { position: "center 23%", size: "auto 130%" };
+  }
+
+  function getLayerFit(theme) {
+    if (theme && theme.id === "golbang") return getGolbangBackgroundFit();
+    return { position: theme.position, size: theme.size };
+  }
+
   function applyLayer(theme) {
     var layer = ensureLayer(theme);
+    var fit = getLayerFit(theme);
     layer.dataset.active = "true";
     layer.dataset.codexThemeBackground = "true";
     layer.style.setProperty("background-color", theme.color, "important");
-    layer.style.setProperty("background-image", 'url("' + theme.background + '")', "important");
-    layer.style.setProperty("background-position", theme.position, "important");
-    layer.style.setProperty("background-size", theme.size, "important");
+    layer.style.setProperty("background-image", theme.id === "golbang" ? "none" : 'url("' + theme.background + '")', "important");
+    layer.style.setProperty("background-position", fit.position, "important");
+    layer.style.setProperty("background-size", fit.size, "important");
     layer.style.setProperty("background-repeat", "no-repeat", "important");
     layer.style.setProperty("display", "block", "important");
     layer.style.setProperty("opacity", "1", "important");
@@ -561,10 +594,22 @@
     }).observe(root, { childList: true, subtree: true });
   }
 
+  function installResponsiveLayerResize() {
+    var timer = 0;
+    window.addEventListener("resize", function () {
+      if (!activeTheme || !THEMES[activeTheme]) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        applyLayer(THEMES[activeTheme]);
+      }, 80);
+    });
+  }
+
   function init() {
     ensureLayers();
     updateMenuButtons();
     installObservers();
+    installResponsiveLayerResize();
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
     ensurePrayerSaveNotice();
     syncPrayerStateFromButtons();

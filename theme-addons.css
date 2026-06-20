@@ -922,11 +922,25 @@ body[data-current-theme="은밀한 골방"] {
   transition: opacity 1200ms ease;
   background-color: #d6b99c !important;
   background-image: url("assets/back_golbang_new.webp") !important;
-  background-position: center 19% !important;
+  background-position: center 23% !important;
   background-size: auto 130% !important;
   background-repeat: no-repeat !important;
   background-attachment: scroll !important;
   z-index: 1;
+}
+
+#golbang-theme-layer .golbang-bg-img {
+  position: absolute !important;
+  left: 50% !important;
+  top: 23% !important;
+  transform: translate(-50%, -23%) !important;
+  height: 130% !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  user-select: none !important;
 }
 
 body[data-theme="golbang"] #golbang-theme-layer,
@@ -953,7 +967,7 @@ body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
   display: block !important;
   position: fixed !important;
   left: 50% !important;
-  bottom: 84px !important;
+  bottom: 96px !important;
   top: auto !important;
   transform: translateX(-50%) !important;
   width: 576px !important;
@@ -1161,6 +1175,278 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   letter-spacing: 0;
   pointer-events: none;
   user-select: none;
+}
+
+/* 작은 스마트폰 */
+@media (max-width: 390px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-bg-position: center center;
+    --mobile-bg-size: cover;
+    --mobile-golbang-bg-position: center 20%;
+    --mobile-golbang-bg-size: auto 118%;
+    --mobile-golbang-bg-top: 20%;
+    --mobile-golbang-bg-height: 118%;
+    --mobile-top-ui-width: calc(100vw - 32px);
+    --mobile-top-ui-height: 50px;
+    --mobile-top-ui-font: 13px;
+    --mobile-control-top: 44px;
+    --mobile-control-side: 20px;
+    --mobile-menu-width: min(260px, calc(100vw - 40px));
+    --mobile-menu-item-font: 17px;
+    --mobile-verse-top: clamp(124px, 17vh, 150px);
+    --mobile-verse-width: calc(100vw - 28px);
+    --mobile-verse-font: 18px;
+    --mobile-verse-line: 1.48;
+    --mobile-altar-width: min(520px, 138vw);
+    --mobile-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 184px);
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 142px);
+    --mobile-write-height: 30px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 74px);
+    --mobile-pray-width: 222px;
+    --mobile-pray-height: 62px;
+    --mobile-popup-width: calc(100vw - 34px);
+    --mobile-popup-max-height: calc(100dvh - 92px);
+    --mobile-popup-textarea-height: 160px;
+    --mobile-transition-font: 17px;
+  }
+}
+
+/* 일반 스마트폰 */
+@media (min-width: 391px) and (max-width: 480px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-bg-position: center center;
+    --mobile-bg-size: cover;
+    --mobile-golbang-bg-position: center 20%;
+    --mobile-golbang-bg-size: auto 122%;
+    --mobile-golbang-bg-top: 20%;
+    --mobile-golbang-bg-height: 122%;
+    --mobile-top-ui-width: calc(100vw - 36px);
+    --mobile-top-ui-height: 52px;
+    --mobile-top-ui-font: 14px;
+    --mobile-control-top: 42px;
+    --mobile-control-side: 22px;
+    --mobile-menu-width: min(280px, calc(100vw - 44px));
+    --mobile-menu-item-font: 18px;
+    --mobile-verse-top: clamp(136px, 19vh, 184px);
+    --mobile-verse-width: calc(100vw - 52px);
+    --mobile-verse-font: 21px;
+    --mobile-verse-line: 1.56;
+    --mobile-altar-width: min(560px, 132vw);
+    --mobile-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 188px);
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 148px);
+    --mobile-write-height: 32px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 78px);
+    --mobile-pray-width: 232px;
+    --mobile-pray-height: 64px;
+    --mobile-popup-width: calc(100vw - 40px);
+    --mobile-popup-max-height: calc(100dvh - 100px);
+    --mobile-popup-textarea-height: 172px;
+    --mobile-transition-font: 18px;
+  }
+}
+
+/* 큰 스마트폰 / 폴더블 접은 상태 */
+@media (min-width: 481px) and (max-width: 768px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-bg-position: center center;
+    --mobile-bg-size: cover;
+    --mobile-golbang-bg-position: center 20%;
+    --mobile-golbang-bg-size: auto 126%;
+    --mobile-golbang-bg-top: 20%;
+    --mobile-golbang-bg-height: 126%;
+    --mobile-top-ui-width: min(430px, calc(100vw - 48px));
+    --mobile-top-ui-height: 56px;
+    --mobile-top-ui-font: 14px;
+    --mobile-control-top: 40px;
+    --mobile-control-side: 24px;
+    --mobile-menu-width: min(300px, calc(100vw - 48px));
+    --mobile-menu-item-font: 19px;
+    --mobile-verse-top: clamp(142px, 18vh, 190px);
+    --mobile-verse-width: min(620px, calc(100vw - 64px));
+    --mobile-verse-font: 22px;
+    --mobile-verse-line: 1.58;
+    --mobile-altar-width: min(680px, 118vw);
+    --mobile-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 178px);
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 136px);
+    --mobile-write-height: 32px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 64px);
+    --mobile-pray-width: 240px;
+    --mobile-pray-height: 68px;
+    --mobile-popup-width: min(390px, calc(100vw - 56px));
+    --mobile-popup-max-height: calc(100dvh - 108px);
+    --mobile-popup-textarea-height: 180px;
+    --mobile-transition-font: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  body[data-theme] .codex-managed-theme-layer,
+  body[data-current-theme] .codex-managed-theme-layer,
+  body[data-theme] [data-codex-theme-background="true"],
+  body[data-current-theme] [data-codex-theme-background="true"] {
+    background-position: var(--mobile-bg-position) !important;
+    background-size: var(--mobile-bg-size) !important;
+  }
+
+  body[data-theme="golbang"] #golbang-theme-layer,
+  body[data-current-theme="은밀한 골방"] #golbang-theme-layer {
+    background-position: var(--mobile-golbang-bg-position) !important;
+    background-size: var(--mobile-golbang-bg-size) !important;
+  }
+
+  body[data-theme="golbang"] #golbang-theme-layer .golbang-bg-img,
+  body[data-current-theme="은밀한 골방"] #golbang-theme-layer .golbang-bg-img {
+    top: var(--mobile-golbang-bg-top) !important;
+    transform: translate(-50%, calc(-1 * var(--mobile-golbang-bg-top))) !important;
+    height: var(--mobile-golbang-bg-height) !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  body[data-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"],
+  body[data-current-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] {
+    width: var(--mobile-top-ui-width) !important;
+    height: var(--mobile-top-ui-height) !important;
+  }
+
+  body[data-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] span,
+  body[data-current-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] span {
+    font-size: var(--mobile-top-ui-font) !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-theme] #root div[class*="top-14"][class*="left-3"],
+  body[data-current-theme] #root div[class*="top-14"][class*="left-3"] {
+    top: var(--mobile-control-top) !important;
+    left: var(--mobile-control-side) !important;
+  }
+
+  body[data-theme] #root div[class*="top-14"][class*="right-3"],
+  body[data-current-theme] #root div[class*="top-14"][class*="right-3"] {
+    top: var(--mobile-control-top) !important;
+    right: var(--mobile-control-side) !important;
+  }
+
+  body[data-theme] #root div[class*="min-w-[180px]"],
+  body[data-current-theme] #root div[class*="min-w-[180px]"] {
+    width: var(--mobile-menu-width) !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 32px) !important;
+    max-height: calc(100dvh - 128px) !important;
+    overflow-y: auto !important;
+  }
+
+  body[data-theme] #root div[class*="min-w-[180px]"] button,
+  body[data-current-theme] #root div[class*="min-w-[180px]"] button {
+    font-size: var(--mobile-menu-item-font) !important;
+    line-height: 1.25 !important;
+    min-height: 46px !important;
+  }
+
+  body[data-theme] .prayer-verse,
+  body[data-current-theme] .prayer-verse {
+    top: var(--mobile-verse-top) !important;
+    width: var(--mobile-verse-width) !important;
+    max-width: var(--mobile-verse-width) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-theme] .prayer-verse p,
+  body[data-current-theme] .prayer-verse p,
+  body[data-theme] .prayer-verse p[class*="text-base"][class*="md:text-lg"],
+  body[data-current-theme] .prayer-verse p[class*="text-base"][class*="md:text-lg"] {
+    font-size: var(--mobile-verse-font) !important;
+    line-height: var(--mobile-verse-line) !important;
+    overflow-wrap: keep-all !important;
+    word-break: keep-all !important;
+  }
+
+  body[data-theme] #root .codex-altar-stage,
+  body[data-current-theme] #root .codex-altar-stage,
+  body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    position: fixed !important;
+    left: 50% !important;
+    top: auto !important;
+    bottom: var(--mobile-altar-bottom) !important;
+    width: var(--mobile-altar-width) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-[120px]"],
+  body[data-current-theme] #root div[class*="bottom-[120px]"] {
+    bottom: var(--mobile-write-bottom) !important;
+    z-index: 92 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-[120px]"] button,
+  body[data-current-theme] #root div[class*="bottom-[120px]"] button {
+    height: var(--mobile-write-height) !important;
+    min-height: var(--mobile-write-height) !important;
+    line-height: var(--mobile-write-height) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-12"],
+  body[data-current-theme] #root div[class*="bottom-12"] {
+    bottom: var(--mobile-pray-bottom) !important;
+    z-index: 93 !important;
+  }
+
+  body[data-theme] #root button[class*="w-[220px]"],
+  body[data-current-theme] #root button[class*="w-[220px]"],
+  body[data-theme="golbang"] #root button[class*="w-[220px]"],
+  body[data-current-theme="은밀한 골방"] #root button[class*="w-[220px]"] {
+    width: var(--mobile-pray-width) !important;
+    min-width: var(--mobile-pray-width) !important;
+    max-width: var(--mobile-pray-width) !important;
+    height: var(--mobile-pray-height) !important;
+    min-height: var(--mobile-pray-height) !important;
+    max-height: var(--mobile-pray-height) !important;
+  }
+
+  body[data-theme] #root button[class*="w-[220px]"] span,
+  body[data-current-theme] #root button[class*="w-[220px]"] span {
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+
+  body[data-theme] #root div[style*="width: min(360px"],
+  body[data-current-theme] #root div[style*="width: min(360px"] {
+    width: var(--mobile-popup-width) !important;
+    max-width: var(--mobile-popup-width) !important;
+    max-height: var(--mobile-popup-max-height) !important;
+    min-height: 0 !important;
+  }
+
+  body[data-theme] #root div[style*="width: min(360px"] textarea,
+  body[data-current-theme] #root div[style*="width: min(360px"] textarea {
+    height: var(--mobile-popup-textarea-height) !important;
+  }
+
+  body[data-theme] #root div[style*="width: min(360px"] .prayer-save-notice,
+  body[data-current-theme] #root div[style*="width: min(360px"] .prayer-save-notice {
+    font-size: 12px !important;
+    line-height: 17px !important;
+    margin-bottom: 6px !important;
+  }
+
+  #theme-fade-overlay .theme-fade-message {
+    font-size: var(--mobile-transition-font) !important;
+    line-height: 1.5 !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    letter-spacing: 0.1em !important;
+  }
 }
 
 /* 은밀한 골방 테마에서도 향로 표시 */
