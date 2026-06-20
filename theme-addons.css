@@ -7,6 +7,15 @@ canvas.absolute.inset-0 {
   height: 100vh !important;
 }
 
+body[data-theme] #root canvas {
+  z-index: 12 !important;
+}
+
+body[data-theme] .codex-altar-stage,
+body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  z-index: 14 !important;
+}
+
 body[data-theme="mark"],
 body[data-theme="jonah"],
 body[data-theme="sinal"] {
@@ -97,15 +106,6 @@ body[data-current-theme="겟세마네 동산"] img[alt="altar"] {
   filter: none !important;
   transition: none !important;
   transition-property: none !important;
-}
-
-body.codex-theme-gethsemane .codex-altar-stage div[style*="blur(12px)"],
-body[data-current-theme="겟세마네 동산"] .codex-altar-stage div[style*="blur(12px)"] {
-  display: none !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  animation: none !important;
-  transition: none !important;
 }
 
 #gethsemane-theme-layer .gethsemane-front-layer {
