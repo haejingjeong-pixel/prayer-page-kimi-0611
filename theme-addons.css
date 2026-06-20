@@ -66,7 +66,7 @@ body[data-current-theme="은밀한 골방"] {
 }
 
 #gethsemane-darkness-overlay {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   z-index: 14;
@@ -80,13 +80,30 @@ body[data-current-theme="은밀한 골방"] {
 
 body.codex-theme-gethsemane #gethsemane-darkness-overlay,
 body[data-current-theme="겟세마네 동산"] #gethsemane-darkness-overlay {
-  display: block;
-  opacity: 0.72;
+  display: none !important;
+  opacity: 0 !important;
 }
 
 body.codex-theme-gethsemane[data-prayer-state="praying"] #gethsemane-darkness-overlay,
 body[data-current-theme="겟세마네 동산"][data-prayer-state="praying"] #gethsemane-darkness-overlay {
-  opacity: 0.16;
+  opacity: 0 !important;
+}
+
+body[data-theme="gethsemane"]::after,
+body[data-current-theme="겟세마네 동산"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.16);
+  opacity: 1;
+  transition: opacity 800ms ease;
+}
+
+body[data-theme="gethsemane"][data-prayer-state="praying"]::after,
+body[data-current-theme="겟세마네 동산"][data-prayer-state="praying"]::after {
+  opacity: 0;
 }
 
 body.codex-theme-gethsemane [data-codex-theme-background="true"],
@@ -127,12 +144,14 @@ body[data-current-theme="겟세마네 동산"] img[alt="altar"] {
   inset: 0;
   z-index: 15;
   pointer-events: none;
-  background: rgba(0, 15, 40, 0.48);
-  transition: background-color 1500ms ease;
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent;
+  transition: none;
 }
 
 body[data-theme="gethsemane"][data-prayer-state="praying"] #gethsemane-theme-layer .gethsemane-atmosphere-dim {
-  background: rgba(0, 10, 30, 0.16);
+  background: transparent;
 }
 
 #gethsemane-theme-layer .gethsemane-haze-layer,
@@ -438,7 +457,6 @@ body[data-current-theme="겟세마네 동산"] div[style*="width: 250%"][style*=
   animation: none !important;
 }
 
-body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-atmosphere-dim,
 body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-haze-layer,
 body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer,
 body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-star-layer {
