@@ -777,12 +777,6 @@ body[data-current-theme="은밀한 골방"] #root div.absolute.z-0[style*="back_
   display: none !important;
 }
 
-/* 은밀한 골방: 향로/제단 위 연기(canvas) 제거 */
-body[data-theme="golbang"] #root canvas.absolute.inset-0.pointer-events-none,
-body[data-current-theme="은밀한 골방"] #root canvas.absolute.inset-0.pointer-events-none {
-  display: none !important;
-}
-
 /* 은밀한 골방에서는 어둠 오버레이 제거 */
 body[data-theme="golbang"] .fixed[class*="z-[45]"].pointer-events-none,
 body[data-current-theme="은밀한 골방"] .fixed[class*="z-[45]"].pointer-events-none {

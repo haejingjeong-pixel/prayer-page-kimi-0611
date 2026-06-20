@@ -238,15 +238,18 @@
   function cleanupReactThemeArtifacts(activeId) {
     var root = document.getElementById("root");
     if (!root) return;
-    Array.from(root.querySelectorAll("div, img, canvas")).forEach(function (node) {
+    Array.from(root.querySelectorAll("div, img")).forEach(function (node) {
       if (node.tagName === "IMG" && node.getAttribute("alt") === "altar") return;
       if (node.closest && node.closest("button")) return;
+      if (node.closest && node.closest(".codex-altar-stage")) return;
+      var className = typeof node.className === "string" ? node.className : "";
+      var preservePrayerEffect = /prayer-|summer-praying-|summer-holy-|summer-leaf|night-praying-|night-sacred-|night-star-|night-shooting|darknight-waiting|sinal-|mark-|jonah-|golbang-/.test(className);
+      if (preservePrayerEffect) return;
       var style = node.style || {};
       var src = node.getAttribute && (node.getAttribute("src") || "");
       var bg = style.backgroundImage || "";
-      var shouldHide = src.indexOf("back_") !== -1 || bg.indexOf("assets/back_") !== -1 ||
-        node.classList.contains("summer-waiting-dim") ||
-        node.className.indexOf && /night-|summer-|gethsemane-|sinal-|jonah-|mark-/.test(String(node.className));
+      var shouldHide = src.indexOf("assets/back_") !== -1 || src.indexOf("/back_") !== -1 ||
+        bg.indexOf("assets/back_") !== -1 || bg.indexOf("/back_") !== -1;
       if (shouldHide) {
         node.dataset.codexThemeSuppressed = activeId;
         node.style.setProperty("display", "none", "important");
@@ -390,6 +393,13 @@
     });
   }
 
+  function syncPrayerStateFromButtons() {
+    var praying = Array.from(document.querySelectorAll("button")).some(function (button) {
+      return getText(button) === "기도 중...";
+    });
+    document.body.dataset.prayerState = praying ? "praying" : "waiting";
+  }
+
   function closeThemeMenu(sourceButton) {
     var menu = sourceButton && sourceButton.parentElement;
     var wrapper = menu && menu.parentElement;
@@ -471,6 +481,7 @@
         updateMenuButtons();
         updateMenuActive(activeTheme || document.body.dataset.theme || "golbang");
         ensurePrayerSaveNotice();
+        syncPrayerStateFromButtons();
         if (activeTheme) {
           updateAltar(THEMES[activeTheme]);
           cleanupReactThemeArtifacts(activeTheme);
@@ -485,6 +496,7 @@
     installObservers();
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
     ensurePrayerSaveNotice();
+    syncPrayerStateFromButtons();
   }
 
   window.codexApplyTheme = applyTheme;
