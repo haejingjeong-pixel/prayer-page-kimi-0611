@@ -510,14 +510,14 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
 #sinal-theme-layer::after {
   content: "";
   position: absolute;
-  inset: -4%;
+  inset: -1.5%;
   background:
-    radial-gradient(ellipse at 26% 70%, rgba(210, 235, 255, 0.24), transparent 38%),
-    radial-gradient(ellipse at 70% 76%, rgba(255, 224, 190, 0.18), transparent 34%),
-    linear-gradient(180deg, transparent 0 48%, rgba(83, 106, 131, 0.20) 70%, rgba(83, 106, 131, 0.34) 100%);
-  filter: blur(12px);
+    radial-gradient(ellipse at 26% 70%, rgba(210, 235, 255, 0.16), transparent 36%),
+    radial-gradient(ellipse at 70% 76%, rgba(255, 224, 190, 0.12), transparent 32%),
+    linear-gradient(180deg, transparent 0 50%, rgba(83, 106, 131, 0.15) 72%, rgba(83, 106, 131, 0.24) 100%);
+  filter: blur(5px);
   transition: filter 1000ms ease-in-out;
-  animation: sinalCloudDrift 34s ease-in-out infinite;
+  animation: sinalCloudDrift 56s ease-in-out infinite;
 }
 
 .sinal-mist {
@@ -525,8 +525,8 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   height: var(--h);
   left: var(--x);
   top: var(--y);
-  background: radial-gradient(ellipse, rgba(225, 238, 255, 0.34), transparent 72%);
-  filter: blur(12px);
+  background: radial-gradient(ellipse, rgba(225, 238, 255, 0.24), transparent 72%);
+  filter: blur(5px);
   transition: filter 1000ms ease-in-out;
   animation: sinalMistMove var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
@@ -538,8 +538,8 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   height: var(--size);
   left: var(--x);
   top: var(--y);
-  background: rgba(236, 244, 255, 0.29);
-  box-shadow: 0 0 7px rgba(210, 230, 250, 0.16);
+  background: rgba(236, 244, 255, 0.22);
+  box-shadow: 0 0 5px rgba(210, 230, 250, 0.12);
   animation: sinalAirDustFloat var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
 }
@@ -599,15 +599,15 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   --cloud-image: url("assets/sinae_cloud1.webp?v=sinal-cloud-left-1");
   --cloud-left: 45%;
   --cloud-top: -3%;
-  --cloud-width: clamp(760px, 82vw, 930px);
+  --cloud-width: clamp(680px, 72vw, 820px);
   --cloud-ratio: 2999 / 2146;
   --cloud-translate-x: -59%;
   --cloud-scale: 1;
   --cloud-flip: 1;
   --cloud-drift-start: 0px;
-  --cloud-drift-mid: 9px;
-  --cloud-drift-end: -7px;
-  --cloud-duration: 22s;
+  --cloud-drift-mid: 4px;
+  --cloud-drift-end: -3px;
+  --cloud-duration: 42s;
   --cloud-delay: -7s;
   z-index: 6;
 }
@@ -616,15 +616,15 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   --cloud-image: url("assets/sinae_cloud2.webp");
   --cloud-left: 55%;
   --cloud-top: -2%;
-  --cloud-width: clamp(900px, 98vw, 1160px);
+  --cloud-width: clamp(800px, 86vw, 980px);
   --cloud-ratio: 3285 / 1868;
   --cloud-translate-x: -41%;
   --cloud-scale: 1;
   --cloud-flip: 1;
   --cloud-drift-start: 0px;
-  --cloud-drift-mid: -8px;
-  --cloud-drift-end: 7px;
-  --cloud-duration: 27s;
+  --cloud-drift-mid: -4px;
+  --cloud-drift-end: 3px;
+  --cloud-duration: 48s;
   --cloud-delay: -15s;
   z-index: 5;
 }
@@ -733,12 +733,12 @@ body[data-theme="sinal"] div[class*="left-1/2"][class*="z-10"]:has(img[alt="alta
 
 body[data-theme="sinal"][data-prayer-state="waiting"] #sinal-theme-layer::after,
 body[data-theme="sinal"][data-prayer-state="waiting"] .sinal-mist {
-  filter: blur(12px) brightness(0.72) saturate(0.92);
+  filter: blur(5px) brightness(0.76) saturate(0.92);
 }
 
 body[data-theme="sinal"][data-prayer-state="praying"] #sinal-theme-layer::after,
 body[data-theme="sinal"][data-prayer-state="praying"] .sinal-mist {
-  filter: blur(12px);
+  filter: blur(5px);
 }
 
 body[data-theme="mark"] img[alt="altar"],

@@ -161,8 +161,8 @@
         cloud.className = "sinal-top-cloud sinal-top-cloud-" + side;
         layer.appendChild(cloud);
       });
-      seedLayer(layer, "sinal-mist", 5, { xMin: 0, xMax: 86, yMin: 50, yMax: 82, sizeMin: 1, sizeMax: 2, durationMin: 28, durationMax: 46, delayMax: 24, widthMin: 180, widthMax: 340, heightMin: 56, heightMax: 110 });
-      seedLayer(layer, "sinal-air-dust", 14, { xMin: 8, xMax: 92, yMin: 14, yMax: 84, sizeMin: 0.8, sizeMax: 1.9, durationMin: 32, durationMax: 52, delayMax: 32 });
+      seedLayer(layer, "sinal-mist", 4, { xMin: 0, xMax: 86, yMin: 50, yMax: 82, sizeMin: 1, sizeMax: 2, durationMin: 42, durationMax: 64, delayMax: 30, widthMin: 170, widthMax: 300, heightMin: 50, heightMax: 92 });
+      seedLayer(layer, "sinal-air-dust", 10, { xMin: 8, xMax: 92, yMin: 14, yMax: 84, sizeMin: 0.7, sizeMax: 1.6, durationMin: 48, durationMax: 76, delayMax: 38 });
     }
 
     if (theme.id === "mark") {
@@ -524,18 +524,38 @@
     var root = document.getElementById("root");
     if (!root) return;
     var scheduled = false;
-    new MutationObserver(function () {
+    new MutationObserver(function (mutations) {
       if (scheduled) return;
+      var needsMenuUpdate = false;
+      var needsCleanup = false;
+      mutations.some(function (mutation) {
+        return Array.from(mutation.addedNodes || []).some(function (node) {
+          if (!node || node.nodeType !== 1) return false;
+          var element = node;
+          var text = getText(element);
+          var style = element.getAttribute && (element.getAttribute("style") || "");
+          var src = element.getAttribute && (element.getAttribute("src") || "");
+          var className = typeof element.className === "string" ? element.className : "";
+          if (element.tagName === "BUTTON" || element.querySelector && element.querySelector("button")) needsMenuUpdate = true;
+          if (text.indexOf("기도문 작성") !== -1 || element.tagName === "H3") needsMenuUpdate = true;
+          if (style.indexOf("assets/back_") !== -1 || style.indexOf("/back_") !== -1 || src.indexOf("assets/back_") !== -1 || src.indexOf("/back_") !== -1) needsCleanup = true;
+          if (/absolute z-0/.test(className) && style.indexOf("background-image") !== -1) needsCleanup = true;
+          return needsMenuUpdate && needsCleanup;
+        });
+      });
+      syncPrayerStateFromButtons();
+      if (!needsMenuUpdate && !needsCleanup) return;
       scheduled = true;
       window.requestAnimationFrame(function () {
         scheduled = false;
-        updateMenuButtons();
-        updateMenuActive(activeTheme || document.body.dataset.theme || "golbang");
-        ensurePrayerSaveNotice();
-        syncPrayerStateFromButtons();
+        if (needsMenuUpdate) {
+          updateMenuButtons();
+          updateMenuActive(activeTheme || document.body.dataset.theme || "golbang");
+          ensurePrayerSaveNotice();
+        }
         if (activeTheme) {
           updateAltar(THEMES[activeTheme]);
-          cleanupReactThemeArtifacts(activeTheme);
+          if (needsCleanup) cleanupReactThemeArtifacts(activeTheme);
         }
       });
     }).observe(root, { childList: true, subtree: true });
