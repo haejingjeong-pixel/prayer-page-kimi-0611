@@ -917,7 +917,7 @@ body[data-current-theme="은밀한 골방"] {
   transition: opacity 1200ms ease;
   background-color: #d6b99c !important;
   background-image: url("assets/back_golbang_new.webp") !important;
-  background-position: center 23% !important;
+  background-position: center 19% !important;
   background-size: auto 130% !important;
   background-repeat: no-repeat !important;
   background-attachment: scroll !important;
@@ -1074,7 +1074,7 @@ body[data-theme="golbang"] [data-codex-theme-background="true"] {
   transition: filter 1200ms ease-in-out, transform 1200ms ease-in-out;
 }
 
-body[data-theme="golbang"] [data-codex-theme-background="true"]:not(img) {
+body[data-theme="golbang"] [data-codex-theme-background="true"]:not(img):not(#golbang-theme-layer) {
   background-attachment: scroll !important;
   background-size: auto 90% !important;
   background-position: 48% top !important;

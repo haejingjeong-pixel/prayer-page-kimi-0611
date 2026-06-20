@@ -13,14 +13,14 @@
   var themeIntentUntil = 0;
 
   var THEME_BGM = {
-    golbang: "/assets/ccm_prayer.mp3",
-    desert: "/assets/ccm_prayer.mp3",
-    sinal: "/assets/ccm_sinae.mp3",
-    mark: "/assets/ccm_maga2.mp3",
-    summer: "/assets/Forest%20Prayer3.mp3",
-    jonah: "/assets/ccm_yona6.mp3",
-    night: "/assets/ccm_night5.mp3",
-    gethsemane: "/assets/sound_gathe.mp3"
+    golbang: "assets/ccm_prayer.mp3",
+    desert: "assets/ccm_prayer.mp3",
+    sinal: "assets/ccm_sinae.mp3",
+    mark: "assets/ccm_maga2.mp3",
+    summer: "assets/Forest%20Prayer3.mp3",
+    jonah: "assets/ccm_yona6.mp3",
+    night: "assets/ccm_night5.mp3",
+    gethsemane: "assets/sound_gathe.mp3"
   };
 
   var THEME_BY_BGM_PATH = {
@@ -53,7 +53,9 @@
 
   function isEnabled() {
     var value = localStorage.getItem(BGM_KEY);
-    return value === null ? true : value === "true";
+    if (value !== "true") return false;
+    var button = document.querySelector('button[title="CCM"], button[aria-label="CCM"]');
+    return !button || isCcmButtonOn(button);
   }
 
   function setEnabled(value) {
@@ -76,6 +78,13 @@
 
   function isBgmSrc(src) {
     return BGM_SRC_RE.test(src || "");
+  }
+
+  function getThemeByPath(src) {
+    var path = normalizeSrc(src);
+    return Object.keys(THEME_BGM).find(function (theme) {
+      return path === normalizeSrc(THEME_BGM[theme]) || path.endsWith(normalizeSrc(THEME_BGM[theme]));
+    }) || THEME_BY_BGM_PATH[path] || "";
   }
 
   function isAsmrSrc(src) {
@@ -104,7 +113,7 @@
       trackAudio(audio);
 
       if (isBgmSrc(src) && audio !== managedBgm) {
-        var attemptedTheme = THEME_BY_BGM_PATH[src] || activeTheme;
+        var attemptedTheme = getThemeByPath(src) || activeTheme;
         var hasRecentThemeIntent = Date.now() < themeIntentUntil;
         if (attemptedTheme && (!hasRecentThemeIntent || attemptedTheme === activeTheme)) {
           activeTheme = attemptedTheme;
@@ -194,7 +203,9 @@
     if (!audio || !isEnabled()) return Promise.resolve();
     if (!audio.paused && normalizeSrc(audio.src) === normalizeSrc(THEME_BGM[activeTheme])) return Promise.resolve();
     audio.volume = 0.4;
-    return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function () {});
+    return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function (error) {
+      console.warn("[codex-audio] Failed to play current theme BGM", activeTheme, audio.src, error);
+    });
   }
 
   function switchThemeBgm(theme) {
@@ -215,7 +226,9 @@
     var audio = setManagedSource(activeTheme);
     if (!audio) return;
     if (!audio.paused && normalizeSrc(audio.src) === normalizeSrc(THEME_BGM[activeTheme])) return;
-    (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function () {});
+    (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function (error) {
+      console.warn("[codex-audio] Failed to switch theme BGM", activeTheme, audio.src, error);
+    });
   }
 
   function findThemeFromText(text) {
@@ -235,6 +248,13 @@
       var text = normalizeText(button.textContent);
       return text === "기도하기" || text === "기도 중...";
     });
+  }
+
+  function isCcmButtonOn(button) {
+    var className = String(button && button.className || "");
+    return className.indexOf("text-[#ffe4a1]") !== -1 ||
+      className.indexOf("border-[#c9a96e]/60") !== -1 ||
+      className.indexOf("bg-[#8B6914]/40") !== -1;
   }
 
   function setPrayerDisabled(disabled) {
@@ -300,9 +320,8 @@
     var isCcmButton = text === "CCM" || button.title === "CCM" || button.getAttribute("aria-label") === "CCM";
     if (!isCcmButton) return;
 
-    var wasEnabled = isEnabled();
     window.setTimeout(function () {
-      var nextEnabled = !wasEnabled;
+      var nextEnabled = isCcmButtonOn(button);
       setEnabled(nextEnabled);
       if (nextEnabled) {
         playCurrentTheme();
