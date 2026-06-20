@@ -372,6 +372,24 @@
     });
   }
 
+  function ensurePrayerSaveNotice() {
+    Array.from(document.querySelectorAll("h3")).forEach(function (title) {
+      if (getText(title) !== "기도문 작성") return;
+      var header = title.parentElement;
+      var panel = header && header.parentElement;
+      if (!panel || panel.querySelector(".prayer-save-notice")) return;
+      var notice = document.createElement("p");
+      notice.className = "prayer-save-notice";
+      notice.textContent = "작성한 기도문은 따로 저장되지 않습니다.";
+      var divider = header.nextElementSibling;
+      if (divider && divider.parentElement === panel) {
+        divider.insertAdjacentElement("afterend", notice);
+      } else {
+        header.insertAdjacentElement("afterend", notice);
+      }
+    });
+  }
+
   function closeThemeMenu(sourceButton) {
     var menu = sourceButton && sourceButton.parentElement;
     var wrapper = menu && menu.parentElement;
@@ -452,6 +470,7 @@
         scheduled = false;
         updateMenuButtons();
         updateMenuActive(activeTheme || document.body.dataset.theme || "golbang");
+        ensurePrayerSaveNotice();
         if (activeTheme) {
           updateAltar(THEMES[activeTheme]);
           cleanupReactThemeArtifacts(activeTheme);
@@ -465,6 +484,7 @@
     updateMenuButtons();
     installObservers();
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
+    ensurePrayerSaveNotice();
   }
 
   window.codexApplyTheme = applyTheme;
