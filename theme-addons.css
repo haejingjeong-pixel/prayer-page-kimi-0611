@@ -16,6 +16,11 @@ body[data-theme] div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
   z-index: 14 !important;
 }
 
+body[data-theme] #root div[class*="top-14"][class*="z-40"],
+body[data-current-theme] #root div[class*="top-14"][class*="z-40"] {
+  z-index: 90 !important;
+}
+
 body[data-theme="mark"],
 body[data-theme="jonah"],
 body[data-theme="sinal"] {
