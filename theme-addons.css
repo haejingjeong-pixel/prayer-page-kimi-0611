@@ -771,12 +771,12 @@ body[data-theme="jonah"][data-prayer-state="praying"] img[alt="altar"] {
 
 body[data-theme="sinal"][data-prayer-state="waiting"] img[alt="altar"] {
   filter: brightness(0.72) saturate(0.92) blur(0.1px) !important;
-  transition: filter 1000ms ease-in-out !important;
+  transition: filter 2000ms ease-in-out !important;
 }
 
 body[data-theme="sinal"][data-prayer-state="praying"] img[alt="altar"] {
   filter: none !important;
-  transition: filter 1000ms ease-in-out !important;
+  transition: filter 2000ms ease-in-out !important;
 }
 
 button[data-codex-theme].codex-theme-active {
