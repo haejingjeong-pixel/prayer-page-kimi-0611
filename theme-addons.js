@@ -13,7 +13,7 @@
       layer: "golbang-theme-layer",
       bodyClass: "codex-theme-golbang",
       color: "#d6b99c",
-      position: "center 21%",
+      position: "center 23%",
       size: "auto 130%",
       icon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block"><path d="M2 14V6.5l6-4.5 6 4.5V14"/><path d="M6 14v-3.5h4V14"/><path d="M8 4V2"/><path d="M7 3h2"/></svg>'
     },
