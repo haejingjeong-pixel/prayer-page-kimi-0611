@@ -795,7 +795,7 @@ body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
   display: block !important;
   position: fixed !important;
   left: 50% !important;
-  bottom: 96px !important;
+  bottom: 84px !important;
   top: auto !important;
   transform: translateX(-50%) !important;
   width: 576px !important;

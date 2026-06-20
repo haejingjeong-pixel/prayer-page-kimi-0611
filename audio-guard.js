@@ -13,7 +13,7 @@
   var themeIntentUntil = 0;
 
   var THEME_BGM = {
-    golbang: "/assets/ccm_golbang_temp.mp3",
+    golbang: "/assets/ccm_prayer.mp3",
     desert: "/assets/ccm_prayer.mp3",
     sinal: "/assets/ccm_sinae.mp3",
     mark: "/assets/ccm_maga2.mp3",
@@ -24,8 +24,6 @@
   };
 
   var THEME_BY_BGM_PATH = {
-    "/assets/ccm_golbang_temp.mp3": "golbang",
-    "/assets/ccm_prayer.mp3": "desert",
     "/assets/ccm_sinae.mp3": "sinal",
     "/assets/ccm_maga2.mp3": "mark",
     "/assets/Forest%20Prayer3.mp3": "summer",

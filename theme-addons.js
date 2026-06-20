@@ -9,7 +9,7 @@
       label: "은밀한 골방",
       background: "assets/back_golbang_new.webp",
       altar: "assets/b_golbang.webp",
-      bgm: "/assets/ccm_golbang_temp.mp3",
+      bgm: "/assets/ccm_prayer.mp3",
       layer: "golbang-theme-layer",
       bodyClass: "codex-theme-golbang",
       color: "#d6b99c",
