@@ -1449,4 +1449,307 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
+/* 아이패드 세로 768px / 작은 태블릿 */
+@media (width: 768px) and (min-height: 900px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --tablet-bg-position: center center;
+    --tablet-bg-size: cover;
+    --tablet-golbang-bg-position: center 22%;
+    --tablet-golbang-bg-size: auto 128%;
+    --tablet-golbang-bg-top: 22%;
+    --tablet-golbang-bg-height: 128%;
+    --tablet-top-ui-width: 420px;
+    --tablet-top-ui-height: 58px;
+    --tablet-top-ui-font: 14px;
+    --tablet-control-top: 44px;
+    --tablet-control-side: 28px;
+    --tablet-menu-width: 300px;
+    --tablet-menu-item-font: 18px;
+    --tablet-verse-top: clamp(150px, 16vh, 176px);
+    --tablet-verse-width: min(660px, calc(100vw - 96px));
+    --tablet-verse-font: 20px;
+    --tablet-verse-line: 1.56;
+    --tablet-altar-width: min(610px, 82vw);
+    --tablet-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 210px);
+    --tablet-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 170px);
+    --tablet-write-height: 32px;
+    --tablet-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 98px);
+    --tablet-pray-width: 240px;
+    --tablet-pray-height: 68px;
+    --tablet-popup-width: 410px;
+    --tablet-popup-max-height: calc(100dvh - 140px);
+    --tablet-popup-textarea-height: 190px;
+    --tablet-transition-font: 22px;
+  }
+}
+
+/* 아이패드 미니 / 작은 태블릿 */
+@media (min-width: 769px) and (max-width: 834px) and (min-height: 900px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --tablet-bg-position: center center;
+    --tablet-bg-size: cover;
+    --tablet-golbang-bg-position: center 22%;
+    --tablet-golbang-bg-size: auto 128%;
+    --tablet-golbang-bg-top: 22%;
+    --tablet-golbang-bg-height: 128%;
+    --tablet-top-ui-width: 420px;
+    --tablet-top-ui-height: 58px;
+    --tablet-top-ui-font: 14px;
+    --tablet-control-top: 44px;
+    --tablet-control-side: 28px;
+    --tablet-menu-width: 300px;
+    --tablet-menu-item-font: 18px;
+    --tablet-verse-top: clamp(150px, 16vh, 176px);
+    --tablet-verse-width: min(660px, calc(100vw - 96px));
+    --tablet-verse-font: 20px;
+    --tablet-verse-line: 1.56;
+    --tablet-altar-width: min(610px, 82vw);
+    --tablet-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 260px);
+    --tablet-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 220px);
+    --tablet-write-height: 32px;
+    --tablet-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 148px);
+    --tablet-pray-width: 240px;
+    --tablet-pray-height: 68px;
+    --tablet-popup-width: 410px;
+    --tablet-popup-max-height: calc(100dvh - 140px);
+    --tablet-popup-textarea-height: 190px;
+    --tablet-transition-font: 22px;
+  }
+}
+
+/* 기본 아이패드 / 아이패드 에어 11인치 */
+@media (min-width: 835px) and (max-width: 1024px) and (min-height: 1000px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --tablet-bg-position: center center;
+    --tablet-bg-size: cover;
+    --tablet-golbang-bg-position: center 23%;
+    --tablet-golbang-bg-size: auto 130%;
+    --tablet-golbang-bg-top: 23%;
+    --tablet-golbang-bg-height: 130%;
+    --tablet-top-ui-width: 430px;
+    --tablet-top-ui-height: 58px;
+    --tablet-top-ui-font: 14px;
+    --tablet-control-top: 44px;
+    --tablet-control-side: 30px;
+    --tablet-menu-width: 306px;
+    --tablet-menu-item-font: 18px;
+    --tablet-verse-top: clamp(156px, 15vh, 190px);
+    --tablet-verse-width: min(700px, calc(100vw - 112px));
+    --tablet-verse-font: 20px;
+    --tablet-verse-line: 1.58;
+    --tablet-altar-width: min(660px, 74vw);
+    --tablet-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 300px);
+    --tablet-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 252px);
+    --tablet-write-height: 32px;
+    --tablet-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 178px);
+    --tablet-pray-width: 244px;
+    --tablet-pray-height: 68px;
+    --tablet-popup-width: 420px;
+    --tablet-popup-max-height: calc(100dvh - 150px);
+    --tablet-popup-textarea-height: 200px;
+    --tablet-transition-font: 24px;
+  }
+}
+
+/* 아이패드 프로/에어 13인치 및 큰 태블릿 */
+@media (min-width: 1025px) and (max-width: 1366px) and (min-height: 901px) {
+  body[data-theme],
+  body[data-current-theme] {
+    --tablet-bg-position: center center;
+    --tablet-bg-size: cover;
+    --tablet-golbang-bg-position: center 23%;
+    --tablet-golbang-bg-size: auto 130%;
+    --tablet-golbang-bg-top: 23%;
+    --tablet-golbang-bg-height: 130%;
+    --tablet-top-ui-width: 440px;
+    --tablet-top-ui-height: 60px;
+    --tablet-top-ui-font: 15px;
+    --tablet-control-top: 46px;
+    --tablet-control-side: 32px;
+    --tablet-menu-width: 312px;
+    --tablet-menu-item-font: 18px;
+    --tablet-verse-top: clamp(160px, 15vh, 198px);
+    --tablet-verse-width: min(760px, calc(100vw - 148px));
+    --tablet-verse-font: 21px;
+    --tablet-verse-line: 1.58;
+    --tablet-altar-width: min(720px, 58vw);
+    --tablet-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 180px);
+    --tablet-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 132px);
+    --tablet-write-height: 34px;
+    --tablet-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 58px);
+    --tablet-pray-width: 248px;
+    --tablet-pray-height: 70px;
+    --tablet-popup-width: 430px;
+    --tablet-popup-max-height: calc(100dvh - 160px);
+    --tablet-popup-textarea-height: 210px;
+    --tablet-transition-font: 24px;
+  }
+}
+
+@media (width: 768px) and (min-height: 900px),
+  (min-width: 769px) and (max-width: 834px) and (min-height: 900px),
+  (min-width: 835px) and (max-width: 1024px) and (min-height: 1000px),
+  (min-width: 1025px) and (max-width: 1366px) and (min-height: 901px) {
+  body[data-theme] .codex-managed-theme-layer,
+  body[data-current-theme] .codex-managed-theme-layer,
+  body[data-theme] [data-codex-theme-background="true"],
+  body[data-current-theme] [data-codex-theme-background="true"] {
+    background-position: var(--tablet-bg-position) !important;
+    background-size: var(--tablet-bg-size) !important;
+  }
+
+  body[data-theme="golbang"] #golbang-theme-layer,
+  body[data-current-theme="은밀한 골방"] #golbang-theme-layer {
+    background-position: var(--tablet-golbang-bg-position) !important;
+    background-size: var(--tablet-golbang-bg-size) !important;
+  }
+
+  body[data-theme="golbang"] #golbang-theme-layer .golbang-bg-img,
+  body[data-current-theme="은밀한 골방"] #golbang-theme-layer .golbang-bg-img {
+    top: var(--tablet-golbang-bg-top) !important;
+    transform: translate(-50%, calc(-1 * var(--tablet-golbang-bg-top))) !important;
+    height: var(--tablet-golbang-bg-height) !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  body[data-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"],
+  body[data-current-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] {
+    width: var(--tablet-top-ui-width) !important;
+    height: var(--tablet-top-ui-height) !important;
+  }
+
+  body[data-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] span,
+  body[data-current-theme] #root div[class*="w-[300px]"][class*="md:w-[380px]"] span {
+    font-size: var(--tablet-top-ui-font) !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-theme] #root div[class*="top-14"][class*="left-3"],
+  body[data-current-theme] #root div[class*="top-14"][class*="left-3"] {
+    top: var(--tablet-control-top) !important;
+    left: var(--tablet-control-side) !important;
+  }
+
+  body[data-theme] #root div[class*="top-14"][class*="right-3"],
+  body[data-current-theme] #root div[class*="top-14"][class*="right-3"] {
+    top: var(--tablet-control-top) !important;
+    right: var(--tablet-control-side) !important;
+  }
+
+  body[data-theme] #root div[class*="min-w-[180px]"],
+  body[data-current-theme] #root div[class*="min-w-[180px]"] {
+    width: var(--tablet-menu-width) !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 64px) !important;
+    max-height: calc(100dvh - 148px) !important;
+    overflow-y: auto !important;
+  }
+
+  body[data-theme] #root div[class*="min-w-[180px]"] button,
+  body[data-current-theme] #root div[class*="min-w-[180px]"] button {
+    font-size: var(--tablet-menu-item-font) !important;
+    line-height: 1.25 !important;
+    min-height: 46px !important;
+  }
+
+  body[data-theme] .prayer-verse,
+  body[data-current-theme] .prayer-verse {
+    top: var(--tablet-verse-top) !important;
+    width: var(--tablet-verse-width) !important;
+    max-width: var(--tablet-verse-width) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-theme] .prayer-verse p,
+  body[data-current-theme] .prayer-verse p,
+  body[data-theme] .prayer-verse p[class*="text-base"][class*="md:text-lg"],
+  body[data-current-theme] .prayer-verse p[class*="text-base"][class*="md:text-lg"] {
+    font-size: var(--tablet-verse-font) !important;
+    line-height: var(--tablet-verse-line) !important;
+    overflow-wrap: keep-all !important;
+    word-break: keep-all !important;
+  }
+
+  body[data-theme] #root .codex-altar-stage,
+  body[data-current-theme] #root .codex-altar-stage,
+  body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    position: fixed !important;
+    left: 50% !important;
+    top: auto !important;
+    bottom: var(--tablet-altar-bottom) !important;
+    width: var(--tablet-altar-width) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-[120px]"],
+  body[data-current-theme] #root div[class*="bottom-[120px]"] {
+    bottom: var(--tablet-write-bottom) !important;
+    z-index: 92 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-[120px]"] button,
+  body[data-current-theme] #root div[class*="bottom-[120px]"] button {
+    height: var(--tablet-write-height) !important;
+    min-height: var(--tablet-write-height) !important;
+    line-height: var(--tablet-write-height) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body[data-theme] #root div[class*="bottom-12"],
+  body[data-current-theme] #root div[class*="bottom-12"] {
+    bottom: var(--tablet-pray-bottom) !important;
+    z-index: 93 !important;
+  }
+
+  body[data-theme] #root button[class*="w-[220px]"],
+  body[data-current-theme] #root button[class*="w-[220px]"],
+  body[data-theme="golbang"] #root button[class*="w-[220px]"],
+  body[data-current-theme="은밀한 골방"] #root button[class*="w-[220px]"] {
+    width: var(--tablet-pray-width) !important;
+    min-width: var(--tablet-pray-width) !important;
+    max-width: var(--tablet-pray-width) !important;
+    height: var(--tablet-pray-height) !important;
+    min-height: var(--tablet-pray-height) !important;
+    max-height: var(--tablet-pray-height) !important;
+  }
+
+  body[data-theme] #root button[class*="w-[220px]"] span,
+  body[data-current-theme] #root button[class*="w-[220px]"] span {
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+
+  body[data-theme] #root div[style*="width: min(360px"],
+  body[data-current-theme] #root div[style*="width: min(360px"] {
+    width: var(--tablet-popup-width) !important;
+    max-width: var(--tablet-popup-width) !important;
+    max-height: var(--tablet-popup-max-height) !important;
+    min-height: 0 !important;
+  }
+
+  body[data-theme] #root div[style*="width: min(360px"] textarea,
+  body[data-current-theme] #root div[style*="width: min(360px"] textarea {
+    height: var(--tablet-popup-textarea-height) !important;
+  }
+
+  #theme-fade-overlay .theme-fade-message {
+    font-size: var(--tablet-transition-font) !important;
+    line-height: 1.5 !important;
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+    letter-spacing: 0.12em !important;
+  }
+}
+
 /* 은밀한 골방 테마에서도 향로 표시 */
