@@ -12,6 +12,7 @@
   var themeTransitionTimer = 0;
   var themeIntentUntil = 0;
   var userGestureEnableUntil = 0;
+  var lastCcmGestureAt = 0;
 
   var THEME_BGM = {
     golbang: "assets/ccm_prayer.mp3",
@@ -151,6 +152,12 @@
       managedBgm.preload = "auto";
       managedBgm.dataset.codexManagedBgm = "true";
       managedBgm.volume = 0.4;
+      managedBgm.setAttribute("playsinline", "");
+      managedBgm.setAttribute("webkit-playsinline", "");
+      managedBgm.style.display = "none";
+      if (document.body && !managedBgm.parentNode) {
+        document.body.appendChild(managedBgm);
+      }
     }
     return managedBgm;
   }
@@ -191,6 +198,9 @@
     var src = THEME_BGM[theme];
     if (!src) return null;
     var audio = getManagedBgm();
+    if (document.body && !audio.parentNode) {
+      document.body.appendChild(audio);
+    }
     if (normalizeSrc(audio.getAttribute("src") || audio.src) !== normalizeSrc(src)) {
       pauseAndReset(audio);
       audio.src = src;
@@ -207,6 +217,29 @@
     audio.volume = 0.4;
     return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function (error) {
       console.warn("[codex-audio] Failed to play current theme BGM", activeTheme, audio.src, error);
+    });
+  }
+
+  function playCurrentThemeFromGesture(reason) {
+    userGestureEnableUntil = Date.now() + 2500;
+    var audio = setManagedSource(activeTheme);
+    if (!audio) return Promise.resolve();
+    pauseOtherThemeBgm();
+    audio.muted = false;
+    audio.volume = 0.4;
+    return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).then(function () {
+      if (window.__codexAudioDebug) {
+        console.info("[codex-audio] Mobile gesture BGM play started", reason, activeTheme, audio.src);
+      }
+    }).catch(function (error) {
+      console.warn("[codex-audio] Mobile gesture BGM play failed", reason, activeTheme, audio.src, {
+        name: error && error.name,
+        message: error && error.message,
+        paused: audio.paused,
+        readyState: audio.readyState,
+        networkState: audio.networkState,
+        enabled: localStorage.getItem(BGM_KEY)
+      });
     });
   }
 
@@ -257,6 +290,31 @@
     return className.indexOf("text-[#ffe4a1]") !== -1 ||
       className.indexOf("border-[#c9a96e]/60") !== -1 ||
       className.indexOf("bg-[#8B6914]/40") !== -1;
+  }
+
+  function isCcmButton(button) {
+    if (!button) return false;
+    var text = normalizeText(button.textContent);
+    return text === "CCM" || button.title === "CCM" || button.getAttribute("aria-label") === "CCM";
+  }
+
+  function handleCcmGesture(event) {
+    var button = event.target && event.target.closest ? event.target.closest("button") : null;
+    if (!isCcmButton(button)) return;
+
+    var now = Date.now();
+    if (now - lastCcmGestureAt < 120) return;
+    lastCcmGestureAt = now;
+
+    var willEnable = !isCcmButtonOn(button);
+    setEnabled(willEnable);
+    if (willEnable) {
+      playCurrentThemeFromGesture(event.type);
+    } else {
+      userGestureEnableUntil = 0;
+      stopManagedBgm();
+      pauseOtherThemeBgm();
+    }
   }
 
   function setPrayerDisabled(disabled) {
@@ -318,15 +376,12 @@
       return;
     }
 
-    var text = normalizeText(button.textContent);
-    var isCcmButton = text === "CCM" || button.title === "CCM" || button.getAttribute("aria-label") === "CCM";
-    if (!isCcmButton) return;
+    if (!isCcmButton(button)) return;
 
     var willEnable = !isCcmButtonOn(button);
     setEnabled(willEnable);
     if (willEnable) {
-      userGestureEnableUntil = Date.now() + 1500;
-      playCurrentTheme();
+      playCurrentThemeFromGesture(event.type);
     } else {
       userGestureEnableUntil = 0;
       stopManagedBgm();
@@ -338,7 +393,7 @@
       var nextEnabled = willEnable || isCcmButtonOn(currentButton);
       setEnabled(nextEnabled);
       if (nextEnabled && willEnable) {
-        playCurrentTheme();
+        playCurrentThemeFromGesture("ccm-sync");
       } else {
         userGestureEnableUntil = 0;
         stopManagedBgm();
@@ -346,6 +401,11 @@
       }
     }, 80);
   }, true);
+
+  document.addEventListener("pointerdown", handleCcmGesture, true);
+  document.addEventListener("pointerup", handleCcmGesture, true);
+  document.addEventListener("touchstart", handleCcmGesture, true);
+  document.addEventListener("touchend", handleCcmGesture, true);
 
   document.addEventListener("codex-bgm-theme-change", function (event) {
     var theme = event.detail && event.detail.theme;
@@ -376,6 +436,12 @@
     }
   }
 
+  function resumeCurrentBgmFromGesture(event) {
+    if (localStorage.getItem(BGM_KEY) === "true") {
+      playCurrentThemeFromGesture(event && event.type || "first-gesture");
+    }
+  }
+
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState !== "visible") return;
     resumeCurrentBgmOnly();
@@ -387,6 +453,6 @@
   window.codexSwitchThemeBgm = switchThemeBgm;
   window.codexPlayCurrentThemeBgm = playCurrentTheme;
 
-  window.addEventListener("click", playCurrentTheme, { once: true });
-  window.addEventListener("touchstart", playCurrentTheme, { once: true });
+  window.addEventListener("click", resumeCurrentBgmFromGesture, { once: true });
+  window.addEventListener("touchstart", resumeCurrentBgmFromGesture, { once: true });
 })();
