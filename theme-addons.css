@@ -1468,6 +1468,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body.codex-theme-golbang,
   body[data-current-theme="은밀한 골방"] {
     --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 42px);
+    --mobile-golbang-altar-shift: 82px;
   }
 }
 
@@ -1476,6 +1477,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body.codex-theme-golbang,
   body[data-current-theme="은밀한 골방"] {
     --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
+    --mobile-golbang-altar-shift: 86px;
   }
 }
 
@@ -1484,6 +1486,18 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body.codex-theme-golbang,
   body[data-current-theme="은밀한 골방"] {
     --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 52px);
+    --mobile-golbang-altar-shift: 78px;
+  }
+}
+
+@media (max-width: 768px) and (-webkit-touch-callout: none) {
+  body[data-theme="golbang"] #root .codex-altar-stage,
+  body.codex-theme-golbang #root .codex-altar-stage,
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    transform: translateX(-50%) translateY(var(--mobile-golbang-altar-shift, 0px)) !important;
   }
 }
 
