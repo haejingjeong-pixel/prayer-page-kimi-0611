@@ -1463,6 +1463,30 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
+@media (max-width: 390px) and (-webkit-touch-callout: none) {
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 42px);
+  }
+}
+
+@media (min-width: 391px) and (max-width: 480px) and (-webkit-touch-callout: none) {
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) and (-webkit-touch-callout: none) {
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 52px);
+  }
+}
+
 /* 아이패드 세로 768px / 작은 태블릿 */
 @media (width: 768px) and (min-height: 900px) {
   body[data-theme],
