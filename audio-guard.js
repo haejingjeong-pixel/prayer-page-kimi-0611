@@ -13,9 +13,11 @@
   var themeIntentUntil = 0;
   var userGestureEnableUntil = 0;
   var lastCcmGestureAt = 0;
+  var ccmGestureHandledUntil = 0;
+  var pendingCcmEnable = null;
 
   var THEME_BGM = {
-    golbang: "assets/ccm_prayer.mp3",
+    golbang: "assets/X_golbang_ccm.mp3",
     desert: "assets/ccm_prayer.mp3",
     sinal: "assets/ccm_sinae.mp3",
     mark: "assets/ccm_maga2.mp3",
@@ -26,6 +28,7 @@
   };
 
   var THEME_BY_BGM_PATH = {
+    "/assets/X_golbang_ccm.mp3": "golbang",
     "/assets/ccm_sinae.mp3": "sinal",
     "/assets/ccm_maga2.mp3": "mark",
     "/assets/Forest%20Prayer3.mp3": "summer",
@@ -47,7 +50,7 @@
   };
 
   var THEME_LABEL_RE = new RegExp(Object.keys(LABEL_TO_THEME).join("|"));
-  var BGM_SRC_RE = /\/assets\/(?:ccm_|Forest%20Prayer3|Forest Prayer3|sound_gathe).*\.mp3(?:\?|$)/;
+  var BGM_SRC_RE = /\/assets\/(?:X_golbang_ccm|ccm_|Forest%20Prayer3|Forest Prayer3|sound_gathe).*\.mp3(?:\?|$)/;
 
   function normalizeText(value) {
     return String(value || "").replace(/\s+/g, " ").trim();
@@ -55,10 +58,7 @@
 
   function isEnabled() {
     var value = localStorage.getItem(BGM_KEY);
-    if (value !== "true") return false;
-    if (Date.now() < userGestureEnableUntil) return true;
-    var button = document.querySelector('button[title="CCM"], button[aria-label="CCM"]');
-    return !button || isCcmButtonOn(button);
+    return value === "true";
   }
 
   function setEnabled(value) {
@@ -303,10 +303,12 @@
     if (!isCcmButton(button)) return;
 
     var now = Date.now();
-    if (now - lastCcmGestureAt < 120) return;
+    if (now - lastCcmGestureAt < 500) return;
     lastCcmGestureAt = now;
 
     var willEnable = !isCcmButtonOn(button);
+    pendingCcmEnable = willEnable;
+    ccmGestureHandledUntil = now + 900;
     setEnabled(willEnable);
     if (willEnable) {
       playCurrentThemeFromGesture(event.type);
@@ -378,7 +380,24 @@
 
     if (!isCcmButton(button)) return;
 
+    if (Date.now() < ccmGestureHandledUntil && pendingCcmEnable !== null) {
+      setEnabled(pendingCcmEnable);
+      if (pendingCcmEnable) {
+        playCurrentThemeFromGesture(event.type + "-followup");
+      } else {
+        userGestureEnableUntil = 0;
+        stopManagedBgm();
+        pauseOtherThemeBgm();
+      }
+      window.setTimeout(function () {
+        pendingCcmEnable = null;
+      }, 120);
+      return;
+    }
+
     var willEnable = !isCcmButtonOn(button);
+    pendingCcmEnable = willEnable;
+    ccmGestureHandledUntil = Date.now() + 500;
     setEnabled(willEnable);
     if (willEnable) {
       playCurrentThemeFromGesture(event.type);
@@ -390,7 +409,7 @@
 
     window.setTimeout(function () {
       var currentButton = document.querySelector('button[title="CCM"], button[aria-label="CCM"]') || button;
-      var nextEnabled = willEnable || isCcmButtonOn(currentButton);
+      var nextEnabled = localStorage.getItem(BGM_KEY) === "true" || willEnable || isCcmButtonOn(currentButton);
       setEnabled(nextEnabled);
       if (nextEnabled && willEnable) {
         playCurrentThemeFromGesture("ccm-sync");
