@@ -969,7 +969,7 @@ body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
   left: 50% !important;
   bottom: 96px !important;
   top: auto !important;
-  transform: translateX(-50%) !important;
+  transform: translateX(calc(-50% - 1px)) !important;
   width: 576px !important;
   height: auto !important;
   z-index: 50 !important;
@@ -1003,6 +1003,7 @@ body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="al
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
     width: 380px !important;
     bottom: 90px !important;
+    transform: translateX(calc(-50% - 1px)) !important;
   }
 }
 
@@ -1205,6 +1206,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     --mobile-golbang-bg-size: auto 118%;
     --mobile-golbang-bg-top: 20%;
     --mobile-golbang-bg-height: 118%;
+    --mobile-golbang-altar-x: -1px;
     --mobile-top-ui-width: calc(100vw - 32px);
     --mobile-top-ui-height: 50px;
     --mobile-top-ui-font: 13px;
@@ -1242,6 +1244,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     --mobile-golbang-bg-size: auto 122%;
     --mobile-golbang-bg-top: 20%;
     --mobile-golbang-bg-height: 122%;
+    --mobile-golbang-altar-x: -1px;
     --mobile-top-ui-width: calc(100vw - 36px);
     --mobile-top-ui-height: 52px;
     --mobile-top-ui-font: 14px;
@@ -1279,6 +1282,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     --mobile-golbang-bg-size: auto 126%;
     --mobile-golbang-bg-top: 20%;
     --mobile-golbang-bg-height: 126%;
+    --mobile-golbang-altar-x: -1px;
     --mobile-top-ui-width: min(430px, calc(100vw - 48px));
     --mobile-top-ui-height: 56px;
     --mobile-top-ui-font: 14px;
@@ -1358,6 +1362,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
   body[data-theme="golbang"] #golbang-theme-layer .golbang-bg-img,
   body[data-current-theme="은밀한 골방"] #golbang-theme-layer .golbang-bg-img {
+    left: 50% !important;
     top: var(--mobile-golbang-bg-top) !important;
     transform: translate(-50%, calc(-1 * var(--mobile-golbang-bg-top))) !important;
     height: var(--mobile-golbang-bg-height) !important;
@@ -1454,9 +1459,10 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
     top: auto !important;
+    left: 50% !important;
     bottom: var(--mobile-golbang-altar-bottom) !important;
     width: var(--mobile-golbang-altar-width, var(--mobile-altar-width)) !important;
-    transform: translateX(-50%) !important;
+    transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) !important;
   }
 
   body[data-theme] #root div[class*="bottom-[120px]"],
@@ -1561,7 +1567,8 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    transform: translateX(-50%) translateY(var(--mobile-golbang-altar-shift, 0px)) !important;
+    left: 50% !important;
+    transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) translateY(var(--mobile-golbang-altar-shift, 0px)) !important;
   }
 }
 
@@ -1805,6 +1812,13 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     max-width: none !important;
     transform: translateX(-50%) !important;
     z-index: 50 !important;
+  }
+
+  body[data-theme="golbang"] #root .codex-altar-stage,
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    transform: translateX(calc(-50% - 1px)) !important;
   }
 
   body[data-theme] #root div[class*="bottom-[120px]"],
