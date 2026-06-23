@@ -1623,6 +1623,16 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
+@media (min-width: 2000px) {
+  body[data-theme] #root .codex-altar-stage,
+  body[data-current-theme] #root .codex-altar-stage,
+  body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    width: 750px !important;
+    max-width: 750px !important;
+  }
+}
+
 @media (max-width: 390px) and (-webkit-touch-callout: none) {
   body[data-theme="golbang"],
   body.codex-theme-golbang,
@@ -1659,6 +1669,64 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
     left: 50% !important;
     transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) translateY(var(--mobile-golbang-altar-shift, 0px)) !important;
+  }
+}
+
+/* 최신 iPhone CSS viewport: 16/17 기본, Pro, Pro Max 계열 */
+@media (min-width: 391px) and (max-width: 409px) and (min-height: 840px) and (max-height: 890px) and (orientation: portrait) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 192px);
+    --mobile-write-height: 31px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 118px);
+    --mobile-pray-width: 226px;
+    --mobile-pray-height: 62px;
+  }
+
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-width: min(520px, 128vw);
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 234px);
+    --mobile-golbang-altar-shift: 0px;
+  }
+}
+
+@media (min-width: 410px) and (max-width: 434px) and (min-height: 900px) and (max-height: 940px) and (orientation: portrait) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 200px);
+    --mobile-write-height: 32px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 124px);
+    --mobile-pray-width: 232px;
+    --mobile-pray-height: 64px;
+  }
+
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-width: min(548px, 128vw);
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 244px);
+    --mobile-golbang-altar-shift: 0px;
+  }
+}
+
+@media (min-width: 435px) and (max-width: 460px) and (min-height: 940px) and (max-height: 980px) and (orientation: portrait) {
+  body[data-theme],
+  body[data-current-theme] {
+    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 204px);
+    --mobile-write-height: 32px;
+    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 128px);
+    --mobile-pray-width: 236px;
+    --mobile-pray-height: 64px;
+  }
+
+  body[data-theme="golbang"],
+  body.codex-theme-golbang,
+  body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-width: min(560px, 127vw);
+    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 248px);
+    --mobile-golbang-altar-shift: 0px;
   }
 }
 

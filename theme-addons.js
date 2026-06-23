@@ -8,7 +8,7 @@
       id: "golbang",
       label: "은밀한 골방",
       background: "assets/back_golbang_new.webp",
-      altar: "assets/b_golbang.webp",
+      altar: "assets/b_golbang9.webp",
       bgm: "assets/X_golbang_ccm.mp3",
       layer: "golbang-theme-layer",
       bodyClass: "codex-theme-golbang",
