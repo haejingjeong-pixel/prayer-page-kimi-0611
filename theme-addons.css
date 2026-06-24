@@ -964,15 +964,32 @@ button[data-codex-theme].codex-theme-active > span:first-child {
 }
 
 .codex-ai-disclaimer {
+  position: fixed;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  z-index: 88;
+  transform: translateX(-50%);
+  margin: 0;
+  width: min(360px, calc(100vw - 40px));
   font-size: 11px;
   color: rgba(255, 255, 255, 0.4);
   text-align: center;
-  padding-top: 8px;
-  padding-bottom: 4px;
+  line-height: 1.4;
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  order: 100;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 769px) {
+  .codex-ai-disclaimer {
+    left: calc(18px + env(safe-area-inset-left, 0px));
+    right: auto;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    width: min(360px, calc(100vw - 40px));
+    text-align: left;
+  }
 }
 
 @keyframes sinalMountainDustDriftNear {
