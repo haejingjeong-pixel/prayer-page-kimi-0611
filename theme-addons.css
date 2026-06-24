@@ -2168,16 +2168,40 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
    모바일 세로(Portrait) 전용: 은밀한 골방 원상 복구 방어
    - 모바일 골방이 변수 값에 갇혀 쪼그라드는 현상 해결
    - 사막/시내산처럼 화면에 꽉 차도록 시원한 가로폭 강제 적용
+   - 파일 최하단에 배치하여 1590번째 줄 변수 스타일보다 우선 적용
    ========================================================= */
 @media (max-width: 768px) {
+  /* 변수를 무시하고 사막/시내산과 동일한 모바일 대형 수치 강제 적용 */
   body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  body.codex-theme-golbang #root .codex-altar-stage {
+    display: block !important;
+    visibility: visible !important;
     width: clamp(620px, 115vw, 760px) !important;
     position: absolute !important;
     bottom: 0px !important;
     top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
+    max-width: none !important;
+    height: auto !important;
+    opacity: 1 !important;
+  }
+
+  /* 난 이미지 알맹이 박스 족쇄 해제 */
+  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: auto !important;
+    transform: none !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    opacity: 1 !important;
   }
 }
 
