@@ -54,6 +54,25 @@ body[data-theme] #root canvas {
   z-index: 12 !important;
 }
 
+/* 모든 테마 향로 크기 통일 및 반응형 */
+body[data-theme] #root .codex-altar-stage,
+body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-current-theme] #root .codex-altar-stage,
+body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  width: clamp(300px, 42vh, 560px) !important;
+  max-width: 90vw !important;
+  min-width: auto !important;
+  height: auto !important;
+}
+
+body[data-theme] #root .codex-altar-stage img[alt="altar"],
+body[data-current-theme] #root .codex-altar-stage img[alt="altar"],
+body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
+body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"] {
+  width: 100% !important;
+  height: auto !important;
+}
+
 .fullscreen-guide {
   position: fixed;
   right: calc(18px + env(safe-area-inset-right, 0px));
