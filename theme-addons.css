@@ -2013,13 +2013,17 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 .codex-ai-disclaimer {
   position: fixed !important;
   bottom: 8px !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 9999 !important;
-  font-size: 11px !important;
-  color: rgba(255, 255, 255, 0.55) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 99999 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: rgba(60, 40, 20, 0.85) !important;
   text-align: center !important;
-  padding: 4px 8px !important;
+  padding: 6px 14px !important;
+  background: rgba(255, 248, 232, 0.72) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 2px 10px rgba(60, 40, 20, 0.12) !important;
   pointer-events: none !important;
   user-select: none !important;
   -webkit-user-select: none !important;
