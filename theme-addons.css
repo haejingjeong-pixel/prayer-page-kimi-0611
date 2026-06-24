@@ -1534,7 +1534,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
   body[data-theme] #root div[class*="bottom-[120px]"],
   body[data-current-theme] #root div[class*="bottom-[120px]"] {
-    bottom: var(--mobile-write-bottom) !important;
+    bottom: calc(var(--mobile-write-bottom) + var(--ios-safari-bottom-offset, 0px)) !important;
     z-index: 92 !important;
   }
 
@@ -1549,7 +1549,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
   body[data-theme] #root div[class*="bottom-12"],
   body[data-current-theme] #root div[class*="bottom-12"] {
-    bottom: var(--mobile-pray-bottom) !important;
+    bottom: calc(var(--mobile-pray-bottom) + var(--ios-safari-bottom-offset, 0px)) !important;
     z-index: 93 !important;
   }
 
@@ -1661,6 +1661,11 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 }
 
 @media (max-width: 768px) and (-webkit-touch-callout: none) {
+  body[data-theme],
+  body[data-current-theme] {
+    --ios-safari-bottom-offset: 46px;
+  }
+
   body[data-theme="golbang"] #root .codex-altar-stage,
   body.codex-theme-golbang #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
@@ -1676,6 +1681,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 @media (min-width: 391px) and (max-width: 409px) and (min-height: 840px) and (max-height: 890px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
+    --ios-safari-bottom-offset: 0px;
     --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 192px);
     --mobile-write-height: 31px;
     --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 118px);
@@ -1695,6 +1701,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 @media (min-width: 410px) and (max-width: 434px) and (min-height: 900px) and (max-height: 940px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
+    --ios-safari-bottom-offset: 0px;
     --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 200px);
     --mobile-write-height: 32px;
     --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 124px);
@@ -1714,6 +1721,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 @media (min-width: 435px) and (max-width: 460px) and (min-height: 940px) and (max-height: 980px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
+    --ios-safari-bottom-offset: 0px;
     --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 204px);
     --mobile-write-height: 32px;
     --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 128px);
