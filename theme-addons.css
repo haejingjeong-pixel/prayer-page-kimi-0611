@@ -2162,3 +2162,25 @@ div[class*="guide" i] * {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
   opacity: 1 !important;
 }
+
+
+/* ==========================================================================
+   강제 표시: 동적 주입된 안낸문 요소들
+   ========================================================================== */
+.fullscreen-guide,
+.fullscreen-guide p,
+.ai-disclaimer,
+.ai-disclaimer p,
+.iphone-mute-guide,
+.iphone-mute-guide p {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.fullscreen-guide,
+.iphone-mute-guide {
+  position: fixed !important;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+}

@@ -620,7 +620,44 @@
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
     ensurePrayerSaveNotice();
     syncPrayerStateFromButtons();
+    injectIphoneMuteGuide();
     window.setInterval(injectAiDisclaimer, 500);
+    window.setInterval(injectIphoneMuteGuide, 500);
+  }
+
+  /* ==========================================================================
+     [아이폰 무음 안낸문] 번들에 없는 UI 스크립트로 강제 동적 주입 (DOM 생성)
+     ========================================================================== */
+  function injectIphoneMuteGuide() {
+    if (document.querySelector('.iphone-mute-guide')) return;
+
+    const guideDiv = document.createElement('div');
+    guideDiv.className = 'iphone-mute-guide';
+    guideDiv.innerHTML = `
+      <p>아이폰 유저분들은 무음 모드(진동 스위치)를</p>
+      <p>해제하셔야 배경음악과 기도 소리가 정상적으로 들립니다.</p>
+    `;
+    guideDiv.style.cssText = `
+      display: block !important;
+      visibility: visible !important;
+      position: fixed !important;
+      right: calc(18px + env(safe-area-inset-right, 0px)) !important;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+      z-index: 99999 !important;
+      max-width: min(280px, calc(100vw - 36px)) !important;
+      margin: 0 !important;
+      font-size: 12px !important;
+      line-height: 1.4 !important;
+      color: rgba(255, 246, 230, 0.72) !important;
+      text-align: right !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important;
+      opacity: 0.72 !important;
+      pointer-events: none !important;
+      user-select: none !important;
+    `;
+
+    const root = document.getElementById('root') || document.body;
+    root.appendChild(guideDiv);
   }
 
   window.codexApplyTheme = applyTheme;
@@ -629,44 +666,49 @@
   ready(init);
 })();
 
+
 /* ==========================================================================
-   [아이폰 무음 안낸문] 번들에 없는 UI 스크립트로 강제 동적 주입 (DOM 생성)
+   [UI 동적 주입] 아이폰 무음 안낸문 & AI 안낸문 세트 강제 생성
    ========================================================================== */
 (function() {
-  // 중복 생성 방지
-  if (document.querySelector('.iphone-mute-guide')) return;
-
-  // 1. 안낸문 엘리먼트 생성
-  const guideDiv = document.createElement('div');
-  guideDiv.className = 'iphone-mute-guide';
-
-  // 2. 오리지널 문구 삽입
-  guideDiv.innerHTML = `
-    <p>아이폰 유저분들은 무음 모드(진동 스위치)를</p>
-    <p>해제하셔야 배경음악과 기도 소리가 정상적으로 들립니다.</p>
-  `;
-
-  // 3. 인라인으로 절대 안 씹히는 최상위 스타일 강제 주입
-  guideDiv.style.cssText = `
-    display: block !important;
-    visibility: visible !important;
-    position: fixed !important;
-    right: calc(18px + env(safe-area-inset-right, 0px)) !important;
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
-    z-index: 99999 !important;
-    max-width: min(280px, calc(100vw - 36px)) !important;
-    margin: 0 !important;
-    font-size: 12px !important;
-    line-height: 1.4 !important;
-    color: rgba(255, 246, 230, 0.72) !important;
-    text-align: right !important;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important;
-    opacity: 0.72 !important;
-    pointer-events: none !important;
-    user-select: none !important;
-  `;
-
-  // 4. 화면 #root 레이어에 강제로 자식으로 밀어넣기
   const root = document.getElementById('root') || document.body;
-  root.appendChild(guideDiv);
+
+  // 1. 아이폰 무음 안낸문 주입 (없으면 생성)
+  if (!document.querySelector('.fullscreen-guide')) {
+    const guideDiv = document.createElement('div');
+    guideDiv.className = 'fullscreen-guide';
+    guideDiv.innerHTML = `
+      <p>아이폰 유저분들은 무음 모드(진동 스위치)를</p>
+      <p>해제하셔야 배경음악과 기도 소리가 정상적으로 들립니다.</p>
+    `;
+    guideDiv.style.cssText = `
+      display: block !important; visibility: visible !important; position: fixed !important;
+      right: calc(18px + env(safe-area-inset-right, 0px)) !important;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+      z-index: 99999 !important; max-width: min(280px, calc(100vw - 36px)) !important;
+      margin: 0 !important; font-size: 12px !important; line-height: 1.4 !important;
+      color: rgba(255, 246, 230, 0.72) !important; text-align: right !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important; opacity: 0.72 !important;
+      pointer-events: none !important; user-select: none !important;
+    `;
+    root.appendChild(guideDiv);
+  }
+
+  // 2. AI 안낸문 주입 (테마 메뉴 하단, 없으면 생성)
+  function injectAiDisclaimerForce() {
+    const menu = document.querySelector('.theme-menu, [data-theme-menu], .codex-theme-menu') || document.getElementById('root') || document.body;
+    if (menu.querySelector('.ai-disclaimer, .codex-ai-disclaimer')) return;
+    const ai = document.createElement('div');
+    ai.className = 'ai-disclaimer';
+    ai.innerHTML = '<p>이 페이지는 AI로 제작되었습니다.</p>';
+    ai.style.cssText = `
+      display: block !important; visibility: visible !important;
+      padding: 10px 14px !important; font-size: 11px !important;
+      color: rgba(255, 246, 230, 0.55) !important; text-align: center !important;
+      opacity: 0.55 !important; pointer-events: none !important; user-select: none !important;
+    `;
+    menu.appendChild(ai);
+  }
+  injectAiDisclaimerForce();
+  setInterval(injectAiDisclaimerForce, 500);
 })();
