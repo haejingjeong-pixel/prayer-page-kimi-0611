@@ -2179,6 +2179,57 @@ body.codex-theme-sinai #root .codex-altar-stage img[alt="altar"] {
 }
 
 /* =========================================================
+   사막 제외 테마 향로 이미지 컨테이너 직접 타겟팅
+   - 기존 @media 쿼리의 width: 576px !important 간섭을
+     더 높은 특수성으로 덮어씀
+   ========================================================= */
+body[data-theme="mark"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-mark #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="sinai"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-sinai #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="sinal"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-sinal #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="summer"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-summer #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="jonah"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-jonah #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="night"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-night #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body[data-theme="gethsemane"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+body.codex-theme-gethsemane #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 0px !important;
+  width: clamp(760px, 48vw, 900px) !important;
+  transform: translateX(calc(-50% - 1px)) !important;
+  height: auto !important;
+}
+
+body[data-theme="mark"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-mark #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="sinai"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-sinai #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="sinal"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-sinal #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="summer"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-summer #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="jonah"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-jonah #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="night"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-night #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body[data-theme="gethsemane"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect,
+body.codex-theme-gethsemane #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) .smoke-effect {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* =========================================================
    향연(연기) 이펙트 컨테이너 구조 (향로 남부 상단 중앙 기준)
    ※ canvas를 .censer-container 남부에 넣으면 아래 CSS가 적용됩니다.
    ========================================================= */
