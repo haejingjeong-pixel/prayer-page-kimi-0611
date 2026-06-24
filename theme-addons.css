@@ -1986,18 +1986,12 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   html body[data-theme="golbang"] #root .codex-altar-stage,
   html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
   html body .codex-altar-stage[data-theme="golbang"],
-  html body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  html body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   html body[data-theme="desert"] #root .codex-altar-stage,
   html body.codex-theme-desert #root .codex-altar-stage,
-  html body[data-theme="desert"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   html body[data-theme="sinal"] #root .codex-altar-stage,
   html body.codex-theme-sinal #root .codex-altar-stage,
-  html body[data-theme="sinal"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   html body.codex-theme-summer #root .codex-altar-stage,
-  html body.codex-theme-summer #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  html body.codex-theme-mark #root .codex-altar-stage,
-  html body.codex-theme-mark #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+  html body.codex-theme-mark #root .codex-altar-stage {
     display: block !important;
     visibility: visible !important;
     position: absolute !important;
@@ -2010,5 +2004,73 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     min-width: 0 !important;
     height: auto !important;
     opacity: 1 !important;
+  }
+}
+
+/* ==========================================================================
+   AI 제작 안내 문구 화면 고정 표시
+   ========================================================================== */
+.codex-ai-disclaimer {
+  position: fixed !important;
+  bottom: 8px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  font-size: 11px !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  text-align: center !important;
+  padding: 4px 8px !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+/* ==========================================================================
+   [노트북/PC 대화면 전용] 골방·사막 향로를 시내산 비율(2.9:1)로 통일
+   ========================================================================== */
+@media (min-width: 1025px) and (orientation: landscape) {
+
+  /* 1. 부모 스테이지를 시내산 비율로 제한 */
+  html body[data-theme="golbang"] #root .codex-altar-stage,
+  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  html body .codex-altar-stage[data-theme="golbang"],
+  html body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  html body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  html body[data-theme="desert"] #root .codex-altar-stage,
+  html body.codex-theme-desert #root .codex-altar-stage,
+  html body .codex-altar-stage[data-theme="desert"],
+  html body[data-theme="desert"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    top: 72% !important;
+    bottom: auto !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: clamp(760px, 48vw, 900px) !important;
+    height: auto !important;
+    aspect-ratio: 2.9 / 1 !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+
+  /* 2. 남부 이미지를 시내산 비율 박스 안에 contain으로 맞춤 */
+  html body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
+  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="altar"],
+  html body .codex-altar-stage[data-theme="golbang"] img[alt="altar"],
+  html body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
+  html body[data-theme="desert"] #root .codex-altar-stage img[alt="altar"],
+  html body.codex-theme-desert #root .codex-altar-stage img[alt="altar"],
+  html body .codex-altar-stage[data-theme="desert"] img[alt="altar"],
+  html body[data-theme="desert"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    aspect-ratio: auto !important;
+    transform: none !important;
   }
 }
