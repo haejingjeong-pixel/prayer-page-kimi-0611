@@ -2166,21 +2166,18 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
 /* =========================================================
    모바일 세로(Portrait) 전용: 은밀한 골방 원상 복구 방어
-   - 대형 화면 규칙이 모바일로 누수되지 않도록 독립적으로 보호
+   - 모바일 골방이 변수 값에 갇혀 쪼그라드는 현상 해결
+   - 사막/시내산처럼 화면에 꽉 차도록 시원한 가로폭 강제 적용
    ========================================================= */
-@media (max-width: 768px) and (orientation: portrait) {
+@media (max-width: 768px) {
   body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    position: fixed !important;
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
+    width: clamp(620px, 115vw, 760px) !important;
+    position: absolute !important;
+    bottom: 0px !important;
     top: auto !important;
-    bottom: var(--mobile-golbang-altar-bottom) !important;
     left: 50% !important;
-    width: var(--mobile-golbang-altar-width, var(--mobile-altar-width)) !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) !important;
+    transform: translateX(-50%) !important;
   }
 }
 
