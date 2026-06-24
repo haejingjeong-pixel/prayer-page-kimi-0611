@@ -2126,13 +2126,14 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
    - 난 이미지 알맹이 박스는 100% 채우도록 초기화
    ========================================================= */
 @media (min-width: 769px) and (orientation: landscape) {
-  /* 골방, 시내산(sinal), 다락방(mark) 등 사막 제외 모든 테마의 물가 전체 일괄 보정 */
+  /* 골방, 시내산(sinal), 여름 녹음(summer), 다락방(mark) 등 사막 제외 모든 테마의 물가 전체 일괄 보정 */
   body[data-theme="golbang"] #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
   body[data-theme="sinal"] #root .codex-altar-stage,
   body.codex-theme-sinal #root .codex-altar-stage,
-  body.codex-theme-mark #root .codex-altar-stage,
+  body[data-theme="summer"] #root .codex-altar-stage,
   body.codex-theme-summer #root .codex-altar-stage,
+  body.codex-theme-mark #root .codex-altar-stage,
   body.codex-theme-jonah #root .codex-altar-stage,
   body.codex-theme-night #root .codex-altar-stage,
   body.codex-theme-gethsemane #root .codex-altar-stage {
