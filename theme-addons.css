@@ -1391,7 +1391,6 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
 /* 4. 모바일 전 기종 해상도 매핑 부모 */
 @media (max-width: 768px) {
-  .fullscreen-guide,
   .ai-credit {
     display: none !important;
   }
