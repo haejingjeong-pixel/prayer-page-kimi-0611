@@ -2120,26 +2120,22 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 /* 은밀한 골방 테마에서도 향로 표시 */
 
 /* =========================================================
-   모든 테마 향로 크기/위치를 골방 테마와 100% 일치
+   사막 제외 모든 테마 향로 크기/위치를 골방 테마와 100% 일치
    ========================================================= */
 body[data-theme="golbang"] #root .codex-altar-stage,
 body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-body[data-theme="desert"] #root .codex-altar-stage,
 body[data-theme="gethsemane"] #root .codex-altar-stage,
 body[data-theme="night"] #root .codex-altar-stage,
 body[data-theme="summer"] #root .codex-altar-stage,
 body[data-theme="mark"] #root .codex-altar-stage,
 body[data-theme="jonah"] #root .codex-altar-stage,
 body[data-theme="sinal"] #root .codex-altar-stage,
-body.codex-theme-desert #root .codex-altar-stage,
 body.codex-theme-gethsemane #root .codex-altar-stage,
 body.codex-theme-night #root .codex-altar-stage,
 body.codex-theme-summer #root .codex-altar-stage,
 body.codex-theme-mark #root .codex-altar-stage,
 body.codex-theme-jonah #root .codex-altar-stage,
-body.codex-theme-sinal #root .codex-altar-stage,
-body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+body.codex-theme-sinal #root .codex-altar-stage {
   display: block !important;
   position: fixed !important;
   left: 50% !important;
@@ -2158,22 +2154,18 @@ body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt
 
 body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
 body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="altar"],
-body[data-theme="desert"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="gethsemane"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="night"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="summer"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="mark"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="jonah"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="sinal"] #root .codex-altar-stage img[alt="altar"],
-body.codex-theme-desert #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-gethsemane #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-night #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-summer #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-mark #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-jonah #root .codex-altar-stage img[alt="altar"],
-body.codex-theme-sinal #root .codex-altar-stage img[alt="altar"],
-body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
-body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"] {
+body.codex-theme-sinal #root .codex-altar-stage img[alt="altar"] {
   width: 100% !important;
   max-width: none !important;
   height: auto !important;
@@ -2185,14 +2177,12 @@ body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt
 @media (min-width: 769px) and (orientation: landscape) {
   body[data-theme="golbang"] #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="desert"] #root .codex-altar-stage,
   body[data-theme="gethsemane"] #root .codex-altar-stage,
   body[data-theme="night"] #root .codex-altar-stage,
   body[data-theme="summer"] #root .codex-altar-stage,
   body[data-theme="mark"] #root .codex-altar-stage,
   body[data-theme="jonah"] #root .codex-altar-stage,
   body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-desert #root .codex-altar-stage,
   body.codex-theme-gethsemane #root .codex-altar-stage,
   body.codex-theme-night #root .codex-altar-stage,
   body.codex-theme-summer #root .codex-altar-stage,
@@ -2210,14 +2200,12 @@ body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt
 @media (min-width: 1025px) and (max-width: 1440px) and (max-height: 820px) and (orientation: portrait) {
   body[data-theme="golbang"] #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="desert"] #root .codex-altar-stage,
   body[data-theme="gethsemane"] #root .codex-altar-stage,
   body[data-theme="night"] #root .codex-altar-stage,
   body[data-theme="summer"] #root .codex-altar-stage,
   body[data-theme="mark"] #root .codex-altar-stage,
   body[data-theme="jonah"] #root .codex-altar-stage,
   body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-desert #root .codex-altar-stage,
   body.codex-theme-gethsemane #root .codex-altar-stage,
   body.codex-theme-night #root .codex-altar-stage,
   body.codex-theme-summer #root .codex-altar-stage,
@@ -2233,14 +2221,12 @@ body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt
 @media (min-width: 2000px) {
   body[data-theme="golbang"] #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="desert"] #root .codex-altar-stage,
   body[data-theme="gethsemane"] #root .codex-altar-stage,
   body[data-theme="night"] #root .codex-altar-stage,
   body[data-theme="summer"] #root .codex-altar-stage,
   body[data-theme="mark"] #root .codex-altar-stage,
   body[data-theme="jonah"] #root .codex-altar-stage,
   body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-desert #root .codex-altar-stage,
   body.codex-theme-gethsemane #root .codex-altar-stage,
   body.codex-theme-night #root .codex-altar-stage,
   body.codex-theme-summer #root .codex-altar-stage,
