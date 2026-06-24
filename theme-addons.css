@@ -2089,3 +2089,40 @@ div[class*="backdrop-blur"] .codex-ai-disclaimer,
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   [안낸문 최종 생환] 과장님과 매칭했던 아이폰 무음 해제 가이드 UI 완벽 복구
+   ========================================================================== */
+
+/* 1. 자바스크립트나 리액트가 뒤늦게 그리는 무음 안내 팝업/알림창 전체 추적 */
+.sound-guide,
+.mute-guide,
+.iphone-notice,
+div[class*="guide" i],
+div[class*="notice" i],
+div[class*="alert" i] {
+  /* 향로 수정 코드가 display: none이나 opacity: 0으로 죽여놓은 것을 강제 부활 */
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  /* 배경 이미지나 시내산/골방 향로 레이어(z-index: 14~) 뒤로 파묻힌 것을 맨 앞으로 인장 */
+  z-index: 99999 !important;
+}
+
+/* 2. 안낸문 낭부에 들어있는 "무음", "사운드", "아이폰" 관련 텍스트와 스팬 태그 강제 노출 */
+div:has(span), div:has(p) {
+  opacity: 1 !important;
+}
+
+/* 3. 모바일/아이폰 미디어 쿼리 브레이크포인트에서 꼬여서 가려진 족쇄 원천 제거 */
+@media (max-width: 768px) {
+  html body #root div[class*="guide" i],
+  html body #root div[class*="notice" i],
+  .sound-guide,
+  .mute-guide {
+    display: flex !important; /* 원래 기획했던 정렬 방식에 맞게 활성화 */
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}

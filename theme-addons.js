@@ -409,12 +409,16 @@
     button.setAttribute("type", "button");
   }
 
-  function injectAiDisclaimer(menu) {
-    if (!menu || menu.querySelector(".codex-ai-disclaimer")) return;
-    var disclaimer = document.createElement("p");
-    disclaimer.className = "codex-ai-disclaimer";
-    disclaimer.textContent = "이 페이지는 AI로 제작되었습니다.";
-    menu.appendChild(disclaimer);
+  function injectAiDisclaimer() {
+    var menus = document.querySelectorAll('div[class*="bg-black/60"], div[class*="backdrop-blur-md"], .codex-theme-menu');
+    Array.from(menus).forEach(function (menu) {
+      if (menu.querySelector(".codex-ai-disclaimer")) return;
+      if (!menu.querySelector('button[data-codex-theme]')) return;
+      var disclaimer = document.createElement("p");
+      disclaimer.className = "codex-ai-disclaimer";
+      disclaimer.textContent = "이 페이지는 AI로 제작되었습니다.";
+      menu.appendChild(disclaimer);
+    });
   }
 
   function updateMenuButtons() {
@@ -430,7 +434,6 @@
       });
       if (!exists) menu.appendChild(createThemeButton(id));
     });
-    injectAiDisclaimer(menu);
   }
 
   function createThemeButton(id) {
@@ -617,6 +620,7 @@
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
     ensurePrayerSaveNotice();
     syncPrayerStateFromButtons();
+    window.setInterval(injectAiDisclaimer, 500);
   }
 
   window.codexApplyTheme = applyTheme;
