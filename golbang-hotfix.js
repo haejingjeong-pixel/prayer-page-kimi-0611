@@ -3,7 +3,6 @@
 
   var GOLBANG_LABEL = "은밀한 골방";
   var GOLBANG_THEME = "golbang";
-  var BOOT_CLASS = "codex-golbang-booting";
   var themeLabels = [
     "사막의 제단",
     "겟세마네 동산",
@@ -39,9 +38,6 @@
     style.textContent = [
       "body[data-theme='golbang'], body[data-current-theme='은밀한 골방'] { background-color: #d6b99c !important; }",
       "body[data-theme='golbang'] #golbang-theme-layer, body[data-current-theme='은밀한 골방'] #golbang-theme-layer { display: block !important; opacity: 1 !important; background-image: url('assets/back_golbang_new.webp') !important; background-position: center 21% !important; background-size: auto 130% !important; background-repeat: no-repeat !important; background-color: #d6b99c !important; }",
-      "body[data-theme='golbang'] #root .codex-altar-stage, body[data-current-theme='은밀한 골방'] #root .codex-altar-stage { display: block !important; position: fixed !important; left: 50% !important; bottom: 96px !important; top: auto !important; transform: translateX(-50%) !important; width: 576px !important; height: auto !important; z-index: 50 !important; visibility: visible !important; pointer-events: none !important; }",
-      "body[data-theme='golbang'] #root .codex-altar-stage img[alt='altar'], body[data-current-theme='은밀한 골방'] #root .codex-altar-stage img[alt='altar'] { width: 100% !important; max-width: none !important; height: auto !important; display: block !important; opacity: 1 !important; visibility: visible !important; }",
-      "body.codex-theme-transitioning[data-theme='golbang'] #root .codex-altar-stage, body.codex-theme-transitioning[data-current-theme='은밀한 골방'] #root .codex-altar-stage, body.codex-golbang-booting #root .codex-altar-stage { opacity: 0 !important; }",
       "#golbang-start-hint { position: fixed; inset: 0; z-index: 2147483646; display: flex; align-items: center; justify-content: center; pointer-events: auto; background: radial-gradient(ellipse at 50% 44%, rgba(214,185,156,0.12), rgba(70,42,22,0.10) 46%, rgba(0,0,0,0.16) 100%); opacity: 1; transition: opacity 360ms ease; }",
       "#golbang-start-hint.is-hidden { opacity: 0; pointer-events: none; }",
       "#golbang-start-hint .golbang-start-hint-card { padding: 14px 24px; border-radius: 999px; color: rgba(255,248,232,0.96); font-size: clamp(14px, 2.4vw, 19px); letter-spacing: 0.08em; line-height: 1.5; text-align: center; background: rgba(78,54,35,0.34); border: 1px solid rgba(255,238,210,0.38); box-shadow: 0 12px 40px rgba(48,27,12,0.22), inset 0 0 18px rgba(255,236,202,0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); text-shadow: 0 2px 8px rgba(0,0,0,0.26); }"
