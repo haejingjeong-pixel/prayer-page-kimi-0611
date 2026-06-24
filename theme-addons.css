@@ -2126,3 +2126,39 @@ div:has(span), div:has(p) {
     opacity: 1 !important;
   }
 }
+
+/* ==========================================================================
+   [안낸문 최종 생환] "음악과 기도 소리를..." 안낸문 무조건 강제 표시
+   ========================================================================== */
+
+/* 1. 안내 관련 클래스 및 일반적인 팝업/오버레이 레이어 전면 표시 */
+.sound-guide,
+.mute-guide,
+.iphone-notice,
+div[class*="sound" i],
+div[class*="mute" i],
+div[class*="iphone" i],
+div[class*="notice" i],
+div[class*="guide" i],
+div[class*="alert" i],
+div[class*="toast" i] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 99999 !important;
+  position: absolute !important;
+  pointer-events: auto !important;
+}
+
+/* 2. 글자 자체의 가독성 확보 */
+.sound-guide *,
+.mute-guide *,
+.iphone-notice *,
+div[class*="sound" i] *,
+div[class*="mute" i] *,
+div[class*="notice" i] *,
+div[class*="guide" i] * {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+  opacity: 1 !important;
+}
