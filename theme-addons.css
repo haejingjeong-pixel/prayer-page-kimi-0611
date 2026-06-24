@@ -2,75 +2,30 @@ body {
   background-color: #78563d !important;
 }
 
-html,
-body,
-#root {
-  height: 100vh !important;
-  height: 100dvh !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
-  overflow: hidden !important;
-}
-
-#root > div[class*="h-screen"] {
-  height: 100vh !important;
-  height: 100dvh !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
-  max-height: 100dvh !important;
-}
-
-#root div[class*="fixed"][class*="z-[55]"] p::after {
-  content: "💡 아이폰 유저분들은 측면 무음(진동) 모드를 해제하셔야 배경음악이 들립니다.";
-  display: block;
-  width: min(720px, calc(100vw - 48px));
-  margin: 14px auto 0;
-  font-size: clamp(10px, 0.5em, 16px);
-  font-weight: 500;
-  line-height: 1.45;
-  letter-spacing: 0.02em;
-  opacity: 0.68;
-  text-align: center;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
-  white-space: normal;
-}
-
-@media (max-width: 768px) {
-  #root div[class*="fixed"][class*="z-[55]"] p::after {
-    width: min(360px, calc(100vw - 36px));
-    margin-top: 12px;
-    font-size: 12px;
-    line-height: 1.5;
-  }
-}
-
 canvas.absolute.inset-0 {
   width: 100vw !important;
   height: 100vh !important;
-  height: 100dvh !important;
 }
 
 body[data-theme] #root canvas {
   z-index: 12 !important;
 }
 
-/* 모든 테마 향로 크기 통일 및 반응형 */
-body[data-theme] #root .codex-altar-stage,
-body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-body[data-current-theme] #root .codex-altar-stage,
-body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-  width: clamp(300px, 42vh, 560px) !important;
-  max-width: 90vw !important;
-  min-width: auto !important;
-  height: auto !important;
+/* 상단 참여자 수 안내 pill: 한 줄 유지 및 오버플로우 방지 */
+img[alt="top ui"] + div span {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+  display: block !important;
+  letter-spacing: -0.01em !important;
 }
 
-body[data-theme] #root .codex-altar-stage img[alt="altar"],
-body[data-current-theme] #root .codex-altar-stage img[alt="altar"],
-body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
-body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"] {
-  width: 100% !important;
-  height: auto !important;
+@media (max-width: 768px) {
+  img[alt="top ui"] + div span {
+    font-size: 10px !important;
+    letter-spacing: -0.02em !important;
+  }
 }
 
 .fullscreen-guide {
@@ -86,13 +41,30 @@ body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt
   text-align: right;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
   opacity: 0.72;
-  pointer-events: none;
+  cursor: default !important;
+  pointer-events: auto !important;
   user-select: none;
-  transition: opacity 700ms ease;
 }
 
 .fullscreen-guide:hover {
-  opacity: 0.42;
+  opacity: 0.72;
+}
+
+.ai-credit {
+  position: fixed;
+  left: calc(18px + env(safe-area-inset-left, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 90;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(255, 246, 230, 0.78);
+  text-align: left;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  opacity: 0.78;
+  cursor: default !important;
+  pointer-events: auto !important;
+  user-select: none;
 }
 
 body[data-theme] .codex-altar-stage,
@@ -304,8 +276,6 @@ body[data-theme="gethsemane"][data-prayer-state="praying"] #gethsemane-theme-lay
   animation-delay: var(--delay);
 }
 
-/* React keeps the previously selected base theme mounted beneath add-on themes.
-   Suspend those base-only atmosphere layers while an independent add-on is active. */
 body[data-theme="mark"] .gethsemane-front-layer,
 body[data-theme="mark"] .gethsemane-atmosphere-dim,
 body[data-theme="mark"] .gethsemane-haze-layer,
@@ -633,7 +603,6 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   animation-delay: var(--delay);
 }
 
-/* 산지 먼지 (가까운 레이어) */
 .sinal-mountain-dust-near {
   position: absolute;
   border-radius: 999px;
@@ -649,7 +618,6 @@ body[data-theme="gethsemane"] #gethsemane-theme-layer .gethsemane-wind-layer spa
   animation-delay: var(--delay);
 }
 
-/* 산지 먼지 (먼 레이어) */
 .sinal-mountain-dust-far {
   position: absolute;
   border-radius: 999px;
@@ -810,7 +778,6 @@ body[data-theme="sinal"][data-prayer-state="praying"] .sinal-top-cloud {
   animation-fill-mode: backwards;
 }
 
-/* Keep Sinai incense particles in front of the atmosphere layer only. */
 body[data-theme="sinal"] #root canvas {
   z-index: 12 !important;
 }
@@ -964,23 +931,15 @@ button[data-codex-theme].codex-theme-active > span:first-child {
 }
 
 .codex-ai-disclaimer {
-  display: none;
-}
-
-#root div[class*="min-w-[180px]"]::after {
-  content: "이 페이지는 AI로 제작되었습니다.";
-  display: block;
-  margin: 8px 4px 2px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.42);
   font-size: 11px;
-  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.4);
   text-align: center;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  padding-top: 8px;
+  padding-bottom: 4px;
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
+  order: 100;
 }
 
 @keyframes sinalMountainDustDriftNear {
@@ -1041,33 +1000,14 @@ body[data-current-theme="은밀한 골방"] #golbang-theme-layer {
   opacity: 1 !important;
 }
 
-/* 은밀한 골방: #root 낶부 중복 배경 숨김 - 실제 배경은 #golbang-theme-layer 하나만 사용 */
 body[data-theme="golbang"] #root div.absolute.z-0[style*="back_golbang_new"],
 body[data-current-theme="은밀한 골방"] #root div.absolute.z-0[style*="back_golbang_new"] {
   display: none !important;
 }
 
-/* 은밀한 골방에서는 어둠 오버레이 제거 */
 body[data-theme="golbang"] .fixed[class*="z-[45]"].pointer-events-none,
 body[data-current-theme="은밀한 골방"] .fixed[class*="z-[45]"].pointer-events-none {
   opacity: 0 !important;
-}
-
-/* 은밀한 골방: 향로 stage */
-body[data-theme="golbang"] #root .codex-altar-stage,
-body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
-  display: block !important;
-  position: fixed !important;
-  left: 50% !important;
-  bottom: 96px !important;
-  top: auto !important;
-  transform: translateX(calc(-50% - 1px)) !important;
-  width: 576px !important;
-  height: auto !important;
-  z-index: 50 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: none !important;
 }
 
 body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
@@ -1078,25 +1018,6 @@ body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="al
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
-}
-
-@media (min-width: 1025px) and (max-width: 1440px) and (max-height: 820px) and (orientation: portrait) {
-  body[data-theme] #root .codex-altar-stage,
-  body[data-current-theme] #root .codex-altar-stage {
-    position: fixed !important;
-    left: 50% !important;
-    top: auto !important;
-    bottom: 90px !important;
-    width: 380px !important;
-    transform: translateX(-50%) !important;
-  }
-
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
-    width: 380px !important;
-    bottom: 90px !important;
-    transform: translateX(calc(-50% - 1px)) !important;
-  }
 }
 
 /* 은밀한 골방: 기도문 작성하기 */
@@ -1191,7 +1112,6 @@ body[data-theme="golbang"][data-prayer-state="praying"] .prayer-verse p {
 body[data-theme="golbang"] [data-codex-theme-background="true"] {
   width: 100vw !important;
   height: 100vh !important;
-  height: 100dvh !important;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -1227,7 +1147,7 @@ body[data-theme="golbang"][data-prayer-state="praying"] [data-codex-theme-backgr
   transform: scale(1);
 }
 
-button > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+button > div.ml-auto.w-1.5.h-1.5.rounded-full.bg-amber-400,
 button > .codex-menu-active-dot {
   display: none !important;
 }
@@ -1240,7 +1160,6 @@ button > .codex-menu-active-dot {
   100% { transform: translate3d(14px, -10px, 0) scale(0.85); opacity: 0; }
 }
 
-/* UI 고정: 큰 화면(md) 기준으로 모든 화면폭에서 동일한 크기/위치 유지 */
 button[class*="text-xs"][class*="md:text-sm"] {
   font-size: 14px !important;
   line-height: 20px !important;
@@ -1289,7 +1208,11 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   user-select: none;
 }
 
-/* 작은 스마트폰 */
+/* ==========================================================================
+   [반응형 뼈대 및 미디어 쿼리 그룹 빌드]
+   ========================================================================== */
+
+/* 1. 작은 스마트폰 */
 @media (max-width: 390px) {
   body[data-theme],
   body[data-current-theme] {
@@ -1334,7 +1257,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 일반 스마트폰 */
+/* 2. 일반 스마트폰 */
 @media (min-width: 391px) and (max-width: 480px) {
   body[data-theme],
   body[data-current-theme] {
@@ -1379,7 +1302,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 큰 스마트폰 / 폴더블 접은 상태 */
+/* 3. 큰 스마트폰 */
 @media (min-width: 481px) and (max-width: 768px) {
   body[data-theme],
   body[data-current-theme] {
@@ -1428,6 +1351,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body[data-theme="golbang"],
   body.codex-theme-golbang,
   body[data-current-theme="은밀한 골방"] {
+    --mobile-golbang-altar-width: min(430px, 82vw);
     --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
   }
 
@@ -1465,8 +1389,10 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
+/* 4. 모바일 전 기종 해상도 매핑 부모 */
 @media (max-width: 768px) {
-  .fullscreen-guide {
+  .fullscreen-guide,
+  .ai-credit {
     display: none !important;
   }
 
@@ -1574,6 +1500,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     line-height: 1.38 !important;
   }
 
+  /* 타 야외 테마 모바일 고정 */
   body[data-theme]:not([data-theme="golbang"]) #root .codex-altar-stage,
   body[data-current-theme]:not([data-current-theme="은밀한 골방"]) #root .codex-altar-stage,
   body[data-theme]:not([data-theme="golbang"]) #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
@@ -1589,35 +1516,25 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     z-index: 50 !important;
   }
 
+  /* 은밀한 골방 전용 모바일 착륙 (여기로 격리 배치 완료!) */
   body[data-theme="golbang"] #root .codex-altar-stage,
   body.codex-theme-golbang #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
   body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
   body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    position: fixed !important;
     top: auto !important;
     left: 50% !important;
     bottom: var(--mobile-golbang-altar-bottom) !important;
-    width: clamp(620px, 115vw, 760px) !important;
-    min-width: clamp(620px, 115vw, 760px) !important;
-    max-width: clamp(620px, 115vw, 760px) !important;
+    width: var(--mobile-golbang-altar-width, var(--mobile-altar-width)) !important;
     transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) !important;
-  }
-
-  body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
-  body.codex-theme-golbang #root .codex-altar-stage img[alt="altar"],
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="altar"],
-  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
-  body.codex-theme-golbang #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"],
-  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) img[alt="altar"] {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: none !important;
+    z-index: 50 !important;
   }
 
   body[data-theme] #root div[class*="bottom-[120px]"],
   body[data-current-theme] #root div[class*="bottom-[120px]"] {
-    bottom: calc(var(--mobile-write-bottom) + var(--ios-safari-bottom-offset, 0px)) !important;
+    bottom: var(--mobile-write-bottom) !important;
     z-index: 92 !important;
   }
 
@@ -1632,7 +1549,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 
   body[data-theme] #root div[class*="bottom-12"],
   body[data-current-theme] #root div[class*="bottom-12"] {
-    bottom: calc(var(--mobile-pray-bottom) + var(--ios-safari-bottom-offset, 0px)) !important;
+    bottom: var(--mobile-pray-bottom) !important;
     z-index: 93 !important;
   }
 
@@ -1683,39 +1600,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-@media (min-width: 769px) and (orientation: landscape) {
-  body[data-theme] #root .codex-altar-stage,
-  body[data-current-theme] #root .codex-altar-stage,
-  body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    position: fixed !important;
-    left: 50% !important;
-    top: auto !important;
-    bottom: 96px !important;
-    width: 576px !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    transform: translateX(-50%) !important;
-  }
-
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    transform: translateX(calc(-50% - 1px)) !important;
-  }
-}
-
-@media (min-width: 2000px) {
-  body[data-theme] #root .codex-altar-stage,
-  body[data-current-theme] #root .codex-altar-stage,
-  body[data-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-current-theme] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    width: 750px !important;
-    max-width: 750px !important;
-  }
-}
-
+/* 5. 아이폰 사파리 특화 보정 */
 @media (max-width: 390px) and (-webkit-touch-callout: none) {
   body[data-theme="golbang"],
   body.codex-theme-golbang,
@@ -1744,11 +1629,6 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 }
 
 @media (max-width: 768px) and (-webkit-touch-callout: none) {
-  body[data-theme],
-  body[data-current-theme] {
-    --ios-safari-bottom-offset: 46px;
-  }
-
   body[data-theme="golbang"] #root .codex-altar-stage,
   body.codex-theme-golbang #root .codex-altar-stage,
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
@@ -1760,65 +1640,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 최신 iPhone CSS viewport: 16/17 기본, Pro, Pro Max 계열 */
-@media (min-width: 391px) and (max-width: 409px) and (min-height: 840px) and (max-height: 890px) and (orientation: portrait) {
-  body[data-theme],
-  body[data-current-theme] {
-    --ios-safari-bottom-offset: 0px;
-    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 192px);
-    --mobile-write-height: 31px;
-    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 118px);
-    --mobile-pray-width: 226px;
-    --mobile-pray-height: 62px;
-  }
-
-  body[data-theme="golbang"],
-  body.codex-theme-golbang,
-  body[data-current-theme="은밀한 골방"] {
-    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 234px);
-    --mobile-golbang-altar-shift: 0px;
-  }
-}
-
-@media (min-width: 410px) and (max-width: 434px) and (min-height: 900px) and (max-height: 940px) and (orientation: portrait) {
-  body[data-theme],
-  body[data-current-theme] {
-    --ios-safari-bottom-offset: 0px;
-    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 200px);
-    --mobile-write-height: 32px;
-    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 124px);
-    --mobile-pray-width: 232px;
-    --mobile-pray-height: 64px;
-  }
-
-  body[data-theme="golbang"],
-  body.codex-theme-golbang,
-  body[data-current-theme="은밀한 골방"] {
-    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 244px);
-    --mobile-golbang-altar-shift: 0px;
-  }
-}
-
-@media (min-width: 435px) and (max-width: 460px) and (min-height: 940px) and (max-height: 980px) and (orientation: portrait) {
-  body[data-theme],
-  body[data-current-theme] {
-    --ios-safari-bottom-offset: 0px;
-    --mobile-write-bottom: calc(env(safe-area-inset-bottom, 0px) + 204px);
-    --mobile-write-height: 32px;
-    --mobile-pray-bottom: calc(env(safe-area-inset-bottom, 0px) + 128px);
-    --mobile-pray-width: 236px;
-    --mobile-pray-height: 64px;
-  }
-
-  body[data-theme="golbang"],
-  body.codex-theme-golbang,
-  body[data-current-theme="은밀한 골방"] {
-    --mobile-golbang-altar-bottom: calc(env(safe-area-inset-bottom, 0px) + 248px);
-    --mobile-golbang-altar-shift: 0px;
-  }
-}
-
-/* 아이패드 세로 768px / 작은 태블릿 */
+/* 6. 아이패드 세로 768px */
 @media (width: 768px) and (min-height: 900px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
@@ -1854,7 +1676,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 아이패드 미니 / 작은 태블릿 */
+/* 7. 아이패드 미니 */
 @media (min-width: 769px) and (max-width: 834px) and (min-height: 900px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
@@ -1890,7 +1712,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 기본 아이패드 / 아이패드 에어 11인치 */
+/* 8. 기본 아이패드 에어 */
 @media (min-width: 835px) and (max-width: 1024px) and (min-height: 1000px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
@@ -1926,7 +1748,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* 아이패드 프로/에어 13인치 및 큰 태블릿 */
+/* 9. 아이패드 프로 13인치 대형 태블릿 */
 @media (min-width: 1025px) and (max-width: 1366px) and (min-height: 901px) and (orientation: portrait) {
   body[data-theme],
   body[data-current-theme] {
@@ -1962,6 +1784,7 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
+/* 10. 태블릿 공통 제어부 */
 @media (width: 768px) and (min-height: 900px) and (orientation: portrait),
   (min-width: 769px) and (max-width: 834px) and (min-height: 900px) and (orientation: portrait),
   (min-width: 835px) and (max-width: 1024px) and (min-height: 1000px) and (orientation: portrait),
@@ -2134,107 +1957,52 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   }
 }
 
-/* ==========================================================================
-   [최종 위치 교정] 아이패드 미니 & 모바일 향로 구도 및 크기 통합 복구
-   ========================================================================== */
-
-@media (max-width: 1024px) {
-  html body[class*="theme-golbang"] #root .codex-altar-stage,
-  html body[data-theme="golbang"] #root .codex-altar-stage,
-  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  html body .codex-altar-stage,
-  html body[class*="theme-golbang"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  html body[data-theme="golbang"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  html body[data-current-theme="은밀한 골방"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
-    display: block !important;
-    visibility: visible !important;
-    width: clamp(620px, 115vw, 760px) !important;
-    position: absolute !important;
-    bottom: 0px !important;
-    top: auto !important;
+/* 11. 미디어 쿼리 세로 모드 조건 누락 보정 (1025px~1440px 태블릿 전용) */
+@media (min-width: 1025px) and (max-width: 1440px) and (max-height: 820px) and (orientation: portrait) {
+  body[data-theme] #root .codex-altar-stage,
+  body[data-current-theme] #root .codex-altar-stage {
+    position: fixed !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
-    max-width: none !important;
-    height: auto !important;
-    opacity: 1 !important;
-  }
-
-  html body[class*="theme-golbang"] #root div[class*="left-1/2"][class*="z-10"]:not(.codex-altar-stage):has(img[alt="altar"]),
-  html body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:not(.codex-altar-stage):has(img[alt="altar"]),
-  html body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:not(.codex-altar-stage):has(img[alt="altar"]) {
-    display: block !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    height: auto !important;
-    transform: none !important;
-    position: static !important;
     top: auto !important;
-    left: auto !important;
-    opacity: 1 !important;
+    bottom: 90px !important;
+    width: 380px !important;
+    transform: translateX(-50%) !important;
   }
 
-  html body[class*="theme-golbang"] #root .codex-altar-stage img[alt="altar"],
-  html body[data-theme="golbang"] #root .codex-altar-stage img[alt="altar"],
-  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage img[alt="altar"],
-  html body .codex-altar-stage img[alt="altar"] {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: none !important;
-    height: auto !important;
-    opacity: 1 !important;
+  body[data-theme="golbang"] #root .codex-altar-stage,
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage {
+    width: 380px !important;
+    bottom: 90px !important;
+    transform: translateX(calc(-50% - 1px)) !important;
   }
 }
 
-@media (min-width: 1025px) and (orientation: landscape) {
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-sinal #root .codex-altar-stage,
-  body.codex-theme-mark #root .codex-altar-stage,
-  body.codex-theme-summer #root .codex-altar-stage,
-  body.codex-theme-jonah #root .codex-altar-stage,
-  body.codex-theme-night #root .codex-altar-stage,
-  body.codex-theme-gethsemane #root .codex-altar-stage,
-  body[data-theme="golbang"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-current-theme="은밀한 골방"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body[data-theme="sinal"] #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-sinal #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-mark #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-summer #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-jonah #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-night #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
-  body.codex-theme-gethsemane #root div.codex-altar-stage[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+/* ==========================================================================
+   [PC 대형 가로 화면 최종 종결지]
+   - 앞쪽 html body 셀렉터 가중치 독점으로 중간의 무법자 변수 코드를 원천 진압하고 
+     사막 테마와 1:1 완벽 대칭 레이아웃 강제 구현
+   ========================================================================== */
+@media (min-width: 769px) and (orientation: landscape) {
+  html body[data-theme="golbang"] #root .codex-altar-stage,
+  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  html body .codex-altar-stage[data-theme="golbang"],
+  html body[data-theme="desert"] #root .codex-altar-stage,
+  html body.codex-theme-desert #root .codex-altar-stage,
+  html body[data-theme="sinal"] #root .codex-altar-stage,
+  html body.codex-theme-sinal #root .codex-altar-stage,
+  html body.codex-theme-summer #root .codex-altar-stage,
+  html body.codex-theme-mark #root .codex-altar-stage {
     display: block !important;
     visibility: visible !important;
     position: absolute !important;
-    top: 72% !important;
+    top: 72% !important; /* 사막 테마 고정 정밀 축 */
     bottom: auto !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    width: clamp(760px, 48vw, 900px) !important;
+    width: clamp(760px, 48vw, 900px) !important; /* 사막 전용 황금 비율 폭 복사 */
     max-width: none !important;
+    min-width: 0 !important;
     height: auto !important;
     opacity: 1 !important;
   }
-}
-
-/* 향연(연기) 이펙트: 향로 상단 중앙 기준 */
-body[data-theme="golbang"] #root .codex-altar-stage .smoke-effect,
-body[data-current-theme="은밀한 골방"] #root .codex-altar-stage .smoke-effect,
-body[data-theme="sinal"] #root .codex-altar-stage .smoke-effect,
-body.codex-theme-sinal #root .codex-altar-stage .smoke-effect,
-body.codex-theme-mark #root .codex-altar-stage .smoke-effect,
-body.codex-theme-summer #root .codex-altar-stage .smoke-effect,
-body.codex-theme-jonah #root .codex-altar-stage .smoke-effect,
-body.codex-theme-night #root .codex-altar-stage .smoke-effect,
-body.codex-theme-gethsemane #root .codex-altar-stage .smoke-effect {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120%;
-  height: 200%;
-  pointer-events: none;
-  z-index: 10;
 }
