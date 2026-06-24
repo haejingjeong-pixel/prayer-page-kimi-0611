@@ -2130,19 +2130,21 @@ body[data-theme="summer"] #root .codex-altar-stage,
 body[data-theme="mark"] #root .codex-altar-stage,
 body[data-theme="jonah"] #root .codex-altar-stage,
 body[data-theme="sinal"] #root .codex-altar-stage,
+body[data-theme="sinai"] #root .codex-altar-stage,
 body.codex-theme-gethsemane #root .codex-altar-stage,
 body.codex-theme-night #root .codex-altar-stage,
 body.codex-theme-summer #root .codex-altar-stage,
 body.codex-theme-mark #root .codex-altar-stage,
 body.codex-theme-jonah #root .codex-altar-stage,
-body.codex-theme-sinal #root .codex-altar-stage {
+body.codex-theme-sinal #root .codex-altar-stage,
+body.codex-theme-sinai #root .codex-altar-stage {
   display: block !important;
   position: fixed !important;
   left: 50% !important;
-  bottom: 96px !important;
+  bottom: 0px !important;
   top: auto !important;
   transform: translateX(calc(-50% - 1px)) !important;
-  width: 576px !important;
+  width: clamp(760px, 48vw, 900px) !important;
   min-width: auto !important;
   max-width: none !important;
   height: auto !important;
@@ -2160,83 +2162,20 @@ body[data-theme="summer"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="mark"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="jonah"] #root .codex-altar-stage img[alt="altar"],
 body[data-theme="sinal"] #root .codex-altar-stage img[alt="altar"],
+body[data-theme="sinai"] #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-gethsemane #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-night #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-summer #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-mark #root .codex-altar-stage img[alt="altar"],
 body.codex-theme-jonah #root .codex-altar-stage img[alt="altar"],
-body.codex-theme-sinal #root .codex-altar-stage img[alt="altar"] {
+body.codex-theme-sinal #root .codex-altar-stage img[alt="altar"],
+body.codex-theme-sinai #root .codex-altar-stage img[alt="altar"] {
   width: 100% !important;
   max-width: none !important;
   height: auto !important;
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
-}
-
-@media (min-width: 769px) and (orientation: landscape) {
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="gethsemane"] #root .codex-altar-stage,
-  body[data-theme="night"] #root .codex-altar-stage,
-  body[data-theme="summer"] #root .codex-altar-stage,
-  body[data-theme="mark"] #root .codex-altar-stage,
-  body[data-theme="jonah"] #root .codex-altar-stage,
-  body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-gethsemane #root .codex-altar-stage,
-  body.codex-theme-night #root .codex-altar-stage,
-  body.codex-theme-summer #root .codex-altar-stage,
-  body.codex-theme-mark #root .codex-altar-stage,
-  body.codex-theme-jonah #root .codex-altar-stage,
-  body.codex-theme-sinal #root .codex-altar-stage {
-    bottom: 96px !important;
-    width: 576px !important;
-    min-width: auto !important;
-    max-width: none !important;
-    transform: translateX(calc(-50% - 1px)) !important;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1440px) and (max-height: 820px) and (orientation: portrait) {
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="gethsemane"] #root .codex-altar-stage,
-  body[data-theme="night"] #root .codex-altar-stage,
-  body[data-theme="summer"] #root .codex-altar-stage,
-  body[data-theme="mark"] #root .codex-altar-stage,
-  body[data-theme="jonah"] #root .codex-altar-stage,
-  body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-gethsemane #root .codex-altar-stage,
-  body.codex-theme-night #root .codex-altar-stage,
-  body.codex-theme-summer #root .codex-altar-stage,
-  body.codex-theme-mark #root .codex-altar-stage,
-  body.codex-theme-jonah #root .codex-altar-stage,
-  body.codex-theme-sinal #root .codex-altar-stage {
-    bottom: 90px !important;
-    width: 380px !important;
-    transform: translateX(calc(-50% - 1px)) !important;
-  }
-}
-
-@media (min-width: 2000px) {
-  body[data-theme="golbang"] #root .codex-altar-stage,
-  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  body[data-theme="gethsemane"] #root .codex-altar-stage,
-  body[data-theme="night"] #root .codex-altar-stage,
-  body[data-theme="summer"] #root .codex-altar-stage,
-  body[data-theme="mark"] #root .codex-altar-stage,
-  body[data-theme="jonah"] #root .codex-altar-stage,
-  body[data-theme="sinal"] #root .codex-altar-stage,
-  body.codex-theme-gethsemane #root .codex-altar-stage,
-  body.codex-theme-night #root .codex-altar-stage,
-  body.codex-theme-summer #root .codex-altar-stage,
-  body.codex-theme-mark #root .codex-altar-stage,
-  body.codex-theme-jonah #root .codex-altar-stage,
-  body.codex-theme-sinal #root .codex-altar-stage {
-    width: 750px !important;
-    max-width: 750px !important;
-    transform: translateX(calc(-50% - 1px)) !important;
-  }
 }
 
 /* =========================================================
