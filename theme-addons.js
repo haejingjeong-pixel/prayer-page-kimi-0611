@@ -409,6 +409,14 @@
     button.setAttribute("type", "button");
   }
 
+  function injectAiDisclaimer(menu) {
+    if (!menu || menu.querySelector(".codex-ai-disclaimer")) return;
+    var disclaimer = document.createElement("p");
+    disclaimer.className = "codex-ai-disclaimer";
+    disclaimer.textContent = "이 페이지는 AI로 제작되었습니다.";
+    menu.appendChild(disclaimer);
+  }
+
   function updateMenuButtons() {
     Array.from(document.querySelectorAll("button")).forEach(bindThemeButton);
     var anchor = Array.from(document.querySelectorAll("button")).find(function (button) {
@@ -422,6 +430,7 @@
       });
       if (!exists) menu.appendChild(createThemeButton(id));
     });
+    injectAiDisclaimer(menu);
   }
 
   function createThemeButton(id) {
