@@ -2120,10 +2120,10 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
 /* 은밀한 골방 테마에서도 향로 표시 */
 
 /* =========================================================
-   사막 제외 테마 향로 물가 컨테이너(.codex-altar-stage)에
-   골방 대형 반응형 수치 일괄 적용
+   대형 화면(Landscape) 전용: 사막 제외 테마 향로 물가 컨테이너(.codex-altar-stage)
    - 기존 공통 미디어 쿼리의 576px/fixed 간섭을 더 높은 특수성으로 오버라이드
    - 난 이미지 알맹이 박스는 100% 채우도록 초기화
+   - 중괄호를 완벽히 닫아 모바일 세로(Portrait) 영역으로 절대 침범하지 않음
    ========================================================= */
 @media (min-width: 769px) and (orientation: landscape) {
   /* 골방, 시내산(sinal), 여름 녹음(summer), 다락방(mark) 등 사막 제외 모든 테마의 물가 전체 일괄 보정 */
@@ -2131,9 +2131,8 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
   body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
   body[data-theme="sinal"] #root .codex-altar-stage,
   body.codex-theme-sinal #root .codex-altar-stage,
-  body[data-theme="summer"] #root .codex-altar-stage,
-  body.codex-theme-summer #root .codex-altar-stage,
   body.codex-theme-mark #root .codex-altar-stage,
+  body.codex-theme-summer #root .codex-altar-stage,
   body.codex-theme-jonah #root .codex-altar-stage,
   body.codex-theme-night #root .codex-altar-stage,
   body.codex-theme-gethsemane #root .codex-altar-stage {
@@ -2148,25 +2147,40 @@ div[class*="w-\[300px\]"][class*="md:w-\[380px\]"] span {
     height: auto !important;
   }
 
-  /* 난 이미지 알맹이 박스가 물가 크기(100%)를 자연스럽게 꽉 채우도록 기존 576px 간섭 제거 */
-  body[data-theme="sinal"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-sinal #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body[data-theme="mark"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-mark #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body[data-theme="summer"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-summer #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body[data-theme="jonah"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-jonah #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body[data-theme="night"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-night #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body[data-theme="gethsemane"] #root div[class*="left-1/2"]:has(img[alt="altar"]),
-  body.codex-theme-gethsemane #root div[class*="left-1/2"]:has(img[alt="altar"]) {
+  /* 알맹이 박스들이 대형 물가 크기(100%)를 자연스럽게 채우도록 기존 576px 간섭 제거 */
+  body[data-theme="sinal"] div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-sinal div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-mark div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-summer div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-jonah div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-night div[class*="left-1/2"]:has(img[alt="altar"]),
+  body.codex-theme-gethsemane div[class*="left-1/2"]:has(img[alt="altar"]) {
     width: 100% !important;
     max-width: none !important;
     position: relative !important;
     top: auto !important;
     left: auto !important;
     transform: none !important;
+  }
+} /* <-- 대형 화면 미디어 쿼리를 여기서 완벽하게 닫아 모바일 침범 차단!! */
+
+/* =========================================================
+   모바일 세로(Portrait) 전용: 은밀한 골방 원상 복구 방어
+   - 대형 화면 규칙이 모바일로 누수되지 않도록 독립적으로 보호
+   ========================================================= */
+@media (max-width: 768px) and (orientation: portrait) {
+  body[data-theme="golbang"] #root .codex-altar-stage,
+  body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
+  body[data-theme="golbang"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]),
+  body[data-current-theme="은밀한 골방"] #root div[class*="left-1/2"][class*="z-10"]:has(img[alt="altar"]) {
+    position: fixed !important;
+    top: auto !important;
+    bottom: var(--mobile-golbang-altar-bottom) !important;
+    left: 50% !important;
+    width: var(--mobile-golbang-altar-width, var(--mobile-altar-width)) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    transform: translateX(calc(-50% + var(--mobile-golbang-altar-x, 0px))) !important;
   }
 }
 
@@ -2175,15 +2189,10 @@ body[data-theme="golbang"] #root .codex-altar-stage .smoke-effect,
 body[data-current-theme="은밀한 골방"] #root .codex-altar-stage .smoke-effect,
 body[data-theme="sinal"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-sinal #root .codex-altar-stage .smoke-effect,
-body[data-theme="mark"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-mark #root .codex-altar-stage .smoke-effect,
-body[data-theme="summer"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-summer #root .codex-altar-stage .smoke-effect,
-body[data-theme="jonah"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-jonah #root .codex-altar-stage .smoke-effect,
-body[data-theme="night"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-night #root .codex-altar-stage .smoke-effect,
-body[data-theme="gethsemane"] #root .codex-altar-stage .smoke-effect,
 body.codex-theme-gethsemane #root .codex-altar-stage .smoke-effect {
   position: absolute;
   bottom: 100%;
