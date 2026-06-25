@@ -629,9 +629,11 @@
           ensurePrayerSaveNotice();
         }
         if (activeTheme) {
-          updateAltar(THEMES[activeTheme]);
           normalizeGolbangVerseLayers(activeTheme);
-          if (needsCleanup) cleanupReactThemeArtifacts(activeTheme);
+          if (needsCleanup) {
+            updateAltar(THEMES[activeTheme]);
+            cleanupReactThemeArtifacts(activeTheme);
+          }
         }
       });
     }).observe(root, { childList: true, subtree: true });
