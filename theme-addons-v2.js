@@ -620,44 +620,7 @@
     applyTheme(document.body.dataset.theme || "golbang", { silent: true });
     ensurePrayerSaveNotice();
     syncPrayerStateFromButtons();
-    injectIphoneMuteGuide();
     window.setInterval(injectAiDisclaimer, 500);
-    window.setInterval(injectIphoneMuteGuide, 500);
-  }
-
-  /* ==========================================================================
-     [아이폰 무음 안낸문] 번들에 없는 UI 스크립트로 강제 동적 주입 (DOM 생성)
-     ========================================================================== */
-  function injectIphoneMuteGuide() {
-    if (document.querySelector('.iphone-mute-guide')) return;
-
-    const guideDiv = document.createElement('div');
-    guideDiv.className = 'iphone-mute-guide';
-    guideDiv.innerHTML = `
-      <p>아이폰 유저분들은 무음 모드(진동 스위치)를</p>
-      <p>해제하셔야 배경음악과 기도 소리가 정상적으로 들립니다.</p>
-    `;
-    guideDiv.style.cssText = `
-      display: block !important;
-      visibility: visible !important;
-      position: fixed !important;
-      right: calc(18px + env(safe-area-inset-right, 0px)) !important;
-      bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
-      z-index: 99999 !important;
-      max-width: min(280px, calc(100vw - 36px)) !important;
-      margin: 0 !important;
-      font-size: 12px !important;
-      line-height: 1.4 !important;
-      color: rgba(255, 246, 230, 0.72) !important;
-      text-align: right !important;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important;
-      opacity: 0.72 !important;
-      pointer-events: none !important;
-      user-select: none !important;
-    `;
-
-    const root = document.getElementById('root') || document.body;
-    root.appendChild(guideDiv);
   }
 
   window.codexApplyTheme = applyTheme;
@@ -668,34 +631,12 @@
 
 
 /* ==========================================================================
-   [UI 동적 주입] 아이폰 무음 안낸문 & AI 안낸문 세트 강제 생성
+   [UI 동적 주입] AI 안낸문 세트 강제 생성
    ========================================================================== */
 (function() {
   const body = document.body;
 
-  // 1. 아이폰 무음 안낸문: .fullscreen-guide 요소를 찾거나 생성한 뒤 내용 항상 교체
-  let guide = document.querySelector('.fullscreen-guide');
-  if (!guide) {
-    guide = document.createElement('div');
-    guide.className = 'fullscreen-guide';
-    body.appendChild(guide);
-  }
-  guide.innerHTML = `
-    <p>아이폰 유저분들은 무음 모드(진동 스위치)를</p>
-    <p>해제하셔야 배경음악과 기도 소리가 정상적으로 들립니다.</p>
-  `;
-  guide.style.cssText = `
-    display: block !important; visibility: visible !important; position: fixed !important;
-    right: calc(18px + env(safe-area-inset-right, 0px)) !important;
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
-    z-index: 99999 !important; max-width: min(280px, calc(100vw - 36px)) !important;
-    margin: 0 !important; font-size: 12px !important; line-height: 1.4 !important;
-    color: rgba(255, 246, 230, 0.72) !important; text-align: right !important;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important; opacity: 0.72 !important;
-    pointer-events: none !important; user-select: none !important;
-  `;
-
-  // 2. AI 안낸문 주입 (테마 메뉴 하단, 없으면 생성)
+  // AI 안낸문 주입 (테마 메뉴 하단, 없으면 생성)
   function injectAiDisclaimerForce() {
     const menu = document.querySelector('.theme-menu, [data-theme-menu], .codex-theme-menu') || document.getElementById('root') || body;
     if (menu.querySelector('.ai-disclaimer, .codex-ai-disclaimer')) return;
