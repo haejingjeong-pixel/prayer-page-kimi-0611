@@ -518,7 +518,41 @@
     switchBgm(theme);
     activeTheme = theme.id;
     pendingTheme = "";
+    normalizeGolbangVerseLayers(theme.id);
     window.dispatchEvent(new CustomEvent("codex-theme-applied", { detail: { theme: theme.id, label: theme.label } }));
+  }
+
+  function restoreVerseLayer(element) {
+    if (!element || !element.style) return;
+    if (element.dataset.codexVerseSuppressed === "true") {
+      element.style.removeProperty("display");
+      element.style.removeProperty("visibility");
+      element.removeAttribute("data-codex-verse-suppressed");
+    }
+  }
+
+  function suppressVerseLayer(element) {
+    if (!element || !element.style) return;
+    element.dataset.codexVerseSuppressed = "true";
+    element.style.setProperty("display", "none", "important");
+    element.style.setProperty("visibility", "hidden", "important");
+  }
+
+  function normalizeGolbangVerseLayers(themeId) {
+    var verses = Array.from(document.querySelectorAll("#root .prayer-verse"));
+    if (themeId !== "golbang") {
+      verses.forEach(restoreVerseLayer);
+      return;
+    }
+    if (verses.length <= 1) {
+      verses.forEach(restoreVerseLayer);
+      return;
+    }
+    var keep = verses[verses.length - 1];
+    verses.forEach(function (verse) {
+      if (verse === keep) restoreVerseLayer(verse);
+      else suppressVerseLayer(verse);
+    });
   }
 
   function applyTheme(themeId, options) {
@@ -577,6 +611,7 @@
           var src = element.getAttribute && (element.getAttribute("src") || "");
           var className = typeof element.className === "string" ? element.className : "";
           if (element.tagName === "BUTTON" || element.querySelector && element.querySelector("button")) needsMenuUpdate = true;
+          if (className.indexOf("prayer-verse") !== -1 || element.querySelector && element.querySelector(".prayer-verse")) needsCleanup = true;
           if (text.indexOf("기도문 작성") !== -1 || element.tagName === "H3") needsMenuUpdate = true;
           if (style.indexOf("assets/back_") !== -1 || style.indexOf("/back_") !== -1 || src.indexOf("assets/back_") !== -1 || src.indexOf("/back_") !== -1) needsCleanup = true;
           if (/absolute z-0/.test(className) && style.indexOf("background-image") !== -1) needsCleanup = true;
@@ -595,6 +630,7 @@
         }
         if (activeTheme) {
           updateAltar(THEMES[activeTheme]);
+          normalizeGolbangVerseLayers(activeTheme);
           if (needsCleanup) cleanupReactThemeArtifacts(activeTheme);
         }
       });
