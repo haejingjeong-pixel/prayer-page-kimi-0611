@@ -115,15 +115,13 @@
     if (src !== "assets/b_golbang9.webp") altar.setAttribute("src", "assets/b_golbang9.webp");
   }
 
-  var START_HINT_STORAGE_KEY = "codex-global-start-hint";
-  var LEGACY_START_HINT_STORAGE_KEY = "codex-golbang-start-hint";
+  var START_HINT_STORAGE_KEY = "codex-global-start-hint-v2";
   var START_HINT_LEFT_TEXT = "기도 장소 이름이 궁금하다면<br>말풍선을 눌러보세요";
   var START_HINT_RIGHT_TEXT = "기도의 몰입감을 위해<br>기도음악을 함께 들어보세요";
 
   function isStartHintDismissed() {
     try {
-      return localStorage.getItem(START_HINT_STORAGE_KEY) === "dismissed" ||
-        localStorage.getItem(LEGACY_START_HINT_STORAGE_KEY) === "dismissed";
+      return localStorage.getItem(START_HINT_STORAGE_KEY) === "dismissed";
     } catch (e) {
       return false;
     }
@@ -132,7 +130,6 @@
   function markStartHintDismissed() {
     try {
       localStorage.setItem(START_HINT_STORAGE_KEY, "dismissed");
-      localStorage.setItem(LEGACY_START_HINT_STORAGE_KEY, "dismissed");
     } catch (e) {}
   }
 
