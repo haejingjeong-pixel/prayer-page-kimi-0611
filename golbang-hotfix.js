@@ -112,7 +112,7 @@
     var altar = document.querySelector("img[alt='altar']");
     if (!altar) return;
     var src = (altar.getAttribute("src") || "").split("?")[0];
-    if (src !== "assets/b_golbang.webp") altar.setAttribute("src", "assets/b_golbang.webp");
+    if (src !== "assets/b_golbang9.webp") altar.setAttribute("src", "assets/b_golbang9.webp");
   }
 
   var START_HINT_STORAGE_KEY = "codex-golbang-start-hint";
