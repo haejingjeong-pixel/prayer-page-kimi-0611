@@ -2095,22 +2095,3 @@ div[class*="backdrop-blur"] .codex-ai-disclaimer,
   display: block !important;
   visibility: visible !important;
 }
-
-@media (min-width: 769px) and (orientation: landscape) {
-  html body[data-theme="golbang"] #root .codex-altar-stage,
-  html body[data-current-theme="은밀한 골방"] #root .codex-altar-stage,
-  html body .codex-altar-stage[data-theme="golbang"] {
-    display: block !important;
-    visibility: visible !important;
-    position: absolute !important;
-    top: 72% !important;
-    bottom: auto !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: clamp(760px, 48vw, 900px) !important;
-    height: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    opacity: 1 !important;
-  }
-}
