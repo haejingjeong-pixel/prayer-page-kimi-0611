@@ -39,16 +39,16 @@
     style.textContent = [
       "body[data-theme='golbang'], body[data-current-theme='은밀한 골방'] { background-color: #d6b99c !important; }",
       "body[data-theme='golbang'] #golbang-theme-layer, body[data-current-theme='은밀한 골방'] #golbang-theme-layer { display: block !important; opacity: 1 !important; background-image: url('assets/back_golbang_new.webp') !important; background-position: center 21% !important; background-size: auto 130% !important; background-repeat: no-repeat !important; background-color: #d6b99c !important; }",
-      "#golbang-start-hint { position: fixed; inset: 0; z-index: 2147483646; display: flex; align-items: center; justify-content: center; pointer-events: auto; background: radial-gradient(ellipse at 50% 44%, rgba(214,185,156,0.12), rgba(70,42,22,0.10) 46%, rgba(0,0,0,0.16) 100%); opacity: 1; transition: opacity 360ms ease; }",
+      "#golbang-start-hint { position: fixed; inset: 0; z-index: 2147483646; display: flex; align-items: center; justify-content: center; pointer-events: auto; background: radial-gradient(ellipse at 50% 44%, rgba(214,185,156,0.10), rgba(46,28,16,0.18) 48%, rgba(0,0,0,0.28) 100%); opacity: 1; transition: opacity 420ms ease; }",
       "#golbang-start-hint.is-hidden { opacity: 0; pointer-events: none; }",
-      "#golbang-start-hint .golbang-start-hint-card { padding: 14px 24px; border-radius: 999px; color: rgba(255,248,232,0.96); font-size: clamp(14px, 2.4vw, 19px); letter-spacing: 0.08em; line-height: 1.5; text-align: center; background: rgba(78,54,35,0.34); border: 1px solid rgba(255,238,210,0.38); box-shadow: 0 12px 40px rgba(48,27,12,0.22), inset 0 0 18px rgba(255,236,202,0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); text-shadow: 0 2px 8px rgba(0,0,0,0.26); }",
-      "#golbang-start-hint .golbang-start-hint-bubble { position: absolute; top: calc(56px + env(safe-area-inset-top, 0px)); max-width: min(180px, calc(50vw - 28px)); padding: 9px 13px; font-size: 12px; line-height: 1.45; color: #5a4632; text-align: center; background: rgba(255, 248, 232, 0.78); border: 1px solid rgba(255, 255, 255, 0.32); border-radius: 18px; box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); user-select: none; -webkit-user-select: none; pointer-events: none; }",
-      "#golbang-start-hint .golbang-start-hint-bubble-left { left: calc(14px + env(safe-area-inset-left, 0px)); }",
-      "#golbang-start-hint .golbang-start-hint-bubble-right { right: calc(14px + env(safe-area-inset-right, 0px)); }",
-      "#golbang-start-hint .golbang-start-hint-bubble::before { content: ''; position: absolute; top: -7px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 8px solid rgba(255, 248, 232, 0.78); }",
-      "#golbang-start-hint .golbang-start-hint-bubble-left::before { left: 16px; }",
-      "#golbang-start-hint .golbang-start-hint-bubble-right::before { right: 16px; }",
-      "@media (max-width: 480px) { #golbang-start-hint .golbang-start-hint-bubble { font-size: 11px; padding: 8px 11px; border-radius: 16px; max-width: min(150px, calc(50vw - 22px)); top: calc(48px + env(safe-area-inset-top, 0px)); } }"
+      "#golbang-start-hint .golbang-start-hint-card { padding: 0 24px; color: rgba(255,248,232,0.96); font-size: clamp(17px, 2.6vw, 30px); letter-spacing: 0.08em; line-height: 1.65; text-align: center; font-weight: 700; background: transparent; border: 0; box-shadow: none; text-shadow: 0 0 22px rgba(255,214,150,0.42), 0 2px 14px rgba(0,0,0,0.62); }",
+      "#golbang-start-hint .golbang-start-hint-bubble { position: absolute; top: calc(76px + env(safe-area-inset-top, 0px)); max-width: min(230px, calc(50vw - 30px)); padding: 0; font-size: clamp(12px, 1.55vw, 16px); line-height: 1.55; color: rgba(255,248,232,0.9); text-align: center; font-weight: 600; letter-spacing: 0.02em; background: transparent; border: 0; box-shadow: none; text-shadow: 0 0 18px rgba(255,220,170,0.34), 0 2px 10px rgba(0,0,0,0.62); user-select: none; -webkit-user-select: none; pointer-events: none; }",
+      "#golbang-start-hint .golbang-start-hint-bubble-left { left: calc(20px + env(safe-area-inset-left, 0px)); }",
+      "#golbang-start-hint .golbang-start-hint-bubble-right { right: calc(20px + env(safe-area-inset-right, 0px)); }",
+      "#golbang-start-hint .golbang-start-hint-bubble::after { display: block; margin-top: 8px; font-size: 22px; line-height: 1; color: rgba(255,248,232,0.72); }",
+      "#golbang-start-hint .golbang-start-hint-bubble-left::after { content: '↖'; text-align: left; padding-left: 8px; }",
+      "#golbang-start-hint .golbang-start-hint-bubble-right::after { content: '↗'; text-align: right; padding-right: 8px; }",
+      "@media (max-width: 480px) { #golbang-start-hint .golbang-start-hint-card { font-size: clamp(16px, 5.8vw, 22px); line-height: 1.55; letter-spacing: 0.04em; padding: 0 26px; } #golbang-start-hint .golbang-start-hint-bubble { top: calc(56px + env(safe-area-inset-top, 0px)); max-width: min(158px, calc(50vw - 24px)); font-size: 11px; line-height: 1.42; } #golbang-start-hint .golbang-start-hint-bubble-left { left: calc(14px + env(safe-area-inset-left, 0px)); } #golbang-start-hint .golbang-start-hint-bubble-right { right: calc(14px + env(safe-area-inset-right, 0px)); } #golbang-start-hint .golbang-start-hint-bubble::after { margin-top: 5px; font-size: 17px; } }"
     ].join("\n");
     document.head.appendChild(style);
   }
@@ -115,13 +115,15 @@
     if (src !== "assets/b_golbang9.webp") altar.setAttribute("src", "assets/b_golbang9.webp");
   }
 
-  var START_HINT_STORAGE_KEY = "codex-golbang-start-hint";
-  var START_HINT_LEFT_TEXT = "기도 장소가 궁금하면 눌러보세요";
-  var START_HINT_RIGHT_TEXT = "기도음악과 함께 몰입해보세요";
+  var START_HINT_STORAGE_KEY = "codex-global-start-hint";
+  var LEGACY_START_HINT_STORAGE_KEY = "codex-golbang-start-hint";
+  var START_HINT_LEFT_TEXT = "기도 장소 이름이 궁금하다면<br>말풍선을 눌러보세요";
+  var START_HINT_RIGHT_TEXT = "기도의 몰입감을 위해<br>기도음악을 함께 들어보세요";
 
   function isStartHintDismissed() {
     try {
-      return localStorage.getItem(START_HINT_STORAGE_KEY) === "dismissed";
+      return localStorage.getItem(START_HINT_STORAGE_KEY) === "dismissed" ||
+        localStorage.getItem(LEGACY_START_HINT_STORAGE_KEY) === "dismissed";
     } catch (e) {
       return false;
     }
@@ -130,6 +132,7 @@
   function markStartHintDismissed() {
     try {
       localStorage.setItem(START_HINT_STORAGE_KEY, "dismissed");
+      localStorage.setItem(LEGACY_START_HINT_STORAGE_KEY, "dismissed");
     } catch (e) {}
   }
 
@@ -153,11 +156,11 @@
     var hint = document.createElement("div");
     hint.id = "golbang-start-hint";
     hint.setAttribute("role", "button");
-    hint.setAttribute("aria-label", "기도의 마음으로 화면을 눌러주세요");
+    hint.setAttribute("aria-label", "기도를 올려두려면 화면을 살짝 눌러주세요");
     hint.innerHTML =
       '<div class="golbang-start-hint-bubble golbang-start-hint-bubble-left">' + START_HINT_LEFT_TEXT + "</div>" +
       '<div class="golbang-start-hint-bubble golbang-start-hint-bubble-right">' + START_HINT_RIGHT_TEXT + "</div>" +
-      '<div class="golbang-start-hint-card">기도의 마음으로 화면을 눌러주세요</div>';
+      '<div class="golbang-start-hint-card">기도를 올려두려면<br>화면을 살짝 눌러주세요</div>';
     document.body.appendChild(hint);
 
     var dismissed = false;
