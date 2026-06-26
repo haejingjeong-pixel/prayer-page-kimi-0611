@@ -49,6 +49,7 @@
     "겟세마네 동산": "gethsemane"
   };
 
+  var THEME_IDS = Object.keys(THEME_BGM);
   var THEME_LABEL_RE = new RegExp(Object.keys(LABEL_TO_THEME).join("|"));
   var BGM_SRC_RE = /\/assets\/(?:X_golbang_ccm|ccm_|Forest%20Prayer3|Forest Prayer3|sound_gathe).*\.mp3(?:\?|$)/;
 
@@ -88,6 +89,45 @@
     return Object.keys(THEME_BGM).find(function (theme) {
       return path === normalizeSrc(THEME_BGM[theme]) || path.endsWith(normalizeSrc(THEME_BGM[theme]));
     }) || THEME_BY_BGM_PATH[path] || "";
+  }
+
+  function getThemeFromLayerId(id) {
+    id = String(id || "");
+    return THEME_IDS.find(function (theme) {
+      return id.indexOf(theme) !== -1;
+    }) || "";
+  }
+
+  function getCurrentThemeFromDom() {
+    var body = document.body;
+    if (!body) return activeTheme;
+
+    var byDataset = body.dataset && body.dataset.theme;
+    if (byDataset && THEME_BGM[byDataset]) return byDataset;
+
+    var byLabel = normalizeText(body.dataset && body.dataset.currentTheme);
+    if (byLabel && LABEL_TO_THEME[byLabel]) return LABEL_TO_THEME[byLabel];
+
+    var className = String(body.className || "");
+    var byClass = THEME_IDS.find(function (theme) {
+      return className.indexOf("codex-theme-" + theme) !== -1;
+    });
+    if (byClass) return byClass;
+
+    var visibleLayer = Array.from(document.querySelectorAll("[id$='-theme-layer']")).find(function (layer) {
+      var style = window.getComputedStyle(layer);
+      return style.display !== "none" && Number(style.opacity) > 0.5;
+    });
+
+    return visibleLayer ? getThemeFromLayerId(visibleLayer.id) || activeTheme : activeTheme;
+  }
+
+  function syncActiveThemeFromDom() {
+    var currentTheme = getCurrentThemeFromDom();
+    if (currentTheme && THEME_BGM[currentTheme]) {
+      activeTheme = currentTheme;
+    }
+    return activeTheme;
   }
 
   function isAsmrSrc(src) {
@@ -210,6 +250,7 @@
   }
 
   function playCurrentTheme() {
+    syncActiveThemeFromDom();
     pauseOtherThemeBgm();
     var audio = setManagedSource(activeTheme);
     if (!audio || !isEnabled()) return Promise.resolve();
@@ -221,6 +262,7 @@
   }
 
   function playCurrentThemeFromGesture(reason) {
+    syncActiveThemeFromDom();
     userGestureEnableUntil = Date.now() + 2500;
     var audio = setManagedSource(activeTheme);
     if (!audio) return Promise.resolve();
@@ -244,7 +286,7 @@
   }
 
   function switchThemeBgm(theme) {
-    activeTheme = theme || activeTheme;
+    activeTheme = theme || syncActiveThemeFromDom();
     themeIntentUntil = Date.now() + THEME_SWITCH_MS;
     pauseOtherThemeBgm();
 
@@ -311,6 +353,7 @@
     ccmGestureHandledUntil = now + 900;
     setEnabled(willEnable);
     if (willEnable) {
+      syncActiveThemeFromDom();
       playCurrentThemeFromGesture(event.type);
     } else {
       userGestureEnableUntil = 0;
@@ -383,6 +426,7 @@
     if (Date.now() < ccmGestureHandledUntil && pendingCcmEnable !== null) {
       setEnabled(pendingCcmEnable);
       if (pendingCcmEnable) {
+        syncActiveThemeFromDom();
         playCurrentThemeFromGesture(event.type + "-followup");
       } else {
         userGestureEnableUntil = 0;
@@ -400,6 +444,7 @@
     ccmGestureHandledUntil = Date.now() + 500;
     setEnabled(willEnable);
     if (willEnable) {
+      syncActiveThemeFromDom();
       playCurrentThemeFromGesture(event.type);
     } else {
       userGestureEnableUntil = 0;
@@ -412,6 +457,7 @@
       var nextEnabled = localStorage.getItem(BGM_KEY) === "true" || willEnable || isCcmButtonOn(currentButton);
       setEnabled(nextEnabled);
       if (nextEnabled && willEnable) {
+        syncActiveThemeFromDom();
         playCurrentThemeFromGesture("ccm-sync");
       } else {
         userGestureEnableUntil = 0;
@@ -428,9 +474,16 @@
 
   document.addEventListener("codex-bgm-theme-change", function (event) {
     var theme = event.detail && event.detail.theme;
-    if (!theme) return;
+    if (!theme || !THEME_BGM[theme]) return;
+
+    activeTheme = theme;
+    themeIntentUntil = Date.now() + THEME_SWITCH_MS;
     beginThemeTransitionGuard();
+    pauseOtherThemeBgm();
     switchThemeBgm(theme);
+    window.setTimeout(function () {
+      switchThemeBgm(theme);
+    }, 300);
   });
 
   document.addEventListener("play", function (event) {
@@ -447,6 +500,7 @@
   }, true);
 
   function resumeCurrentBgmOnly() {
+    syncActiveThemeFromDom();
     if (isEnabled()) {
       playCurrentTheme();
     } else {
@@ -456,6 +510,7 @@
   }
 
   function resumeCurrentBgmFromGesture(event) {
+    syncActiveThemeFromDom();
     if (localStorage.getItem(BGM_KEY) === "true") {
       playCurrentThemeFromGesture(event && event.type || "first-gesture");
     }
