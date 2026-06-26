@@ -2095,3 +2095,14 @@ div[class*="backdrop-blur"] .codex-ai-disclaimer,
   display: block !important;
   visibility: visible !important;
 }
+
+/* 전체화면 안내는 데스크탑 포인터 환경에서만 표시한다. */
+.fullscreen-guide {
+  display: none !important;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .fullscreen-guide {
+    display: block !important;
+  }
+}
