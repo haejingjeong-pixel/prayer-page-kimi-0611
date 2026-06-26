@@ -1155,6 +1155,11 @@ button[data-codex-theme] > .codex-menu-active-dot,
   display: none !important;
 }
 
+.codex-theme-menu .ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+[data-theme-menu="true"] .ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400 {
+  display: none !important;
+}
+
 @keyframes golbangDustFloat {
   0% { transform: translate3d(-8px, 6px, 0) scale(0.85); opacity: 0; }
   15% { opacity: 0.35; }

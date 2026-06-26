@@ -428,6 +428,8 @@
     });
     if (!anchor || !anchor.parentElement) return;
     var menu = anchor.parentElement;
+    menu.dataset.themeMenu = "true";
+    menu.classList.add("codex-theme-menu");
     THEME_ORDER.forEach(function (id) {
       var exists = Array.from(menu.querySelectorAll("button")).some(function (button) {
         return findThemeIdFromButton(button) === id;
