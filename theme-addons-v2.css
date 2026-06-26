@@ -1147,8 +1147,11 @@ body[data-theme="golbang"][data-prayer-state="praying"] [data-codex-theme-backgr
   transform: scale(1);
 }
 
-button > div.ml-auto.w-1.5.h-1.5.rounded-full.bg-amber-400,
-button > .codex-menu-active-dot {
+button[data-codex-theme] > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+button[data-codex-theme] > div.ml-auto.rounded-full.bg-amber-400[class~="w-1.5"][class~="h-1.5"],
+button[data-codex-theme] > .codex-menu-active-dot,
+.codex-theme-menu button > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400,
+[data-theme-menu] button > div.ml-auto.w-1\.5.h-1\.5.rounded-full.bg-amber-400 {
   display: none !important;
 }
 
