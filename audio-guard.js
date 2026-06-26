@@ -217,21 +217,17 @@
     } catch (error) {}
   }
 
-  function pauseOtherThemeBgm() {
+  function stopAllThemeBgm() {
     trackedAudios = trackedAudios.filter(function (audio) {
       return audio && typeof audio.pause === "function";
     });
     trackedAudios.forEach(function (audio) {
-      if (isThemeBgm(audio)) pauseAndReset(audio);
+      if (isBgmSrc(getAudioPath(audio))) pauseAndReset(audio);
     });
     document.querySelectorAll("audio").forEach(function (audio) {
-      if (audio !== managedBgm && isThemeBgm(audio)) pauseAndReset(audio);
+      if (isBgmSrc(getAudioPath(audio))) pauseAndReset(audio);
     });
-  }
-
-  function stopManagedBgm() {
-    if (!managedBgm) return;
-    pauseAndReset(managedBgm);
+    if (managedBgm) pauseAndReset(managedBgm);
   }
 
   function setManagedSource(theme) {
@@ -251,30 +247,46 @@
 
   function playCurrentTheme() {
     syncActiveThemeFromDom();
-    pauseOtherThemeBgm();
-    var audio = setManagedSource(activeTheme);
-    if (!audio || !isEnabled()) return Promise.resolve();
-    if (!audio.paused && normalizeSrc(audio.src) === normalizeSrc(THEME_BGM[activeTheme])) return Promise.resolve();
+    var theme = activeTheme;
+    var src = THEME_BGM[theme];
+    if (!src || !isEnabled()) {
+      stopAllThemeBgm();
+      return Promise.resolve();
+    }
+
+    stopAllThemeBgm();
+    var audio = setManagedSource(theme);
+    if (!audio) return Promise.resolve();
+    audio.muted = false;
     audio.volume = 0.4;
+    audio.loop = true;
     return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).catch(function (error) {
-      console.warn("[codex-audio] Failed to play current theme BGM", activeTheme, audio.src, error);
+      console.warn("[codex-audio] Failed to play current theme BGM", theme, audio.src, error);
     });
   }
 
   function playCurrentThemeFromGesture(reason) {
     syncActiveThemeFromDom();
+    var theme = activeTheme;
+    var src = THEME_BGM[theme];
+    if (!src) {
+      stopAllThemeBgm();
+      return Promise.resolve();
+    }
+
     userGestureEnableUntil = Date.now() + 2500;
-    var audio = setManagedSource(activeTheme);
+    stopAllThemeBgm();
+    var audio = setManagedSource(theme);
     if (!audio) return Promise.resolve();
-    pauseOtherThemeBgm();
     audio.muted = false;
     audio.volume = 0.4;
+    audio.loop = true;
     return (NativeMediaPlay ? NativeMediaPlay.call(audio) : audio.play()).then(function () {
       if (window.__codexAudioDebug) {
-        console.info("[codex-audio] Mobile gesture BGM play started", reason, activeTheme, audio.src);
+        console.info("[codex-audio] Mobile gesture BGM play started", reason, theme, audio.src);
       }
     }).catch(function (error) {
-      console.warn("[codex-audio] Mobile gesture BGM play failed", reason, activeTheme, audio.src, {
+      console.warn("[codex-audio] Mobile gesture BGM play failed", reason, theme, audio.src, {
         name: error && error.name,
         message: error && error.message,
         paused: audio.paused,
@@ -288,15 +300,15 @@
   function switchThemeBgm(theme) {
     activeTheme = theme || syncActiveThemeFromDom();
     themeIntentUntil = Date.now() + THEME_SWITCH_MS;
-    pauseOtherThemeBgm();
+    stopAllThemeBgm();
 
     if (!THEME_BGM[activeTheme]) {
-      stopManagedBgm();
+      stopAllThemeBgm();
       return;
     }
 
     if (!isEnabled()) {
-      stopManagedBgm();
+      stopAllThemeBgm();
       return;
     }
 
@@ -357,8 +369,7 @@
       playCurrentThemeFromGesture(event.type);
     } else {
       userGestureEnableUntil = 0;
-      stopManagedBgm();
-      pauseOtherThemeBgm();
+      stopAllThemeBgm();
     }
   }
 
@@ -411,7 +422,7 @@
       beginThemeTransitionGuard();
       activeTheme = theme;
       themeIntentUntil = Date.now() + THEME_SWITCH_MS;
-      pauseOtherThemeBgm();
+      stopAllThemeBgm();
       window.setTimeout(function () {
         switchThemeBgm(theme);
       }, 0);
@@ -430,8 +441,7 @@
         playCurrentThemeFromGesture(event.type + "-followup");
       } else {
         userGestureEnableUntil = 0;
-        stopManagedBgm();
-        pauseOtherThemeBgm();
+        stopAllThemeBgm();
       }
       window.setTimeout(function () {
         pendingCcmEnable = null;
@@ -448,8 +458,7 @@
       playCurrentThemeFromGesture(event.type);
     } else {
       userGestureEnableUntil = 0;
-      stopManagedBgm();
-      pauseOtherThemeBgm();
+      stopAllThemeBgm();
     }
 
     window.setTimeout(function () {
@@ -461,8 +470,7 @@
         playCurrentThemeFromGesture("ccm-sync");
       } else {
         userGestureEnableUntil = 0;
-        stopManagedBgm();
-        pauseOtherThemeBgm();
+        stopAllThemeBgm();
       }
     }, 80);
   }, true);
@@ -479,7 +487,7 @@
     activeTheme = theme;
     themeIntentUntil = Date.now() + THEME_SWITCH_MS;
     beginThemeTransitionGuard();
-    pauseOtherThemeBgm();
+    stopAllThemeBgm();
     switchThemeBgm(theme);
     window.setTimeout(function () {
       switchThemeBgm(theme);
@@ -504,8 +512,7 @@
     if (isEnabled()) {
       playCurrentTheme();
     } else {
-      stopManagedBgm();
-      pauseOtherThemeBgm();
+      stopAllThemeBgm();
     }
   }
 
