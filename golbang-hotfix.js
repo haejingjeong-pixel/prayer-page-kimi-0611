@@ -38,17 +38,7 @@
     style.id = "golbang-hotfix-style";
     style.textContent = [
       "body[data-theme='golbang'], body[data-current-theme='은밀한 골방'] { background-color: #d6b99c !important; }",
-      "body[data-theme='golbang'] #golbang-theme-layer, body[data-current-theme='은밀한 골방'] #golbang-theme-layer { display: block !important; opacity: 1 !important; background-image: url('assets/back_golbang_new.webp') !important; background-position: center 21% !important; background-size: auto 130% !important; background-repeat: no-repeat !important; background-color: #d6b99c !important; }",
-      "#golbang-start-hint { position: fixed; inset: 0; z-index: 2147483646; display: flex; align-items: center; justify-content: center; pointer-events: auto; background: radial-gradient(ellipse at 50% 44%, rgba(214,185,156,0.10), rgba(46,28,16,0.18) 48%, rgba(0,0,0,0.28) 100%); opacity: 1; transition: opacity 420ms ease; }",
-      "#golbang-start-hint.is-hidden { opacity: 0; pointer-events: none; }",
-      "#golbang-start-hint .golbang-start-hint-card { padding: 0 24px; color: rgba(255,248,232,0.96); font-size: clamp(17px, 2.6vw, 30px); letter-spacing: 0.08em; line-height: 1.65; text-align: center; font-weight: 700; background: transparent; border: 0; box-shadow: none; text-shadow: 0 0 22px rgba(255,214,150,0.42), 0 2px 14px rgba(0,0,0,0.62); }",
-      "#golbang-start-hint .golbang-start-hint-bubble { position: absolute; top: calc(76px + env(safe-area-inset-top, 0px)); max-width: min(230px, calc(50vw - 30px)); padding: 0; font-size: clamp(12px, 1.55vw, 16px); line-height: 1.55; color: rgba(255,248,232,0.9); text-align: center; font-weight: 600; letter-spacing: 0.02em; background: transparent; border: 0; box-shadow: none; text-shadow: 0 0 18px rgba(255,220,170,0.34), 0 2px 10px rgba(0,0,0,0.62); user-select: none; -webkit-user-select: none; pointer-events: none; }",
-      "#golbang-start-hint .golbang-start-hint-bubble-left { left: calc(20px + env(safe-area-inset-left, 0px)); }",
-      "#golbang-start-hint .golbang-start-hint-bubble-right { right: calc(20px + env(safe-area-inset-right, 0px)); }",
-      "#golbang-start-hint .golbang-start-hint-bubble::after { display: block; margin-top: 8px; font-size: 22px; line-height: 1; color: rgba(255,248,232,0.72); }",
-      "#golbang-start-hint .golbang-start-hint-bubble-left::after { content: '↖'; text-align: left; padding-left: 8px; }",
-      "#golbang-start-hint .golbang-start-hint-bubble-right::after { content: '↗'; text-align: right; padding-right: 8px; }",
-      "@media (max-width: 480px) { #golbang-start-hint .golbang-start-hint-card { font-size: clamp(16px, 5.8vw, 22px); line-height: 1.55; letter-spacing: 0.04em; padding: 0 26px; } #golbang-start-hint .golbang-start-hint-bubble { top: calc(56px + env(safe-area-inset-top, 0px)); max-width: min(158px, calc(50vw - 24px)); font-size: 11px; line-height: 1.42; } #golbang-start-hint .golbang-start-hint-bubble-left { left: calc(14px + env(safe-area-inset-left, 0px)); } #golbang-start-hint .golbang-start-hint-bubble-right { right: calc(14px + env(safe-area-inset-right, 0px)); } #golbang-start-hint .golbang-start-hint-bubble::after { margin-top: 5px; font-size: 17px; } }"
+      "body[data-theme='golbang'] #golbang-theme-layer, body[data-current-theme='은밀한 골방'] #golbang-theme-layer { display: block !important; opacity: 1 !important; background-image: url('assets/back_golbang_new.webp') !important; background-position: center 21% !important; background-size: auto 130% !important; background-repeat: no-repeat !important; background-color: #d6b99c !important; }"
     ].join("\n");
     document.head.appendChild(style);
   }
@@ -115,24 +105,6 @@
     if (src !== "assets/b_golbang9.webp") altar.setAttribute("src", "assets/b_golbang9.webp");
   }
 
-  var START_HINT_STORAGE_KEY = "codex-global-start-hint-v2";
-  var START_HINT_LEFT_TEXT = "기도 장소 이름이 궁금하다면<br>말풍선을 눌러보세요";
-  var START_HINT_RIGHT_TEXT = "기도의 몰입감을 위해<br>기도음악을 함께 들어보세요";
-
-  function isStartHintDismissed() {
-    try {
-      return localStorage.getItem(START_HINT_STORAGE_KEY) === "dismissed";
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function markStartHintDismissed() {
-    try {
-      localStorage.setItem(START_HINT_STORAGE_KEY, "dismissed");
-    } catch (e) {}
-  }
-
   function isGolbangThemeActive() {
     if (!document.body) return false;
     var theme = document.body.dataset && document.body.dataset.theme;
@@ -141,67 +113,8 @@
       document.body.classList.contains("codex-theme-golbang");
   }
 
-  function dispatchWindowInteraction() {
-    ["click", "touchstart"].forEach(function (type) {
-      var event;
-      try {
-        event = new window.Event(type, { bubbles: true, cancelable: true });
-      } catch (e) {
-        event = document.createEvent("Event");
-        event.initEvent(type, true, true);
-      }
-      window.dispatchEvent(event);
-    });
-  }
-
   function showStartHint() {
-    if (document.getElementById("golbang-start-hint")) return;
-    if (isStartHintDismissed()) return;
-
-    var hint = document.createElement("div");
-    hint.id = "golbang-start-hint";
-    hint.setAttribute("role", "button");
-    hint.setAttribute("aria-label", "기도를 올려두려면 화면을 살짝 눌러주세요");
-    hint.innerHTML =
-      '<div class="golbang-start-hint-bubble golbang-start-hint-bubble-left">' + START_HINT_LEFT_TEXT + "</div>" +
-      '<div class="golbang-start-hint-bubble golbang-start-hint-bubble-right">' + START_HINT_RIGHT_TEXT + "</div>" +
-      '<div class="golbang-start-hint-card">기도를 올려두려면<br>화면을 살짝 눌러주세요</div>';
-    document.body.appendChild(hint);
-
-    var dismissed = false;
-
-    function dismiss(event) {
-      if (dismissed) return;
-      dismissed = true;
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      markStartHintDismissed();
-      hint.classList.add("is-hidden");
-      window.setTimeout(function () {
-        if (hint && hint.parentNode) hint.parentNode.removeChild(hint);
-      }, 420);
-      document.removeEventListener("pointerdown", onPointerDown, true);
-      document.removeEventListener("keydown", onKeyDown, true);
-      dispatchWindowInteraction();
-    }
-
-    function onPointerDown(event) {
-      dismiss(event);
-    }
-
-    function onKeyDown(event) {
-      if (event.key === "Enter" || event.key === " ") {
-        dismiss(event);
-      }
-    }
-
-    document.addEventListener("pointerdown", onPointerDown, true);
-    document.addEventListener("keydown", onKeyDown, true);
-    window.setTimeout(function () {
-      if (hint && hint.parentNode && !dismissed) dismiss();
-    }, 5200);
+    removeStartHint();
   }
 
   function syncGolbang() {
