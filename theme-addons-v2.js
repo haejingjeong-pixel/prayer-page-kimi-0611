@@ -504,7 +504,7 @@
     document.dispatchEvent(new CustomEvent("codex-bgm-theme-change", { detail: { theme: theme.id } }));
   }
 
-  function commitTheme(theme) {
+  function commitTheme(theme, options) {
     clearSuppressedReactArtifacts();
     pauseInactiveAnimations("");
     updateBodyState(theme);
@@ -515,7 +515,7 @@
     updateMenuButtons();
     updateMenuActive(theme.id);
     cleanupReactThemeArtifacts(theme.id);
-    switchBgm(theme);
+    if (!options || !options.silent) switchBgm(theme);
     activeTheme = theme.id;
     pendingTheme = "";
     normalizeGolbangVerseLayers(theme.id);
@@ -563,18 +563,18 @@
     pendingTheme = theme.id;
     clearTimers();
     if (options && options.silent) {
-      commitTheme(theme);
+      commitTheme(theme, options);
       return;
     }
 
     if (typeof window.codexRunThemeFadeTransition === "function") {
       window.codexRunThemeFadeTransition(function () {
-        commitTheme(theme);
+        commitTheme(theme, options);
       });
       return;
     }
 
-    commitTheme(theme);
+    commitTheme(theme, options);
   }
 
   function handleThemeClick(event) {

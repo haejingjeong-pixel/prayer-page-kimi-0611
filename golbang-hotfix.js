@@ -133,6 +133,14 @@
     } catch (e) {}
   }
 
+  function isGolbangThemeActive() {
+    if (!document.body) return false;
+    var theme = document.body.dataset && document.body.dataset.theme;
+    var currentTheme = document.body.dataset && document.body.dataset.currentTheme;
+    return !theme || theme === GOLBANG_THEME || currentTheme === GOLBANG_LABEL ||
+      document.body.classList.contains("codex-theme-golbang");
+  }
+
   function dispatchWindowInteraction() {
     ["click", "touchstart"].forEach(function (type) {
       var event;
@@ -197,6 +205,7 @@
   }
 
   function syncGolbang() {
+    if (!isGolbangThemeActive()) return;
     injectStyle();
     forceGolbangBodyState();
     forceGolbangBackground();

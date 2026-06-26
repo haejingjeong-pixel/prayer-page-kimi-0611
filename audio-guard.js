@@ -162,6 +162,10 @@
           activeTheme = attemptedTheme;
         }
         pauseAndReset(audio);
+        if (hasRecentThemeIntent) {
+          stopAllThemeBgm();
+          return Promise.resolve();
+        }
         if (!isEnabled()) return Promise.resolve();
         return playCurrentTheme();
       }
@@ -295,6 +299,15 @@
         enabled: localStorage.getItem(BGM_KEY)
       });
     });
+  }
+
+  function syncThemeBgm(theme) {
+    activeTheme = theme || syncActiveThemeFromDom();
+    themeIntentUntil = Date.now() + THEME_SWITCH_MS;
+    stopAllThemeBgm();
+
+    if (!THEME_BGM[activeTheme]) return;
+    if (isEnabled()) setManagedSource(activeTheme);
   }
 
   function switchThemeBgm(theme) {
@@ -487,10 +500,9 @@
     activeTheme = theme;
     themeIntentUntil = Date.now() + THEME_SWITCH_MS;
     beginThemeTransitionGuard();
-    stopAllThemeBgm();
-    switchThemeBgm(theme);
+    syncThemeBgm(theme);
     window.setTimeout(function () {
-      switchThemeBgm(theme);
+      syncThemeBgm(theme);
     }, 300);
   });
 
@@ -532,6 +544,7 @@
   window.addEventListener("pageshow", resumeCurrentBgmOnly);
 
   window.codexSwitchThemeBgm = switchThemeBgm;
+  window.codexSyncThemeBgm = syncThemeBgm;
   window.codexPlayCurrentThemeBgm = playCurrentTheme;
 
   window.addEventListener("click", resumeCurrentBgmFromGesture, { once: true });
