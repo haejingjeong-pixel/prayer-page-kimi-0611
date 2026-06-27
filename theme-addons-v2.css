@@ -2361,3 +2361,26 @@ div.ai-disclaimer p::before {
   white-space: nowrap !important;
   text-align: center !important;
 }
+
+/* FINAL TUNE 2: AI credit readable one line */
+#root [data-theme-menu="true"] .ai-disclaimer {
+  display: block !important;
+  width: 100% !important;
+  margin: 8px 0 0 !important;
+  padding: 0 6px 4px !important;
+  min-height: 18px !important;
+  height: auto !important;
+  opacity: 1 !important;
+  text-align: center !important;
+  overflow: visible !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p {
+  display: block !important;
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+  color: rgba(255, 246, 230, 0.48) !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  text-align: center !important;
+}
