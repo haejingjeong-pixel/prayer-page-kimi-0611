@@ -2201,3 +2201,43 @@ div.ai-disclaimer p::before {
   white-space: pre-line !important;
   color: rgba(255, 246, 230, 0.55) !important;
 }
+
+/* FINAL: make mobile theme menu taller and keep AI credit visible */
+@media (max-width: 768px) {
+  body[data-theme-menu="true"] [data-theme-menu="true"],
+  #root [data-theme-menu="true"] {
+    max-height: calc(100dvh - 72px) !important;
+    padding-bottom: 34px !important;
+    overflow-y: visible !important;
+  }
+
+  #root [data-theme-menu="true"] .ai-disclaimer {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 32px !important;
+    margin-top: 10px !important;
+    padding: 4px 8px 8px !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    text-align: center !important;
+  }
+
+  #root [data-theme-menu="true"] .ai-disclaimer p {
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #root [data-theme-menu="true"] .ai-disclaimer p::before {
+    content: "이 페이지는 AI로\A제작되었습니다.";
+    display: block !important;
+    white-space: pre-line !important;
+    color: rgba(255, 246, 230, 0.55) !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+  }
+}
