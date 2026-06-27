@@ -2141,3 +2141,16 @@ div.ai-disclaimer {
   padding: 0 !important;
   overflow: hidden !important;
 }
+
+/* Mobile AI credit line break */
+@media (max-width: 768px) {
+  div.ai-disclaimer,
+  p.codex-ai-disclaimer {
+    max-width: 170px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    line-height: 1.45 !important;
+    word-break: keep-all !important;
+    white-space: normal !important;
+  }
+}
