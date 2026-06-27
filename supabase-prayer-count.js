@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var SUPABASE_URL = "https://qspmqxsxsiftejrvkcna.supabase.co";
+  var SUPABASE_URL = "https://qspmqsxsxiftejrvkcna.supabase.co";
   var SUPABASE_KEY = "sb_publishable_sUVoa_VaEAXOXhxJmNo6RA_1lFY3fb3";
   var TABLE = "prayer_events";
   var STORAGE_KEY = "altar_prayer_counted_this_session";
