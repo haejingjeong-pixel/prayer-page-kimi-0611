@@ -2130,3 +2130,14 @@ p.codex-ai-disclaimer {
   padding: 0 !important;
   overflow: hidden !important;
 }
+
+/* Remove duplicated AI disclaimer block */
+div.ai-disclaimer {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
