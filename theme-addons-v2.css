@@ -2271,3 +2271,36 @@ div.ai-disclaimer p::before {
 .ai-disclaimer p::before {
   content: none !important;
 }
+
+/* FINAL OVERRIDE: AI credit one tiny line */
+#root [data-theme-menu="true"] .ai-disclaimer {
+  display: block !important;
+  height: 12px !important;
+  min-height: 12px !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  text-align: center !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: transparent !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p::before {
+  content: "이 페이지는 AI로 제작되었습니다." !important;
+  display: block !important;
+  white-space: nowrap !important;
+  font-size: 7px !important;
+  line-height: 1 !important;
+  color: rgba(255, 246, 230, 0.38) !important;
+  text-align: center !important;
+}
+
+#root [data-theme-menu="true"] p.codex-ai-disclaimer {
+  display: none !important;
+}
