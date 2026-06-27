@@ -365,8 +365,18 @@
     return text === "CCM" || button.title === "CCM" || button.getAttribute("aria-label") === "CCM";
   }
 
+
+  function isPrayerActionButton(button) {
+    if (!button) return false;
+    var text = normalizeText(button.textContent);
+    return text === "기도하기" ||
+      text === "기도 중..." ||
+      text.indexOf("기도문 작성하기") !== -1;
+  }
+
   function handleCcmGesture(event) {
     var button = event.target && event.target.closest ? event.target.closest("button") : null;
+    if (isPrayerActionButton(button)) return;
     if (!isCcmButton(button)) return;
 
     var now = Date.now();
@@ -419,6 +429,7 @@
   document.addEventListener("click", function (event) {
     var button = event.target && event.target.closest ? event.target.closest("button") : null;
     if (!button) return;
+    if (isPrayerActionButton(button)) return;
 
     if (document.body.dataset.themeTransitioning === "true" && findPrayerButtons().indexOf(button) !== -1) {
       event.preventDefault();
