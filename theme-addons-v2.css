@@ -2241,3 +2241,33 @@ div.ai-disclaimer p::before {
     text-align: center !important;
   }
 }
+
+/* FINAL: compact one-line AI credit */
+.ai-disclaimer {
+  display: block !important;
+  width: 100% !important;
+  min-height: auto !important;
+  height: auto !important;
+  margin: 6px 0 0 !important;
+  padding: 0 8px 2px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  text-align: center !important;
+}
+
+.ai-disclaimer p {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  color: rgba(255, 246, 230, 0.45) !important;
+  text-align: center !important;
+}
+
+.ai-disclaimer p::before {
+  content: none !important;
+}
