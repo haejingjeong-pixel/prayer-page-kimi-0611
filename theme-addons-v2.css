@@ -2344,3 +2344,20 @@ div.ai-disclaimer p::before {
 #root [data-theme-menu="true"] p.codex-ai-disclaimer {
   display: none !important;
 }
+
+/* FINAL TUNE: readable compact AI credit */
+#root [data-theme-menu="true"] .ai-disclaimer {
+  margin: 6px 0 0 !important;
+  padding: 0 6px 3px !important;
+  min-height: 15px !important;
+  height: auto !important;
+  opacity: 1 !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p {
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  color: rgba(255, 246, 230, 0.5) !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
