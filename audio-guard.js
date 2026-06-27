@@ -546,6 +546,21 @@
     }
   }
 
+
+  function retryBgmAfterPrayerClick(event) {
+    var button = event.target && event.target.closest ? event.target.closest("button") : null;
+    if (!button) return;
+
+    var text = normalizeText(button.textContent);
+    if (text !== "기도하기" && text !== "기도 중..." && text.indexOf("기도문 작성하기") === -1) return;
+
+    window.setTimeout(function () {
+      if (localStorage.getItem(BGM_KEY) === "true") {
+        playCurrentThemeFromGesture("prayer-click-retry");
+      }
+    }, 350);
+  }
+
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState !== "visible") return;
     resumeCurrentBgmOnly();
@@ -558,6 +573,7 @@
   window.codexSyncThemeBgm = syncThemeBgm;
   window.codexPlayCurrentThemeBgm = playCurrentTheme;
 
+  document.addEventListener("click", retryBgmAfterPrayerClick, true);
   window.addEventListener("click", resumeCurrentBgmFromGesture, { once: true });
   window.addEventListener("touchstart", resumeCurrentBgmFromGesture, { once: true });
 })();
