@@ -16,17 +16,6 @@
     return monday.toISOString();
   }
 
-  function request(path, options) {
-    return fetch(SUPABASE_URL + path, Object.assign({
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
-      }
-    }, options || {}));
-  }
-
   function updateCountText(count) {
     var nodes = Array.from(document.querySelectorAll("p, span, div"));
 
@@ -34,7 +23,7 @@
       var text = String(el.textContent || "").replace(/\s+/g, " ").trim();
       return text.indexOf("이번주") !== -1 &&
         text.indexOf("기도") !== -1 &&
-        text.length < 80 &&
+        text.length < 100 &&
         el.children.length === 0;
     });
 
@@ -45,6 +34,7 @@
 
   function fetchWeeklyCount() {
     var weekStart = getWeekStartISO();
+
     var path = "/rest/v1/" + TABLE +
       "?select=id&created_at=gte." + encodeURIComponent(weekStart);
 
@@ -62,25 +52,36 @@
       var count = match ? Number(match[1]) : 0;
       updateCountText(count);
       return count;
-    }).catch(function () {
+    }).catch(function (error) {
+      console.warn("[supabase-prayer-count] count failed", error);
       return 0;
     });
   }
 
   function insertPrayerEvent() {
-    return request("/rest/v1/" + TABLE, {
+    return fetch(SUPABASE_URL + "/rest/v1/" + TABLE, {
       method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
       body: JSON.stringify({
         event_type: "prayer"
       })
     }).then(function () {
       return fetchWeeklyCount();
+    }).catch(function (error) {
+      console.warn("[supabase-prayer-count] insert failed", error);
     });
   }
 
   function isPrayerButton(button) {
     if (!button) return false;
+
     var text = String(button.textContent || "").replace(/\s+/g, " ").trim();
+
     return text === "기도하기" ||
       text === "기도 중..." ||
       text.indexOf("기도문 작성하기") !== -1;
