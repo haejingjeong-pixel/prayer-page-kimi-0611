@@ -2304,3 +2304,43 @@ div.ai-disclaimer p::before {
 #root [data-theme-menu="true"] p.codex-ai-disclaimer {
   display: none !important;
 }
+
+/* FINAL RESET: show real AI credit text compactly */
+#root [data-theme-menu="true"] .ai-disclaimer {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 0.55 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 12px !important;
+  margin: 4px 0 0 !important;
+  padding: 0 6px 2px !important;
+  overflow: visible !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 8px !important;
+  line-height: 1.15 !important;
+  color: rgba(255, 246, 230, 0.45) !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  text-align: center !important;
+}
+
+#root [data-theme-menu="true"] .ai-disclaimer p::before {
+  content: none !important;
+  display: none !important;
+}
+
+#root [data-theme-menu="true"] p.codex-ai-disclaimer {
+  display: none !important;
+}
