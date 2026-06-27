@@ -2142,15 +2142,28 @@ div.ai-disclaimer {
   overflow: hidden !important;
 }
 
-/* Mobile AI credit line break */
-@media (max-width: 768px) {
-  div.ai-disclaimer,
-  p.codex-ai-disclaimer {
-    max-width: 170px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    line-height: 1.45 !important;
-    word-break: keep-all !important;
-    white-space: normal !important;
-  }
+
+/* AI credit two-line display in theme menu */
+div.ai-disclaimer {
+  width: 100% !important;
+  max-width: none !important;
+  overflow: visible !important;
+  line-height: 1.45 !important;
+}
+
+div.ai-disclaimer p {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+div.ai-disclaimer p::before {
+  content: "이 페이지는 AI로\A제작되었습니다.";
+  white-space: pre-line !important;
+  display: block !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+  text-align: center !important;
+  color: rgba(255, 246, 230, 0.55) !important;
 }
