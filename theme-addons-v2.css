@@ -2167,3 +2167,37 @@ div.ai-disclaimer p::before {
   text-align: center !important;
   color: rgba(255, 246, 230, 0.55) !important;
 }
+
+/* Make room for two-line AI credit inside theme menu */
+.ai-disclaimer {
+  display: block !important;
+  width: 100% !important;
+  min-height: 34px !important;
+  padding: 6px 8px 10px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  text-align: center !important;
+}
+
+.ai-disclaimer p {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+  white-space: pre-line !important;
+  word-break: keep-all !important;
+  text-align: center !important;
+}
+
+.ai-disclaimer p {
+  color: transparent !important;
+}
+
+.ai-disclaimer p::before {
+  content: "이 페이지는 AI로\A제작되었습니다.";
+  display: block !important;
+  white-space: pre-line !important;
+  color: rgba(255, 246, 230, 0.55) !important;
+}
