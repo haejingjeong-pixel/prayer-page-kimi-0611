@@ -2114,3 +2114,8 @@ div[class*="backdrop-blur"] .codex-ai-disclaimer,
     display: block !important;
   }
 }
+
+/* Hide duplicate AI credit outside the theme menu */
+body > p.codex-ai-disclaimer {
+  display: none !important;
+}
