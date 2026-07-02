@@ -694,22 +694,4 @@
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important; opacity: 0.72 !important;
     pointer-events: none !important; user-select: none !important;
   `;
-
-  // 2. AI 안낸문 주입 (테마 메뉴 하단, 없으면 생성)
-  function injectAiDisclaimerForce() {
-    const menu = document.querySelector('.theme-menu, [data-theme-menu], .codex-theme-menu') || document.getElementById('root') || body;
-    if (menu.querySelector('.ai-disclaimer, .codex-ai-disclaimer')) return;
-    const ai = document.createElement('div');
-    ai.className = 'ai-disclaimer';
-    ai.innerHTML = '<p>이 페이지는 AI로 제작되었습니다.</p>';
-    ai.style.cssText = `
-      display: block !important; visibility: visible !important;
-      padding: 10px 14px !important; font-size: 11px !important;
-      color: rgba(255, 246, 230, 0.55) !important; text-align: center !important;
-      opacity: 0.55 !important; pointer-events: none !important; user-select: none !important;
-    `;
-    menu.appendChild(ai);
-  }
-  injectAiDisclaimerForce();
-  setInterval(injectAiDisclaimerForce, 500);
 })();
