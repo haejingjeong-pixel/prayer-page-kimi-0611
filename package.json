@@ -1,0 +1,15 @@
+{
+  "name": "prayer-for-love",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Prayer for Love — 사랑의 기도타임",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

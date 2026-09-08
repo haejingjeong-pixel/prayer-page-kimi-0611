@@ -1,167 +1,256 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="preload" as="image" href="assets/back_golbang_new.webp" type="image/webp">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prayer Page | 기도 타임</title>
-    <script>
-      document.title = "Prayer Page | 기도 타임";
-    </script>
-    <style>
-      html, body {
-        background-color: #1a1209 !important;
-      }
-      html.codex-exiting,
-      html.codex-exiting body {
-        background: #050302 !important;
-      }
-      #codex-exit-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 2147483647;
-        display: none;
-        background: #050302;
-        pointer-events: none;
-      }
-      html.codex-exiting #codex-exit-overlay {
-        display: block !important;
-      }
-      #codex-boot-intro {
-        position: fixed;
-        inset: 0;
-        z-index: 2147483646;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #1a1209;
-        color: #c9a96e;
-        font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-        font-size: 20px;
-        letter-spacing: 0.1em;
-        opacity: 1;
-        transition: opacity 700ms ease;
-      }
-      #codex-boot-intro.codex-boot-intro-hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-      #codex-boot-intro span {
-        animation: codex-boot-pulse 1.5s ease-in-out infinite;
-      }
-      @keyframes codex-boot-pulse {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-      }
-    </style>
-    <script>
-      (function () {
-        var exiting = false;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사랑의 기도타임</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
 
-        function ensureExitOverlay() {
-          var overlay = document.getElementById("codex-exit-overlay");
-          if (overlay) return overlay;
-          if (!document.body) return null;
-          overlay = document.createElement("div");
-          overlay.id = "codex-exit-overlay";
-          overlay.setAttribute("aria-hidden", "true");
-          document.body.appendChild(overlay);
-          return overlay;
-        }
+<div class="art-band" aria-hidden="true"><img src="assets/main-art-hearts.png" alt=""></div>
 
-        function showExitOverlay() {
-          exiting = true;
-          document.documentElement.classList.add("codex-exiting");
-          var overlay = ensureExitOverlay();
-          if (overlay) overlay.style.setProperty("display", "block", "important");
-        }
+<header class="brand-bar">
+<div class="brand-left">
+<p class="brand-mark">PRAYER FOR LOVE</p>
+<button type="button" class="btn-back" id="btn-back" hidden><span aria-hidden="true">&#8592;</span>이전</button>
+</div>
+<button type="button" class="btn-ledger" id="btn-open-ledger">기도 현황</button>
+</header>
 
-        function hideExitOverlay() {
-          if (!exiting) return;
-          exiting = false;
-          document.documentElement.classList.remove("codex-exiting");
-          var overlay = document.getElementById("codex-exit-overlay");
-          if (overlay) overlay.style.display = "none";
-        }
+<main class="stage">
 
-        window.addEventListener("beforeunload", showExitOverlay, { capture: true });
-        window.addEventListener("pagehide", showExitOverlay, { capture: true });
-        window.addEventListener("pageshow", function () {
-          hideExitOverlay();
-        }, { capture: true });
-        document.addEventListener("visibilitychange", function () {
-          if (document.visibilityState === "hidden") {
-            showExitOverlay();
-          } else {
-            hideExitOverlay();
-          }
-        }, { capture: true });
-      })();
-    </script>
-    <script src="audio-guard.js?v=android-ambient-unlock-20260702"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-BYZbwYUU.css?v=no-webfont-20260629">
-    <link rel="stylesheet" href="theme-transition.css?v=prayer-effects-restore-20250620b">
-    <link rel="stylesheet" href="theme-addons-v2.css?v=system-serif-20260629">
-    <style>
-      textarea[placeholder*="기도문"] {
-        font-size: 16px !important;
-        line-height: 1.625 !important;
-      }
-      textarea[placeholder*="기도문"]::placeholder {
-        font-size: 16px !important;
-        line-height: 1.625 !important;
-      }
-      .fixed:has(textarea[placeholder*="기도문"]) button {
-        font-size: 16px !important;
-      }
-    </style>
-    <script type="module" crossorigin src="assets/index-CqKYKs7R.js?v=prayer-submit-animation-restore-20260628c"></script>
-  </head>
-  <body class="codex-theme-golbang" data-theme="golbang" data-current-theme="은밀한 골방" style="background-color: #1a1209 !important;">
-    <div id="codex-exit-overlay" aria-hidden="true"></div>
-    <div id="codex-boot-intro" aria-hidden="true"><span>은밀한 골방</span></div>
-    <div id="root"></div>
-    <p class="fullscreen-guide">더 몰입감 있는 기도 시간을 위해<br>전체화면으로 이용해 주세요.</p>
-    <script src="theme-transition.js?v=prayer-effects-restore-20250620b"></script>
-    <script src="theme-addons-v2.js?v=single-ai-disclaimer-20260627"></script>
-    <script src="mobile-focus-restore.js?v=textarea-viewport-restore-20260628b"></script>
-    <script src="golbang-hotfix.js?v=guide-layout-restore-20260627"></script>
-    <script src="supabase-prayer-count.js?v=weekly-banner-static-20260630"></script>
-    <script>
-      (function () {
-        var overlay = document.getElementById("codex-boot-intro");
-        var root = document.getElementById("root");
-        var startedAt = Date.now();
-        var hidden = false;
+<section class="step is-active" id="step-name" aria-label="기도 대상 입력">
+<h1 class="display">Prayer for Love</h1>
+<p class="dashed-line"><span>그대에게 열린 기회, 사랑의 기도타임</span></p>
+<form class="field-form" id="form-name">
+<label class="field field-underline">
+<span class="field-label sr-only">이름</span>
+<span class="field-row">
+<input type="text" id="input-name" placeholder="누구의 결혼을 위해 기도하시겠어요?" autocomplete="off" required>
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M11 11.6c-1.9-2-3.4-3-4.6-3-1.3 0-2.2.9-2.2 2.1 0 1.6 1.9 2.6 6.8 3.6 4.9-1 6.8-2 6.8-3.6 0-1.2-.9-2.1-2.2-2.1-1.2 0-2.7 1-4.6 3Z" stroke="var(--gold-1)" stroke-width="1.1" stroke-linejoin="round"></path><path d="M11 14.3V19" stroke="var(--gold-1)" stroke-width="1.1"></path></svg>
+</span>
+<p class="field-hint">이름을 적고 엔터를 누르시면 다음으로 넘어갑니다.</p>
+</label>
+</form>
+<div class="seal"><p>A SMALL PRAYER<br>FOR A BRIGHTER TOMORROW</p></div>
+</section>
 
-        function hideOverlay() {
-          if (hidden || !overlay) return;
-          hidden = true;
-          window.setTimeout(function () {
-            overlay.classList.add("codex-boot-intro-hidden");
-            window.setTimeout(function () {
-              if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-            }, 750);
-          }, Math.max(0, 650 - (Date.now() - startedAt)));
-        }
+<section class="step" id="step-intro" aria-label="기도타임 안내">
+<div class="recital">
+<p class="recital-group recital-1"><span class="recital-lead" data-slot="target">ㅇㅇㅇ</span>의 결혼에<br><strong class="recital-punch">그렇게 관심이 많으시다면서요!</strong></p>
+<p class="recital-group recital-2">그대에게 열린 기회,<br><span data-slot="target">ㅇㅇㅇ</span>을 위한</p>
+<p class="recital-group recital-3">사랑의 기도타임~</p>
+</div>
+<p class="recital-note">결혼에 대해 한마디 보태셨다면, 이제 그 마음을 기도로 이어가 주세요.</p>
+<div class="cta-row recital-cta">
+<button type="button" class="btn-cta" id="btn-intro-next">사랑의 기도 시작하기<span aria-hidden="true">&#8594;</span></button>
+</div>
+</section>
 
-        function waitForAppRender() {
-          if (root && root.children.length > 0) {
-            hideOverlay();
-            return;
-          }
-          window.requestAnimationFrame(waitForAppRender);
-        }
+<section class="step" id="step-speaker" aria-label="발언자 등록">
+<p class="eyebrow">STEP 02</p>
+<h2 class="title">그대는<br>누구신가요?</h2>
+<p class="lead">등록한 이름으로 기도 의무가 발급됩니다. 성별이나 연애 여부 같은 민감한 정보는 받지 않습니다.</p>
+<form class="field-form" id="form-speaker">
+<label class="field">
+<span class="field-label">이름 또는 별명</span>
+<input class="input" type="text" id="input-speaker" placeholder="이름 또는 별명" autocomplete="off" required>
+</label>
+<fieldset class="choice-set">
+<legend class="field-label">관계</legend>
+<div class="choice-grid" id="relation-grid"></div>
+</fieldset>
+<div class="cta-row">
+<button type="submit" class="btn-cta" id="btn-speaker-next" disabled>다음<span aria-hidden="true">&#8594;</span></button>
+</div>
+</form>
+</section>
 
-        window.requestAnimationFrame(waitForAppRender);
-        window.addEventListener("load", function () {
-          window.setTimeout(hideOverlay, 1600);
-        }, { once: true });
-      })();
-    </script>
-  </body>
+<section class="step" id="step-statement" aria-label="발언 선택">
+<h2 class="title">어떤 말을<br>하셨나요?</h2>
+<p class="lead">최대 세 개까지 고를 수 있습니다. 서로 다른 갈래의 말을 고르면 콤보가 발생합니다.</p>
+<search class="search-block">
+<label class="field">
+<span class="field-label sr-only">발언 검색</span>
+<input class="input input-search" type="search" id="input-search" placeholder="내가 한 말을 검색해보세요" autocomplete="off">
+</label>
+</search>
+<p class="picked-count" id="picked-count" hidden></p>
+<ul class="picked-list" id="picked-list"></ul>
+<p class="ornament" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><path d="M11 11.6c-1.9-2-3.4-3-4.6-3-1.3 0-2.2.9-2.2 2.1 0 1.6 1.9 2.6 6.8 3.6 4.9-1 6.8-2 6.8-3.6 0-1.2-.9-2.1-2.2-2.1-1.2 0-2.7 1-4.6 3Z" stroke="var(--gold-1)" stroke-width="1.1" stroke-linejoin="round"></path><path d="M11 14.3V18" stroke="var(--gold-1)" stroke-width="1.1"></path></svg></p>
+<div id="statement-results"></div>
+<div class="cta-row">
+<button type="button" class="btn btn-secondary" id="btn-open-custom">직접 입력하기</button>
+<button type="button" class="btn-cta" id="btn-statement-next" disabled>판정 받기<span aria-hidden="true">&#8594;</span></button>
+</div>
+</section>
+
+<section class="step" id="step-custom" aria-label="직접 입력">
+<h2 class="title">어떤 말을<br>하셨나요?</h2>
+<p class="lead">들으신 말을 그대로 적어주세요. 적어주신 문장은 따로 보관됩니다.</p>
+<form class="field-form" id="form-custom">
+<label class="field">
+<span class="field-label">직접 입력</span>
+<input class="input" type="text" id="input-custom" placeholder="예: 이제 나이도 있는데" autocomplete="off" required>
+</label>
+<fieldset class="choice-set">
+<legend class="field-label">이 말은 어떤 종류에 가까웠나요?</legend>
+<div class="choice-grid" id="custom-category-grid"></div>
+</fieldset>
+<div class="cta-row">
+<button type="button" class="btn btn-ghost" id="btn-custom-back">돌아가기</button>
+<button type="submit" class="btn btn-primary" id="btn-custom-next" disabled>담기</button>
+</div>
+</form>
+</section>
+
+<section class="step" id="step-combo" aria-label="판정 결과">
+<p class="eyebrow">PRAYER EVENT</p>
+<h2 class="title" id="combo-title">기도가 준비되었습니다</h2>
+<p class="lead" id="combo-note"></p>
+<ul class="tag-row" id="combo-tags"></ul>
+<article class="slip">
+<div class="slip-inner">
+<header class="slip-head">
+<h3 class="slip-heading">부 여 된 &nbsp;기 도</h3>
+<p class="slip-no" id="combo-grade"></p>
+</header>
+<p class="slip-prayer" id="combo-prayer"></p>
+<ul class="tag-row tag-row-center" id="combo-prayer-tags"></ul>
+</div>
+</article>
+<h3 class="section-label">이런 말을 하셨군요</h3>
+<ul class="quote-list" id="combo-quotes"></ul>
+<div class="cta-row">
+<button type="button" class="btn-cta" id="btn-combo-next">기도 요청서 발급하기<span aria-hidden="true">&#8594;</span></button>
+</div>
+</section>
+
+<section class="step" id="step-invite" aria-label="기도 요청">
+<p class="eyebrow">PRAYER REQUEST</p>
+<h2 class="title">당신에게 결혼기도 요청이<br>도착했습니다.</h2>
+<p class="lead" id="invite-lead"></p>
+<p class="quote-shine" id="invite-quote"></p>
+<p class="lead">라고 말씀하셨습니다.<br>이에 따라 아래의 기도요청서가 발급되었습니다.</p>
+<article class="slip">
+<div class="slip-inner">
+<header class="slip-head">
+<h3 class="slip-heading">기 도 요 청 서</h3>
+<p class="slip-no" id="invite-no"></p>
+</header>
+<dl class="slip-fields" id="invite-fields"></dl>
+<div class="slip-band">
+<p class="slip-band-label">부 여 된 &nbsp;기 도</p>
+<p class="slip-prayer" id="invite-prayer"></p>
+</div>
+<footer class="slip-foot">
+<ul class="tag-row" id="invite-tags"></ul>
+<p class="stamp">미 이 행</p>
+</footer>
+</div>
+</article>
+<p class="fine-print">발언은 자유지만 기도에는 책임이 따릅니다.</p>
+<div class="cta-row">
+<button type="button" class="btn-cta" id="btn-invite-next">기도 시작하기<span aria-hidden="true">&#8594;</span></button>
+</div>
+</section>
+
+<section class="step" id="step-prayer" aria-label="기도 수행">
+<p class="eyebrow" id="prayer-kind"></p>
+<h2 class="title" id="prayer-title"></h2>
+<p class="lead" id="prayer-guide"></p>
+<article class="slip">
+<div class="slip-inner">
+<header class="slip-head">
+<h3 class="slip-heading" id="prayer-state">수 행 중</h3>
+<p class="slip-no" id="prayer-act"></p>
+</header>
+<div class="timer-wrap" id="timer-wrap">
+<svg class="timer-ring" viewBox="0 0 248 248" aria-hidden="true">
+<circle class="timer-track" cx="124" cy="124" r="104"></circle>
+<circle class="timer-progress" id="timer-progress" cx="124" cy="124" r="104"></circle>
+</svg>
+<p class="timer-count" id="timer-count">00:00</p>
+</div>
+<ul class="check-list" id="check-list" hidden></ul>
+<div class="slip-foot slip-foot-center" id="timer-controls">
+<button type="button" class="btn btn-ghost btn-sm" id="btn-timer-toggle">잠시 멈추기</button>
+</div>
+<div class="slip-band slip-band-done" id="prayer-done-band" hidden>
+<p class="slip-done">기도 의무를 이행했습니다.</p>
+</div>
+</div>
+</article>
+<div class="cta-row">
+<button type="button" class="btn btn-primary" id="btn-prayer-done" disabled>기도 완료</button>
+</div>
+</section>
+
+<section class="step" id="step-done" aria-label="기도 완료">
+<p class="eyebrow">COMPLETED</p>
+<h2 class="title">기도 의무를<br>이행했습니다.</h2>
+<p class="lead">이 기록은 기도 현황에 남습니다.</p>
+<article class="slip">
+<div class="slip-inner">
+<p class="slip-band-label">이 행 완 료</p>
+<p class="slip-prayer" id="done-prayer"></p>
+<p class="slip-no slip-no-center" id="done-meta"></p>
+</div>
+</article>
+<div class="cta-row">
+<button type="button" class="btn btn-primary" id="btn-done-ledger">기도 현황 보기</button>
+<button type="button" class="btn btn-ghost" id="btn-done-restart">새 발언 등록</button>
+</div>
+</section>
+
+<section class="step" id="step-gate" aria-label="관리자 인증">
+<p class="eyebrow">ADMIN</p>
+<h2 class="title" id="gate-title">관리자 모드로<br>들어가십니다.</h2>
+<p class="lead" id="gate-lead"></p>
+<form class="field-form" id="form-gate">
+<label class="field">
+<span class="field-label" id="gate-label">관리자 암호</span>
+<input class="input" type="password" id="input-pin" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" required>
+</label>
+<label class="field" id="field-pin-again" hidden>
+<span class="field-label">암호 다시 적기</span>
+<input class="input" type="password" id="input-pin-again" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+</label>
+<p class="field-error" id="gate-error" hidden></p>
+<div class="cta-row">
+<button type="button" class="btn btn-ghost" id="btn-gate-back">돌아가기</button>
+<button type="submit" class="btn btn-primary" id="btn-gate-submit">관리자 모드 열기</button>
+</div>
+</form>
+</section>
+
+<section class="step step-wide" id="step-ledger" aria-label="기도 현황">
+<p class="eyebrow">PRAYER LEDGER</p>
+<h2 class="title" id="ledger-title">결혼기도 현황</h2>
+<dl class="stat-grid" id="stat-grid"></dl>
+<h3 class="section-label">발언자별</h3>
+<table class="ledger-table">
+<thead>
+<tr><th scope="col">발언자</th><th scope="col" class="num">발언</th><th scope="col">발생한 기도</th><th scope="col" class="num">완료</th></tr>
+</thead>
+<tbody id="ledger-body"></tbody>
+</table>
+<p class="empty-note" id="ledger-empty" hidden>아직 기록이 없어요. 발언을 등록하면 여기에 기도 의무가 쌓입니다.</p>
+<div class="cta-row">
+<button type="button" class="btn btn-primary" id="btn-ledger-restart">새 발언 등록하기</button>
+<button type="button" class="btn btn-ghost" id="btn-ledger-lock">관리자 모드 닫기</button>
+</div>
+</section>
+
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/combo.js"></script>
+<script src="js/state.js"></script>
+<script src="js/views.js"></script>
+<script src="js/main.js"></script>
+</body>
 </html>
